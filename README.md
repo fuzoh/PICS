@@ -2,8 +2,9 @@
   <img src ="logos/logo.svg" width="30%"/>
 
   [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
-  [![forthebadge](http://forthebadge.com/images/badges/for-you.svg)](http://forthebadge.com)
+  [![forthebadge](http://forthebadge.com/images/badges/uses-js.svg)](http://forthebadge.com)
   [![forthebadge](http://forthebadge.com/images/badges/made-with-vue.svg)](http://forthebadge.com)
+
 </div>
 
 
