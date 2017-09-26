@@ -11,6 +11,7 @@ The app is developp with electron. A few requirments are necesary to start devel
 For this project we work with:
 - node.js 8.4.0
 - npm 5.4.0
+
 The app is based on the [electron-vue](https://github.com/SimulatedGREG/electron-vue) boilerplate. He provides a start templates to quickly run a new electron project with vue.js.
 
 ## Preparing to dev
