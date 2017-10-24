@@ -52,3 +52,29 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+
+
+
+
+
+// tests ipc
+let {ipcMain, dialog} = require('electron')
+
+ipcMain.on('open-dialog', (event, arg) => {
+  console.log(arg)
+  dialog.showOpenDialog({
+    properties: ['openDirectory'],
+  }, (path) => {
+    console.log(path)
+  })
+})
+
+// test sauvegarde de la configuration
+let fs = require('fs')
+let tutu = app.getPath("userData")
+console.log(tutu)
+fs.writeFile(tutu + "/pics.json", '{pics: a picture manager}', (err) => {
+  if (err) throw err;
+  console.log('The file has been saved!');
+});

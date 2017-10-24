@@ -5,11 +5,11 @@
 // neDB is a simple JavaScript based noSQL databse system, more infos [https://github.com/louischatriot/nedb]
 
 let neDB = require('nedb')
-let DB = neDB()
 
 module.exports = {
   // initialize the database
   startDB: () => {
-    let DB
+    let DB = neDB()
+    return DB
   }
 }
