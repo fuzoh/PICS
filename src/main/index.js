@@ -1,65 +1,80 @@
+// *********************************
+// PICS
+// entry point of the application
+
+
+// import electron base components
 import { app, BrowserWindow } from 'electron'
 
-/**
- * Set `__static` path to static files in production
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
- */
+// sets the static folder path in production
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+// mainWindow -> represents the new window
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
+// this function create a new window
 function createWindow () {
-  /**
-   * Initial window options
-   */
+
+  // set initials window options
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 600,
     useContentSize: true,
     width: 1000
   })
 
+  // loads the content
   mainWindow.loadURL(winURL)
 
+  // close the window
   mainWindow.on('closed', () => {
     mainWindow = null
   })
 }
 
+// call the create Window when the main proscess is ready
 app.on('ready', createWindow)
 
+// quit the app if all the window are closed (on darwin platforms)
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
+// create a new mainwindow if activate is call
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
 })
 
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
 
-/*
-import { autoUpdater } from 'electron-updater'
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
+
+
+
+// tests ipc
+let {ipcMain, dialog} = require('electron')
+
+ipcMain.on('open-dialog', (event, arg) => {
+  console.log(arg)
+  dialog.showOpenDialog({
+    properties: ['openDirectory'],
+  }, (path) => {
+    console.log(path)
+  })
 })
 
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */
+// test sauvegarde de la configuration
+let fs = require('fs')
+let tutu = app.getPath("userData")
+console.log(tutu)
+fs.writeFile(tutu + "/pics.json", '{pics: a picture manager}', (err) => {
+  if (err) throw err;
+  console.log('The file has been saved!');
+});
