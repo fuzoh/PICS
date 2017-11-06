@@ -3,11 +3,30 @@
 
 <template>
   <div id="pics-nav">
-    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-      <el-menu-item index="1"><img class="app-logo" src="../../assets/img/text.svg"></el-menu-item>
-      <el-menu-item index="2">Processing Center</el-menu-item>
-      <el-menu-item index="3">Hehe</el-menu-item>
-    </el-menu>
+    <el-row>
+    
+      <el-col :span="5">
+        <img class="app-logo" src="../../assets/img/logo.svg">
+      </el-col>
+
+      <el-col :span="7">
+        <el-input placeholder="Search" v-model="searchField"></el-input>
+      </el-col>
+
+      <el-col :span="2">
+        <el-button type="info" icon="el-icon-search" plain></el-button>
+      </el-col>
+
+      <el-col :span="10">
+        <el-button-group>
+          <el-button type="info" icon="el-icon-edit" plain></el-button>
+          <el-button type="info" icon="el-icon-share" plain></el-button>
+          <el-button type="info" icon="el-icon-delete" plain></el-button>
+          <el-button type="info" icon="el-icon-date" plain></el-button>
+        </el-button-group>
+      </el-col>
+
+    </el-row>
   </div>
 </template>
 
@@ -17,22 +36,34 @@ export default {
   name: "PicsNav",
   data() {
     return {
-      activeIndex: '1'
+      searchField: ""
     };
   },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    }
-  }
 }
 
 </script>
 
 <style lang="scss" scoped>
 
+#pics-nav {
+  height: 60px;
+}
+
+.el-row {
+  box-sizing: border-box;
+  height: 60px;
+
+  background-color: $extralight;
+}
+
+.el-col {
+  box-sizing: border-box;
+  height: 60px;
+  padding: 10px;
+}
+
 .app-logo {
-  height: 50px;
+  height: 40px;
 }
 
 </style>
