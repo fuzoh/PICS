@@ -35,7 +35,7 @@ export default {
           title: "Rome",
           images: {
             1: {
-              url: "tututu.jpg",
+              url: "/tutu/job.jpg",
               name: "483749-sjdsfj"
             },
             2: {

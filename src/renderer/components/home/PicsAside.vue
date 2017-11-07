@@ -44,8 +44,9 @@ export default {
 
 #pics-aside {
   box-sizing: border-box;
-  background-color: $light;
+  height: 100%;
   padding: 20px;
+  background-color: $light;
 }
 
 .el-tree {
