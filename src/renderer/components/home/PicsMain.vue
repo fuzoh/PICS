@@ -11,8 +11,10 @@
         </el-col>
       </el-row>
 
-      <el-row>
-        <el-col v-for="photo in place.images" :key="photo.id" :span="6"><photo-card :url="photo.url" :name="photo.name"></photo-card></el-col>
+      <el-row class="photos">
+        <el-col v-for="photo in place.images" :key="photo.id" :span="6">
+          <photo-card :url="photo.url" :name="photo.name"></photo-card>
+        </el-col>
       </el-row>
     </div>
 
@@ -160,6 +162,43 @@ export default {
               name: "483749-sjdsfj"
             }
           }
+        },
+        5 : {
+          title: "St-gall",
+          images: {
+            1: {
+              url: "tututu.jpg",
+              name: "483749-sjdsfj"
+            },
+            2: {
+              url: "tututu.jpg",
+              name: "4837sfsfsfsfj"
+            },
+            3: {
+              url: "tututu.jpg",
+              name: "483749-sjdsfj"
+            },
+            4: {
+              url: "tututu.jpg",
+              name: "483749-sjdsfj"
+            },
+            5: {
+              url: "tututu.jpg",
+              name: "483749-sjdsfj"
+            },
+            6: {
+              url: "tututu.jpg",
+              name: "483749-sjdsfj"
+            },
+            7: {
+              url: "tututu.jpg",
+              name: "483749-sjdsfj"
+            },
+            8: {
+              url: "tututu.jpg",
+              name: "483749-sjdsfj"
+            }
+          }
         }
       }
     }
@@ -171,8 +210,13 @@ export default {
 <style lang="scss" scoped>
 
 #pics-main {
-  background-color: $lighter;
+  height: 100%;
+  background-color: $cloud;
   overflow: scroll;
+}
+
+.photos {
+  background-color: $lighter;
 }
 
 </style>

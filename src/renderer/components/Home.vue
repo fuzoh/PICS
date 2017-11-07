@@ -9,10 +9,10 @@
       </el-header>
       <el-container>
         <el-row>
-          <el-col :span="5">
+          <el-col class="max-height" :span="5">
             <pics-aside></pics-aside>
           </el-col>
-          <el-col :span="19">
+          <el-col class="max-height" :span="19">
             <pics-main></pics-main>
           </el-col>
         </el-row>
@@ -37,6 +37,11 @@ export default {
 
 #home {
   height: 100%;
+  width: 100%;
+}
+
+.el-container {
+  height: 100%;
 }
 
 .el-header {
@@ -45,6 +50,10 @@ export default {
 
 .el-row {
   width: 100%;
+}
+
+.max-height {
+  height: 100%;
 }
 
 </style>
