@@ -3,7 +3,8 @@
 
 <template>
   <div id="pics-aside">
-    <el-tree :data="data" :props="defaultProps"></el-tree>
+    <h2>Locations</h2>
+    <el-tree :data="events" :props="TreeProps"></el-tree>
   </div>
 </template>
 
@@ -13,42 +14,23 @@ export default {
   name: "PicsAside",
   data() {
     return {
-      data: [{
-        label: 'Level one 1',
+      events: [{
+        label: 'Toutes',
         children: [{
-          label: 'Level two 1-1',
-          children: [{
-            label: 'Level three 1-1-1'
-          }]
+          label: '2017.08.10'
         }]
       }, {
-        label: 'Level one 2',
-        children: [{
-          label: 'Level two 2-1',
-          children: [{
-            label: 'Level three 2-1-1'
-          }]
-        }, {
-          label: 'Level two 2-2',
-          children: [{
-            label: 'Level three 2-2-1'
-          }]
-        }]
+        label: 'Rome'
       }, {
-        label: 'Level one 3',
-        children: [{
-          label: 'Level two 3-1',
-          children: [{
-            label: 'Level three 3-1-1'
-          }]
-        }, {
-          label: 'Level two 3-2',
-          children: [{
-            label: 'Level three 3-2-1'
-          }]
-        }]
+        label: 'Dublin'
+      }, {
+        label: 'Paris'
+      }, {
+        label: 'Céüse'
+      }, {
+        label: 'St-gall'
       }],
-      defaultProps: {
+      TreeProps: {
         children: 'children',
         label: 'label'
       }
@@ -61,11 +43,17 @@ export default {
 <style lang="scss" scoped>
 
 #pics-aside {
+  box-sizing: border-box;
   background-color: $light;
+  padding: 20px;
 }
 
 .el-tree {
   background: transparent;
+}
+
+h2 {
+  margin: 0px;
 }
 
 </style>
