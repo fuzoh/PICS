@@ -6,16 +6,60 @@
 // import electron base components
 import { app, BrowserWindow } from 'electron'
 
+// import starting module
+//import start from './start.js'
+
 // sets the static folder path in production
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+
+
+// Importing the configuration
+import fs from 'fs'
+import picsConfig from './appConfig/baseAppConfig'
+
+// get the current user data path (depends from the OS)
+let userPicsConfigPath = app.getPath('userData') + '/pics.json'
+
+
+
+// check if a config file exists (user at the first start of the app)
+if (!fs.existsSync(userPicsConfigPath)) {
+  // if not exist, create a new config file with the base template file
+  fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig))
+}
+
+
+
+// load the config file of the user
+let userPicsConfig = JSON.parse(fs.readFileSync(userPicsConfigPath))
+
+console.log(userPicsConfig.picsConfig.firstStart)
+
+
+
 // mainWindow -> represents the new window
 let mainWindow
-const winURL = process.env.NODE_ENV === 'development'
+
+// load specific route if its the first start
+if (userPicsConfig.picsConfig.firstStart) {
+  
+  // load the firstStart route
+  var winURL = process.env.NODE_ENV === 'development'
+  ? `http://localhost:9080#firstStart`
+  : `file://${__dirname}/index.html#firstStart`
+  
+} else {
+  
+  // load the home route
+  var winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
+  
+}
+
 
 // this function create a new window
 function createWindow () {
@@ -24,7 +68,10 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     height: 600,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+    webPreferences: {
+      webSecurity: false
+    }
   })
 
   // loads the content
@@ -69,12 +116,3 @@ ipcMain.on('open-dialog', (event, arg) => {
     console.log(path)
   })
 })
-
-// test sauvegarde de la configuration
-let fs = require('fs')
-let tutu = app.getPath("userData")
-console.log(tutu)
-fs.writeFile(tutu + "/pics.json", '{pics: a picture manager}', (err) => {
-  if (err) throw err;
-  console.log('The file has been saved!');
-});

@@ -4,6 +4,7 @@
 <template>
   <div id="pics-main">
 
+    <!-- Display a separator for every locations -->
     <div v-for="place in myPhotos" :key="place.id">
       <el-row>
         <el-col :span="24">
@@ -11,8 +12,9 @@
         </el-col>
       </el-row>
 
+      <!-- Display the photos of the event -->
       <el-row class="photos">
-        <el-col v-for="photo in place.images" :key="photo.id" :span="6">
+        <el-col v-for="photo in place.images" :key="photo.id" :xs="12" :sm="8" :md="6" :lg="4" :xl="4">
           <photo-card :url="photo.url" :name="photo.name"></photo-card>
         </el-col>
       </el-row>
@@ -35,19 +37,19 @@ export default {
           title: "Rome",
           images: {
             1: {
-              url: "/tutu/job.jpg",
+              url: "file:///Users/bastien/Sites/node.dev/PhotosDeTest/hehe/wallpaper.jpg",
               name: "483749-sjdsfj"
             },
             2: {
-              url: "tututu.jpg",
+              url: "file:///Users/bastien/Sites/node.dev/PhotosDeTest/hehe/RCF TT+.jpg",
               name: "4837sfsfsfsfj"
             },
             3: {
-              url: "tututu.jpg",
+              url: "file:///Users/bastien/Sites/node.dev/PhotosDeTest/hehe/039d4f67c0ef336a7c1889544a531901.jpg",
               name: "483749-sjdsfj"
             },
             4: {
-              url: "tututu.jpg",
+              url: "file:///Users/bastien/Sites/node.dev/PhotosDeTest/hehe/Blur-2.png",
               name: "483749-sjdsfj"
             }
           }
@@ -216,6 +218,7 @@ export default {
 }
 
 .photos {
+  //box-sizing: border-box;
   background-color: $lighter;
 }
 
