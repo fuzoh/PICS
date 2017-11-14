@@ -10,7 +10,7 @@
 //
 
 // import electron modules and file system
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import fs from 'fs'
 // iporting the configuration
 import picsConfig from './appConfig/baseAppConfig'
@@ -122,14 +122,25 @@ app.on('activate', () => {
 
 
 
-// tests ipc
-let {ipcMain, dialog} = require('electron')
+// *****************************************
+// All the ipc interactions
+//
 
-ipcMain.on('open-dialog', (event, arg) => {
-  console.log(arg)
+//let {ipcMain, dialog} = require('electron')
+
+ipcMain.on('openFolderDialog', (event, arg) => {
+
+  // open a file dialog to select a folder
   dialog.showOpenDialog({
     properties: ['openDirectory'],
   }, (path) => {
-    console.log(path)
+    
+    // send response with the path of the selected folder
+    event.sender.send('dialogFilePath', path)
+
+    // sets the new path to the user config file and save it
+    userPicsConfig.picsConfig.picsLibraryPath = path[0]
+    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig))
+
   })
 })

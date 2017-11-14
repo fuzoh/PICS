@@ -7,5 +7,5 @@ module.exports.picsConfig = {
   "appName": 'PICS',
   "appVersion": '1.1.1',
   "firstStart": true,
-  "userPicsPath" : ""
+  "picsLibraryPath" : ""
 }
