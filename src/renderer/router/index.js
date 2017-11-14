@@ -16,6 +16,11 @@ export default new Router({
       component: require('@/components/FirstStart').default
     },
     {
+      path: '/configure',
+      name: 'configure',
+      component: require('@/components/ConfigureApp/ConfigureApp').default
+    },
+    {
       path: '*',
       redirect: '/'
     }
