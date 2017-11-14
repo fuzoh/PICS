@@ -3,8 +3,9 @@
 
 <template>
   <div id="photo-card">
-    <p>{{ name }}</p>
-    <img :src="url">
+    <div class="photo-box">
+      <img :src="url">
+    </div>
   </div>
 </template>
 
@@ -25,6 +26,22 @@ export default {
 #photo-card {
   box-sizing: border-box;
   padding: 20px;
+
+  width: 100%;
+  max-height: 160px;
+
+  .photo-box {
+    box-sizing: border-box;
+    width: 100%;
+    height: 120px;
+
+    overflow: hidden;
+
+    img {
+      box-sizing: border-box;
+      width: 100%;
+    }
+  }
 }
 
 </style>

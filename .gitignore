@@ -8,6 +8,7 @@ yarn-error.log*
 .DS_Store
 dist/electron/*
 dist/web/*
+package-lock.json
 build/*
 !build/icons
 node_modules/
