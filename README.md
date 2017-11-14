@@ -1,5 +1,5 @@
 <div align="center">
-  <img src ="logos/logo.svg" width="40%"/>
+  <img src ="src/renderer/assets/img/logo.svg" width="40%"/>
 
   [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
   [![forthebadge](http://forthebadge.com/images/badges/uses-js.svg)](http://forthebadge.com)
