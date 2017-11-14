@@ -1,9 +1,9 @@
 <div align="center">
   <img src ="src/renderer/assets/img/logo.svg" width="40%"/><br><br>
 
-  [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
   [![forthebadge](http://forthebadge.com/images/badges/uses-js.svg)](http://forthebadge.com)
   [![forthebadge](http://forthebadge.com/images/badges/made-with-vue.svg)](http://forthebadge.com)
+  [![forthebadge](http://forthebadge.com/images/badges/winter-is-coming.svg)](http://forthebadge.com)
 
 </div>
 
@@ -11,7 +11,7 @@
 # PICS APP
 An elegant and simple application to manage photos. Built with web technologies and vue.js.
 
-## Actual build **v0.2.0**
+## Actual build **v0.2.1**
 Unstable built, work in progress.
 
 ## Setting up development
