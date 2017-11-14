@@ -1,13 +1,24 @@
-// *********************************
+// *****************************************
 // PICS
-// entry point of the application
+// entry point of the main proscess
+//
+// Bastien Nicoud
+//
+
+// *****************************************
+// Imports
+//
+
+// import electron modules and file system
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
+import fs from 'fs'
+// iporting the configuration
+import picsConfig from './appConfig/baseAppConfig'
 
 
-// import electron base components
-import { app, BrowserWindow } from 'electron'
 
-// import starting module
-//import start from './start.js'
+// get the current user data path (depends from the OS) (ex Appdata on windows or home directory on linux)
+let userPicsConfigPath = app.getPath('userData') + '/pics.json'
 
 // sets the static folder path in production
 if (process.env.NODE_ENV !== 'development') {
@@ -16,28 +27,26 @@ if (process.env.NODE_ENV !== 'development') {
 
 
 
-// Importing the configuration
-import fs from 'fs'
-import picsConfig from './appConfig/baseAppConfig'
+// *****************************************
+// First Start
+//
 
-// get the current user data path (depends from the OS)
-let userPicsConfigPath = app.getPath('userData') + '/pics.json'
-
-
-
-// check if a config file exists (user at the first start of the app)
+// check if a config file exists (use at the first start of the app)
 if (!fs.existsSync(userPicsConfigPath)) {
+
   // if not exist, create a new config file with the base template file
   fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig))
+
 }
 
 
 
+// *****************************************
+// Loadign datas of the app
+//
+
 // load the config file of the user
 let userPicsConfig = JSON.parse(fs.readFileSync(userPicsConfigPath))
-
-console.log(userPicsConfig.picsConfig.firstStart)
-
 
 
 // mainWindow -> represents the new window
@@ -46,6 +55,7 @@ let mainWindow
 // load specific route if its the first start
 if (userPicsConfig.picsConfig.firstStart) {
   
+  // startup procedure if its the first start of the app
   // load the firstStart route
   var winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080#firstStart`
@@ -53,6 +63,7 @@ if (userPicsConfig.picsConfig.firstStart) {
   
 } else {
   
+  // normal startup procedure
   // load the home route
   var winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
@@ -61,7 +72,7 @@ if (userPicsConfig.picsConfig.firstStart) {
 }
 
 
-// this function create a new window
+// Initializing the new window
 function createWindow () {
 
   // set initials window options
@@ -77,11 +88,17 @@ function createWindow () {
   // loads the content
   mainWindow.loadURL(winURL)
 
-  // close the window
+  // close the window on close event (cross on the window)
   mainWindow.on('closed', () => {
     mainWindow = null
   })
 }
+
+
+
+// *****************************************
+// app life events
+//
 
 // call the create Window when the main proscess is ready
 app.on('ready', createWindow)
@@ -105,14 +122,25 @@ app.on('activate', () => {
 
 
 
-// tests ipc
-let {ipcMain, dialog} = require('electron')
+// *****************************************
+// All the ipc interactions
+//
 
-ipcMain.on('open-dialog', (event, arg) => {
-  console.log(arg)
+//let {ipcMain, dialog} = require('electron')
+
+ipcMain.on('openFolderDialog', (event, arg) => {
+
+  // open a file dialog to select a folder
   dialog.showOpenDialog({
     properties: ['openDirectory'],
   }, (path) => {
-    console.log(path)
+    
+    // send response with the path of the selected folder
+    event.sender.send('dialogFilePath', path)
+
+    // sets the new path to the user config file and save it
+    userPicsConfig.picsConfig.picsLibraryPath = path[0]
+    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig))
+
   })
 })

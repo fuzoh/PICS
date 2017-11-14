@@ -3,6 +3,7 @@
 
 // Vue.js
 import Vue from 'vue'
+import Router from 'vue-router'
 
 // Element UI (a simple and fast UI framework)
 import ElementUI from 'element-ui'
@@ -21,6 +22,7 @@ if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.config.productionTip = false
 
 // Initialize Element UI with the right locale
+//Vue.use(Router)
 Vue.use(ElementUI, { locale })
 
 // Initialize the vue app
