@@ -62,6 +62,7 @@ export default {
 
         // Close the loading layer
         this.loading = false
+        console.log(data)
 
         // redirect to the main page of pics app
         this.$router.push('/')

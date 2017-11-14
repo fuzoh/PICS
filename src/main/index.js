@@ -148,6 +148,7 @@ ipcMain.on('openFolderDialog', (event, arg) => {
   })
 })
 
+
 // launching the importation of photos
 ipcMain.on('startImportingPhotos', (event, args) => {
 
@@ -156,6 +157,26 @@ ipcMain.on('startImportingPhotos', (event, args) => {
   let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath)
 
   console.log(libraryTree)
-  event.sender.send('inportingPhotosFinish', libraryTree)
+  let libraryTreeJson = JSON.stringify(libraryTree)
+  //console.log(libraryTreeJson)
 
+  let libraryMetadatasPath = userPicsConfig.picsConfig.picsLibraryPath + '/metadatas.json'
+  //console.log(libraryMetadatasPath)
+  //fs.writeFileSync(libraryMetadatasPath, libraryTreeJson)
+  fs.writeFile(libraryMetadatasPath, libraryTreeJson, (err) => {
+    if (err) throw err;
+    console.log('The file has been saved!');
+  });
+
+  event.sender.send('inportingPhotosFinish', "importation OK")
+
+})
+
+
+// this channel listen to open a dialog
+ipcMain.on('getLibraryTree', (event, arg) => {
+
+  let libraryTree = JSON.parse(fs.readFileSync(userPicsConfig.picsConfig.picsLibraryPath + '/metadatas.json'))
+  // send response with the path of the selected folder
+  event.sender.send('libraryTree', libraryTree)
 })
