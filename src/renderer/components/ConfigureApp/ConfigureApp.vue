@@ -20,6 +20,8 @@
   </div>
 </template>
 
+
+
 <script>
 import { ipcRenderer } from 'electron'
 
@@ -70,6 +72,8 @@ export default {
   }
 }
 </script>
+
+
 
 <style lang="scss" scoped>
 

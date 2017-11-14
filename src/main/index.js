@@ -9,9 +9,15 @@
 // Imports
 //
 
-// import electron modules and file system
+// import modules
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import fs from 'fs'
+
+const dirTree = require('directory-tree');
+
+// importing pics app modules
+//import { importPics } from './filesystem/importation'
+
 // iporting the configuration
 import picsConfig from './appConfig/baseAppConfig'
 
@@ -126,14 +132,11 @@ app.on('activate', () => {
 // All the ipc interactions
 //
 
-//let {ipcMain, dialog} = require('electron')
-
+// this channel listen to open a dialog
 ipcMain.on('openFolderDialog', (event, arg) => {
 
   // open a file dialog to select a folder
-  dialog.showOpenDialog({
-    properties: ['openDirectory'],
-  }, (path) => {
+  dialog.showOpenDialog({properties: ['openDirectory']}, (path) => {
     
     // send response with the path of the selected folder
     event.sender.send('dialogFilePath', path)
@@ -143,4 +146,16 @@ ipcMain.on('openFolderDialog', (event, arg) => {
     fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig))
 
   })
+})
+
+// launching the importation of photos
+ipcMain.on('startImportingPhotos', (event, args) => {
+
+  console.log('Starting importation')
+
+  let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath)
+
+  console.log(libraryTree)
+  event.sender.send('inportingPhotosFinish', libraryTree)
+
 })
