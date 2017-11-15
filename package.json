@@ -1,9 +1,13 @@
 {
   "name": "pics",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Bastien <bastien.nicoud@gmail.com>",
   "description": "A simple photos manager.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bastiennicoud/PICS.git"
+  },
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
@@ -52,6 +56,7 @@
   },
   "dependencies": {
     "7zip-bin-mac": "^1.0.1",
+    "directory-tree": "^2.0.0",
     "element-ui": "^2.0.4",
     "nedb": "^1.8.0",
     "vue": "^2.5.3",
