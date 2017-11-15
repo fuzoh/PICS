@@ -11,7 +11,7 @@
 # PICS APP
 An elegant and simple application to manage photos. Built with web technologies and vue.js.
 
-## Actual build **v0.2.2**
+## Actual build **v0.2.3**
 Unstable built, work in progress.
 
 ## Setting up development
