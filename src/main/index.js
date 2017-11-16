@@ -41,7 +41,7 @@ if (process.env.NODE_ENV !== 'development') {
 if (!fs.existsSync(userPicsConfigPath)) {
 
   // if not exist, create a new config file with the base template file
-  fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig))
+  fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig), {'encoding' : 'utf8'})
 
 }
 
@@ -60,21 +60,21 @@ let mainWindow
 
 // load specific route if its the first start
 if (userPicsConfig.picsConfig.firstStart) {
-  
+
   // startup procedure if its the first start of the app
   // load the firstStart route
   var winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080#firstStart`
   : `file://${__dirname}/index.html#firstStart`
-  
+
 } else {
-  
+
   // normal startup procedure
   // load the home route
   var winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
-  
+
 }
 
 
@@ -137,13 +137,13 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 
   // open a file dialog to select a folder
   dialog.showOpenDialog({properties: ['openDirectory']}, (path) => {
-    
+
     // send response with the path of the selected folder
     event.sender.send('dialogFilePath', path)
 
     // sets the new path to the user config file and save it
     userPicsConfig.picsConfig.picsLibraryPath = path[0]
-    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig))
+    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), {'encoding' : 'utf8'})
 
   })
 })
@@ -163,7 +163,7 @@ ipcMain.on('startImportingPhotos', (event, args) => {
   let libraryMetadatasPath = userPicsConfig.picsConfig.picsLibraryPath + '/metadatas.json'
   //console.log(libraryMetadatasPath)
   //fs.writeFileSync(libraryMetadatasPath, libraryTreeJson)
-  fs.writeFile(libraryMetadatasPath, libraryTreeJson, (err) => {
+  fs.writeFile(libraryMetadatasPath, libraryTreeJson, {'encoding' : 'utf8'}, (err) => {
     if (err) throw err;
     console.log('The file has been saved!');
   });
