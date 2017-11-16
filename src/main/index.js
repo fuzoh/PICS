@@ -155,8 +155,16 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 // launching the importation of photos
 ipcMain.on('startImportingPhotos', (event, args) => {
 
+  // recuperer le doosier contenant les photos
+  // recuperer le tree complet (sans les fichier .DS_store ou autres desktop.ini)
+  // créer les enregistrements neeDB en fonction du tree juste avec les données voulues
+  // sauvegarder l'état de needb
+  // créer les version compressées des images (fichiers cachés sur tous les OS ?)
+  // renvoyer l'état de l'importation
+
   console.log('Starting importation')
 
+  // get the complete directory tree of the specified folder
   let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath)
 
   console.log(libraryTree)
@@ -170,7 +178,9 @@ ipcMain.on('startImportingPhotos', (event, args) => {
     console.log('The json tree file as benn saved');
   });
 
+
   event.sender.send('inportingPhotosFinish', "importation OK")
+  console.log('importation ok !')
 
 })
 
