@@ -38,10 +38,19 @@ if (process.env.NODE_ENV !== 'development') {
 //
 
 // check if a config file exists (use at the first start of the app)
-if (!fs.existsSync(userPicsConfigPath)) {
+if (fs.existsSync(userPicsConfigPath) === false) {
 
   // if not exist, create a new config file with the base template file
   fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig), 'utf8' )
+
+  // sets the user config var in the app
+  var userPicsConfig = picsConfig
+
+} else {
+
+  // if the config exists -> load the file in the app
+  // load the config file of the user
+  var userPicsConfig = JSON.parse(fs.readFileSync(userPicsConfigPath), 'utf8' )
 
 }
 
@@ -50,9 +59,6 @@ if (!fs.existsSync(userPicsConfigPath)) {
 // *****************************************
 // Loadign datas of the app
 //
-
-// load the config file of the user
-let userPicsConfig = JSON.parse(fs.readFileSync(userPicsConfigPath), 'utf8' )
 
 
 // mainWindow -> represents the new window
