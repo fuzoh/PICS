@@ -17,7 +17,7 @@ An elegant and simple application to manage photos. Built with web technologies 
 > Use the tags in the history to find the corresponding commit.
 
 ## Documentation
-You can find the documentation on this [GitBook](gitbook.io/bastiennicoud/pics).
+You can find the documentation on this [GitBook](https://bastiennicoud.gitbooks.io/pics).
 
 ## Setting up development
 ### Environnment / dependencies
@@ -37,7 +37,7 @@ If youre on windows of linux, node try to install fs-event and display a warning
 
 
 ### get the sources, and strat developping
-To start the development, it's really simple.
+To start the development, it's really simple. See the [documentation](https://bastiennicoud.gitbooks.io/pics) to get more infos of the project structure.
 ```bash
 # clone the repo
 git clone https://github.com/bastiennicoud/PICS
