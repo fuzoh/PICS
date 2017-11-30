@@ -21,29 +21,29 @@ You can find the documentation on this [GitBook](https://bastiennicoud.gitbooks.
 
 ## Setting up development
 ### Environnment / dependencies
-The app is developp with [electron](electronjs.org). A few requirments are necesary to start development.
+The app is developp with [electron](https://electronjs.org/). A few requirments are necesary to start development.
 
 - node.js ^8.9.1
 - npm ^5.5.1
 
 The app use some librarys, documentation links :
-- [elctron](electronjs.org/docs)
+- [elctron](https://electronjs.org/docs)
 - [electron-vue](https://github.com/SimulatedGREG/electron-vue) *A starter boilerplate to use electron with vue.js*
-- [vue.js](vuejs.org) *A progressive front end javascript framework*
+- [vue.js](https://vuejs.org/) *A progressive front end javascript framework*
 
 See the [package.json](package.json) file to see all the project dependecies.  
-**Note :** The 7zip-bin dependencie varies depending your os. Node.js may attempt to install a version not supported by your os, and thus display some warning messages. No problem, the right version is correctly installed.  
-If youre on windows of linux, node try to install fs-event and display a warning message, this library is optionnal (supported only by Mac OS).
+**Note :** The [7zip-bin](https://www.npmjs.com/package/7zip-bin) dependencie varies depending your os. Node.js may attempt to install a version not supported by your os, and thus display some warning messages. No problem, the right version is correctly installed.  
+If youre on windows or linux, node try to install [fsevents](https://www.npmjs.com/package/fsevents) and display a warning message, this library is optionnal (supported only by Mac OS).
 
 
-### get the sources, and strat developping
+### Get the sources, and start developping
 To start the development, it's really simple. See the [documentation](https://bastiennicoud.gitbooks.io/pics) to get more infos of the project structure.
 ```bash
 # clone the repo
-git clone https://github.com/bastiennicoud/PICS
+git clone https://github.com/bastiennicoud/PICS.git
 # move into the folder
 cd PICS
-# install the packages
+# install the dependencies packages
 npm install
 # run the app for development
 npm run dev
