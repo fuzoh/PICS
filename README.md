@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center" style="margin-bottom:60px;">
   <img src ="src/renderer/assets/img/logo.svg" width="40%"/><br><br>
 
   [![forthebadge](http://forthebadge.com/images/badges/uses-js.svg)](http://forthebadge.com)
@@ -26,8 +26,8 @@ The app is developp with [electron](https://electronjs.org/). A few requirments 
 - node.js ^8.9.1
 - npm ^5.5.1
 
-The app use some librarys, documentation links :
-- [elctron](https://electronjs.org/docs)
+We use some librarys, documentation links :
+- [elctron](https://electronjs.org/docs) *Build desktop apps with web technologies*
 - [electron-vue](https://github.com/SimulatedGREG/electron-vue) *A starter boilerplate to use electron with vue.js*
 - [vue.js](https://vuejs.org/) *A progressive front end javascript framework*
 
