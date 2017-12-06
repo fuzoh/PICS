@@ -55,7 +55,7 @@
     }
   },
   "dependencies": {
-    "7zip-bin-mac": "^1.0.1",
+    "7zip-bin": "^1.0.1",
     "directory-tree": "^2.0.0",
     "element-ui": "^2.0.4",
     "nedb": "^1.8.0",
