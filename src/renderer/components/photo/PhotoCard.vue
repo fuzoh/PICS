@@ -44,6 +44,7 @@ export default {
     height: 120px;
     overflow: hidden;
     position: relative;
+    cursor: pointer;
 
     img {
     box-sizing: border-box;
