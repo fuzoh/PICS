@@ -11,6 +11,11 @@ export default new Router({
       component: require('@/components/Home').default
     },
     {
+      path: '/picsDetails',
+      name: 'picsDetails',
+      component: require('@/components/photo/PicsDetails').default
+    },
+    {
       path: '/firstStart',
       name: 'firstStart',
       component: require('@/components/FirstStart').default
