@@ -21,7 +21,6 @@
 </template>
 
 
-
 <script>
 import { ipcRenderer } from 'electron'
 

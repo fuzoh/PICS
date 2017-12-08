@@ -66,21 +66,21 @@ let mainWindow
 
 // load specific route if its the first start
 if (userPicsConfig.picsConfig.firstStart) {
-  
+
   // startup procedure if its the first start of the app
   // load the firstStart route
   var winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080#firstStart`
   : `file://${__dirname}/index.html#firstStart`
-  
+
 } else {
-  
+
   // normal startup procedure
   // load the home route
   var winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
-  
+
 }
 
 
@@ -143,7 +143,7 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 
   // open a file dialog to select a folder
   dialog.showOpenDialog({properties: ['openDirectory']}, (path) => {
-    
+
     // send response with the path of the selected folder
     event.sender.send('dialogFilePath', path)
 
