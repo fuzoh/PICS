@@ -19,7 +19,7 @@
       <el-container>
         <el-main class="center main">
             <div>
-                <img src="file:///Users/jyle/Pictures/MyPhotos/Arolla/IMG_2053.jpg" class="picture" alt="">
+                <img src="file:///Users/jyle/Pictures/MyPhotos/Arolla/IMG_2056.jpg" class="picture" alt="">
             </div>
         </el-main>
         <el-aside class="bg">
