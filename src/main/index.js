@@ -13,7 +13,10 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import fs from 'fs'
 
-const dirTree = require('directory-tree');
+// library to fetch a directory tree in a JSON
+const dirTree = require('directory-tree')
+// library to read the exif metadatas
+import metaDatas from './metaDatas/metaDatas'
 
 // importing pics app modules
 //import { importPics } from './filesystem/importation'
@@ -41,6 +44,7 @@ if (process.env.NODE_ENV !== 'development') {
 if (fs.existsSync(userPicsConfigPath) === false) {
 
   // if not exist, create a new config file with the base template file
+  fs.mkdirSync(app.getPath('userData'))
   fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig), 'utf8' )
 
   // sets the user config var in the app
@@ -115,7 +119,7 @@ function createWindow () {
 // call the create Window when the main proscess is ready
 app.on('ready', createWindow)
 
-// quit the app if all the window are closed (on darwin platforms)
+// quit the app if all the window are closed (unless darwin platforms)
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
@@ -171,15 +175,17 @@ ipcMain.on('startImportingPhotos', (event, args) => {
   console.log('Starting importation')
 
   // get the complete directory tree of the specified folder
-  let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath)
+  let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
 
   console.log(libraryTree)
-  let libraryTreeJson = JSON.stringify(libraryTree)
-  //console.log(libraryTreeJson)
+
+  //parse the metadatas
+  //console.log(metaDatas)
+  metaDatas.renamePics(libraryTree)
 
   //console.log(libraryMetadatasPath)
   //fs.writeFileSync(libraryMetadatasPath, libraryTreeJson)
-  fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath, libraryTreeJson, 'utf8' , (err) => {
+  fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath, JSON.stringify(libraryTree), 'utf8' , (err) => {
     if (err) throw err;
     console.log('The json tree file as benn saved');
   });
