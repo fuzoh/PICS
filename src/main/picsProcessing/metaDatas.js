@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 
 const parser = require('exif-parser')
 const jimp = require('jimp')
@@ -30,7 +31,25 @@ export default {
 
         });
 
+
+
         // creating a thumbnail for better display perfs
+        jimp.read(pics.path).then((image) => {
+
+          // get the new name and save the thumbnail
+          let dir = path.dirname(pics.path)
+          let file = path.basename(pics.path)
+
+          var fileName = dir + '/.' + file
+
+          // resizing the image
+          image.resize(160, jimp.AUTO).write(fileName)
+
+        }).catch((err) => {
+
+          console.error('Jimp exeption : ' + err)
+
+        });
 
 
       }

@@ -16,7 +16,9 @@ import fs from 'fs'
 // library to fetch a directory tree in a JSON
 const dirTree = require('directory-tree')
 // library to read the exif metadatas
-import metaDatas from './metaDatas/metaDatas'
+import metaDatas from './picsProcessing/metaDatas'
+// Module to resize images
+//import metaDatas from './picsProcessing/metaDatas'
 
 // importing pics app modules
 //import { importPics } from './filesystem/importation'
