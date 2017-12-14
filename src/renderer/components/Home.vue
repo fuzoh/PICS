@@ -9,10 +9,10 @@
       </el-header>
       <el-container>
         <el-row>
-          <el-col class="max-height" :span="5">
+          <el-col class="max-height" :span="6">
             <pics-aside></pics-aside>
           </el-col>
-          <el-col class="max-height" :span="19">
+          <el-col class="max-height" :span="18">
             <pics-main></pics-main>
           </el-col>
         </el-row>

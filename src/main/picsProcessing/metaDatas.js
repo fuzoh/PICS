@@ -40,9 +40,8 @@ export default {
       // Create the new file name
       let newPicsName = `${PATH.dirname(item.path)}/${event}_${formatDate}${PATH.extname(item.path)}`
 
-      console.log(item.path + '--------------' + newPicsName)
       // rename the picture
-      //fs.renameSync(item.path, newPicsName)
+      fs.renameSync(item.path, newPicsName)
 
     })
     success(tree)

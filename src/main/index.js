@@ -17,11 +17,6 @@ import fs from 'fs'
 const dirTree = require('directory-tree')
 // library to read the exif metadatas
 import metaDatas from './picsProcessing/metaDatas'
-// Module to resize images
-//import metaDatas from './picsProcessing/metaDatas'
-
-// importing pics app modules
-//import { importPics } from './filesystem/importation'
 
 // iporting the configuration
 import picsConfig from './appConfig/baseAppConfig'
@@ -144,6 +139,8 @@ app.on('activate', () => {
 // All the ipc interactions
 //
 
+
+
 // this channel listen to open a dialog
 ipcMain.on('openFolderDialog', (event, arg) => {
 
@@ -166,14 +163,13 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 })
 
 
+
+
 // launching the importation of photos
 ipcMain.on('startImportingPhotos', (event, args) => {
 
   // we rename all the pictures in the folder with the metadatas extension
   metaDatas.renamePics(userPicsConfig.picsConfig.picsLibraryPath, (success) => {
-    
-    // call when the rename is ok
-    console.log(success)
 
     // We get the actual state of the pics library directory tree
     let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
