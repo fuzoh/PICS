@@ -38,23 +38,10 @@ if (process.env.NODE_ENV !== 'development') {
 //
 
 // check if a config file exists (use at the first start of the app)
-if (fs.existsSync(userPicsConfigPath) === false) {
+if (!fs.existsSync(userPicsConfigPath)) {
 
   // if not exist, create a new config file with the base template file
-<<<<<<< HEAD
   fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig), 'utf8')
-=======
-  fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig), 'utf8' )
-
-  // sets the user config var in the app
-  var userPicsConfig = picsConfig
-
-} else {
-
-  // if the config exists -> load the file in the app
-  // load the config file of the user
-  var userPicsConfig = JSON.parse(fs.readFileSync(userPicsConfigPath), 'utf8' )
->>>>>>> 05cbe86d39c89d299ef58d80aa503d2e7bb17e05
 
 }
 
@@ -64,12 +51,9 @@ if (fs.existsSync(userPicsConfigPath) === false) {
 // Loadign datas of the app
 //
 
-<<<<<<< HEAD
 // load the config file of the user
 let userPicsConfig = JSON.parse(fs.readFileSync(userPicsConfigPath), 'utf8')
 
-=======
->>>>>>> 05cbe86d39c89d299ef58d80aa503d2e7bb17e05
 
 // mainWindow -> represents the new window
 let mainWindow
@@ -159,14 +143,7 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 
     // sets the new path to the user config file and save it
     userPicsConfig.picsConfig.picsLibraryPath = path[0]
-<<<<<<< HEAD
     fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8')
-=======
-    userPicsConfig.picsConfig.picsMetadatasPath = path[0] + '/metadatas.json'
-
-    // save the config
-    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
->>>>>>> 05cbe86d39c89d299ef58d80aa503d2e7bb17e05
 
   })
 })
@@ -175,36 +152,23 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 // launching the importation of photos
 ipcMain.on('startImportingPhotos', (event, args) => {
 
-  // recuperer le doosier contenant les photos
-  // recuperer le tree complet (sans les fichier .DS_store ou autres desktop.ini)
-  // créer les enregistrements neeDB en fonction du tree juste avec les données voulues
-  // sauvegarder l'état de needb
-  // créer les version compressées des images (fichiers cachés sur tous les OS ?)
-  // renvoyer l'état de l'importation
-
   console.log('Starting importation')
 
-  // get the complete directory tree of the specified folder
   let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath)
 
   console.log(libraryTree)
   let libraryTreeJson = JSON.stringify(libraryTree)
   //console.log(libraryTreeJson)
 
+  let libraryMetadatasPath = userPicsConfig.picsConfig.picsLibraryPath + '/metadatas.json'
   //console.log(libraryMetadatasPath)
   //fs.writeFileSync(libraryMetadatasPath, libraryTreeJson)
-<<<<<<< HEAD
   fs.writeFile(libraryMetadatasPath, libraryTreeJson, 'utf8', (err) => {
-=======
-  fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath, libraryTreeJson, 'utf8' , (err) => {
->>>>>>> 05cbe86d39c89d299ef58d80aa503d2e7bb17e05
     if (err) throw err;
-    console.log('The json tree file as benn saved');
+    console.log('The file has been saved!');
   });
 
-
   event.sender.send('inportingPhotosFinish', "importation OK")
-  console.log('importation ok !')
 
 })
 
@@ -212,11 +176,7 @@ ipcMain.on('startImportingPhotos', (event, args) => {
 // this channel listen to open a dialog
 ipcMain.on('getLibraryTree', (event, arg) => {
 
-<<<<<<< HEAD
   let libraryTree = JSON.parse(fs.readFileSync(userPicsConfig.picsConfig.picsLibraryPath + '/metadatas.json'), 'utf8')
-=======
-  let libraryTree = JSON.parse(fs.readFileSync(userPicsConfig.picsConfig.picsMetadatasPath), 'utf8' )
->>>>>>> 05cbe86d39c89d299ef58d80aa503d2e7bb17e05
   // send response with the path of the selected folder
   event.sender.send('libraryTree', libraryTree)
 })
