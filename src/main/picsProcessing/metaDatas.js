@@ -1,60 +1,50 @@
 import fs from 'fs'
 import path from 'path'
 
+const dirTree = require('directory-tree')
 const parser = require('exif-parser')
-const jimp = require('jimp')
 
 export default {
-  // parse de metadatas of all the library tree passed in props and rename the files with the date found in metas
-  renamePics (tree) {
+  /*
+  | renamePics
+  |
+  | Gets the date of all the pics and rename it
+  | @param object path
+  | @param function success callback
+  | @param function error callback
+  */
+  renamePics (path, success) {
 
-    console.log(tree)
-
-    for (let children of tree.children) {
-
-      console.warn('doosier')
-
-      for (let pics of children.children) {
-
-        console.log('traitement de l\'image')
-
-        // gets the date from the metas
-        fs.readFile(pics.path, function(err, buffer) {
-
-          let metas = parser.create(buffer).parse().tags
-
-          console.log(metas.DateTimeOriginal)
-
-          let date = new Date(metas.DateTimeOriginal * 1000)
-
-          console.log(date)
-
-        });
-
-
-
-        // creating a thumbnail for better display perfs
-        jimp.read(pics.path).then((image) => {
-
-          // get the new name and save the thumbnail
-          let dir = path.dirname(pics.path)
-          let file = path.basename(pics.path)
-
-          var fileName = dir + '/.' + file
-
-          // resizing the image
-          image.resize(160, jimp.AUTO).write(fileName)
-
-        }).catch((err) => {
-
-          console.error('Jimp exeption : ' + err)
-
-        });
-
-
+    // intialize a var tou count the files with no dates
+    var noDateIndex = 0
+    // get the tree of the folder (excluding config files)
+    let tree = dirTree(path, {exclude:/\.DS_Store|metadatas\.json/, extensions:/\.jpg$|\.JPG$|\.jpeg$|\.JPEG$/}, (item, PATH) => {
+      
+      // call this block for all jpeg files
+      // read the file
+      let buffer = fs.readFileSync(item.path)
+      // gets his metas
+      let metas = parser.create(buffer).parse().tags
+      // pars the original pics date (from the metas)
+      let date = new Date(metas.DateTimeOriginal * 1000)
+      // get the dirname
+      let event = PATH.dirname(item.path).split(PATH.sep).pop()
+      // get the date
+      if (date.getDate()) {
+        var formatDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()+1}-${date.getSeconds()}`
+      } else {
+        // if the date is invalid
+        noDateIndex++
+        var formatDate = `nodate_${noDateIndex}`
       }
+      // Create the new file name
+      let newPicsName = `${PATH.dirname(item.path)}/${event}_${formatDate}${PATH.extname(item.path)}`
 
-    }
+      console.log(item.path + '--------------' + newPicsName)
+      // rename the picture
+      //fs.renameSync(item.path, newPicsName)
 
+    })
+    success(tree)
   }
 }

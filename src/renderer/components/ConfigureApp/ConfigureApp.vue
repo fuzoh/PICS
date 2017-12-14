@@ -42,7 +42,7 @@ export default {
       // when the main respnds
       ipcRenderer.on('dialogFilePath', (event, data) => {
         // store the selected path
-        this.path = data[0]
+        data ? this.path = data[0] : this.path = 'non spécifié'
       })
 
     },

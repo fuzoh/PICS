@@ -153,12 +153,14 @@ ipcMain.on('openFolderDialog', (event, arg) => {
     // send response with the path of the selected folder
     event.sender.send('dialogFilePath', path)
 
-    // sets the new path to the user config file and save it
-    userPicsConfig.picsConfig.picsLibraryPath = path[0]
-    userPicsConfig.picsConfig.picsMetadatasPath = path[0] + '/metadatas.json'
-
-    // save the config
-    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
+    if (path) {
+      // sets the new path to the user config file and save it
+      userPicsConfig.picsConfig.picsLibraryPath = path[0]
+      userPicsConfig.picsConfig.picsMetadatasPath = path[0] + '/metadatas.json'
+  
+      // save the config
+      fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
+    }
 
   })
 })
@@ -167,34 +169,24 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 // launching the importation of photos
 ipcMain.on('startImportingPhotos', (event, args) => {
 
-  // recuperer le doosier contenant les photos
-  // recuperer le tree complet (sans les fichier .DS_store ou autres desktop.ini)
-  // créer les enregistrements neeDB en fonction du tree juste avec les données voulues
-  // sauvegarder l'état de needb
-  // créer les version compressées des images (fichiers cachés sur tous les OS ?)
-  // renvoyer l'état de l'importation
+  // we rename all the pictures in the folder with the metadatas extension
+  metaDatas.renamePics(userPicsConfig.picsConfig.picsLibraryPath, (success) => {
+    
+    // call when the rename is ok
+    console.log(success)
 
-  console.log('Starting importation')
+    // We get the actual state of the pics library directory tree
+    let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
 
-  // get the complete directory tree of the specified folder
-  let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
+    // We write a json file with the library tree
+    fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath, JSON.stringify(libraryTree), 'utf8' , (err) => {
 
-  console.log(libraryTree)
+      if (err) console.error('Error')
 
-  //parse the metadatas
-  //console.log(metaDatas)
-  metaDatas.renamePics(libraryTree)
-
-  //console.log(libraryMetadatasPath)
-  //fs.writeFileSync(libraryMetadatasPath, libraryTreeJson)
-  fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath, JSON.stringify(libraryTree), 'utf8' , (err) => {
-    if (err) throw err;
-    console.log('The json tree file as benn saved');
-  });
-
-
-  event.sender.send('inportingPhotosFinish', "importation OK")
-  console.log('importation ok !')
+      // send an event to the renderer
+      event.sender.send('inportingPhotosFinish', "importation OK")
+    })
+  })
 
 })
 
