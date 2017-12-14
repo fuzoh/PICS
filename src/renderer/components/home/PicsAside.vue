@@ -17,7 +17,7 @@ export default {
     return {
       events: [],
       TreeProps: {
-        children: 'children',
+        //children: 'children',
         label: 'name'
       }
     }
@@ -61,6 +61,7 @@ export default {
   height: 100%;
   padding: 20px;
   background-color: $light;
+  overflow: scroll;
 }
 
 .el-tree {

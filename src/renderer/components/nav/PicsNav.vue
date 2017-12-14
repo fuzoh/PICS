@@ -10,7 +10,7 @@
       </el-col>
 
       <el-col :span="7">
-        <el-input placeholder="Search" v-model="searchField"></el-input>
+        <el-input placeholder="Search" v-model="searchField" @click="search"></el-input>
       </el-col>
 
       <el-col :span="2">
@@ -37,8 +37,13 @@ export default {
   data() {
     return {
       searchField: ""
-    };
+    }
   },
+  methods: {
+    search () {
+      // serching in the pics datas
+    }
+  }
 }
 
 </script>

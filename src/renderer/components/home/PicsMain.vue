@@ -52,7 +52,6 @@ export default {
       // when the main respnds
       ipcRenderer.on('libraryTree', (event, data) => {
         // store the selected path
-        console.log(data)
         this.myPhotos = data
       })
 

@@ -25,13 +25,16 @@ db.find({year : 1977}, function (err,docs){
 
 
 
+import fs from 'fs'
+import path from 'path'
 
 let neDB = require('nedb')
 
-module.exports = {
-  // initialize the database
-  startDB: () => {
-    let DB = neDB()
-    return DB
+export default {
+  searchAll (needle, haystack) {
+
+  },
+  searchFilter (needle, haystack, filter) {
+    
   }
 }

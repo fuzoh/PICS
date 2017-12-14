@@ -136,7 +136,7 @@ app.on('activate', () => {
 
 
 // *****************************************
-// All the ipc interactions
+// All the ipc interactions events
 //
 
 
