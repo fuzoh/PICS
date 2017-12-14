@@ -13,6 +13,7 @@ let neDB = require('nedb')
 
 // EXPORT
 export default {
+  db: {},
   /*
   | getStore
   |
@@ -21,9 +22,11 @@ export default {
   | @return neDbStore
   */
   getStore (storePath) {
-    let db = new neDB({filename: storePath})
-    db.loadDatabase()
-    return db
+    console.error(this.db)
+    if (!this.db.inMemoryOnly) {
+      this.db = new neDB({filename: storePath, autoload: true})
+      this.db.loadDatabase()
+    }
   },
   /*
   | storeLibrary
@@ -33,14 +36,14 @@ export default {
   | @param object filesTree the directory tree of the pics library
   | @param function success callback
   */
-  storeNewPics (libraryStorePath, newPicsDatas, success, error) {
+  storeNewPics (newPicsDatas, success, error) {
 
     // get the store
-    let db = this.getStore(libraryStorePath)
+    //console.warn(this.db)
     console.log('storeNewPics called')
     console.warn(newPicsDatas)
 
-    db.insert({tutu: 'toto'})
+    this.db.insert(newPicsDatas)
     success()
 
 
@@ -62,12 +65,8 @@ export default {
   | Return all the tree of the pics library
   | @param function success callback
   */
-  getAllPics (libraryStorePath, success) {
-    let db = this.getStore(libraryStorePath)
-    db.find({children: {path: '/Users/bastien/Sites/node.dev/MyPhotos/Mobile1/Mobile1_2017-7-18_17-7-0.jpg'}}, (err, data) => {
-      console.info(data)
-    })
-    db.find({}, (err, data) => {
+  getAllPics (success) {
+    this.db.find({}, (err, data) => {
       success(data)
     })
   },

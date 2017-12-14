@@ -42,7 +42,9 @@ if (process.env.NODE_ENV !== 'development') {
 if (fs.existsSync(userPicsConfigPath) === false) {
 
   // if not exist, create a new config file with the base template file
-  fs.mkdirSync(app.getPath('userData'))
+  if(!fs.existsSync(app.getPath('userData'))) {
+    fs.mkdirSync(app.getPath('userData'))
+  }
   fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig), 'utf8' )
 
   // sets the user config var in the app
@@ -173,8 +175,10 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 */
 ipcMain.on('startImportingPhotos', (event, args) => {
 
+  database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
+
   // we rename all the pictures in the folder with the metadatas extension
-  metaDatas.renamePics(userPicsConfig.picsConfig.picsMetadatasPath, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
+  metaDatas.renamePics(database, userPicsConfig.picsConfig.picsMetadatasPath, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
 
     // We get the actual state of the pics library directory tree
     let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
@@ -220,7 +224,8 @@ ipcMain.on('startImportingPhotos', (event, args) => {
 */
 ipcMain.on('getLibraryTree', (event, arg) => {
   // call the database
-  database.getAllPics(userPicsConfig.picsConfig.picsMetadatasPath ,(data) => {
+  database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
+  database.getAllPics((data) => {
     // send response with the path of the selected folder
     event.sender.send('libraryTree', data)
   })

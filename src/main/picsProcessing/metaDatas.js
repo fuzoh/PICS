@@ -1,8 +1,6 @@
 import fs from 'fs'
 import path from 'path'
 
-import database from '../database/nedb'
-
 const dirTree = require('directory-tree')
 const parser = require('exif-parser')
 
@@ -15,10 +13,11 @@ export default {
   | @param function success callback
   | @param function error callback
   */
-  renamePics (libraryStorePath, path, success, error) {
+  renamePics (database, libraryStorePath, path, success, error) {
 
     // intialize a var tou count the files with no dates
     var noDateIndex = 0
+
     // get the tree of the folder (excluding config files)
     let tree = dirTree(path, {exclude:/\.DS_Store|metadatas\.json/, extensions:/\.jpg$|\.JPG$|\.jpeg$|\.JPEG$/}, (item, PATH) => {
       
@@ -56,11 +55,13 @@ export default {
         height: metas.ExifImageHeight,
         panoramic: false,
         stars: 0,
-        tags: []
+        tags: [],
+        parent: eventName
       }
 
       // Save the new pics in the database
-      database.storeNewPics(libraryStorePath, newPicsMetas, (success) => {
+      //console.warn(database.db)
+      database.storeNewPics(newPicsMetas, (success) => {
         console.info('storenewpics')
         // rename the picture
         fs.renameSync(item.path, newPicsName)
