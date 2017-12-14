@@ -5,7 +5,7 @@
   <div id="pics-nav">
     <el-row>
     
-      <el-col :span="5">
+      <el-col :span="6">
         <img class="app-logo" src="../../assets/img/logo.svg">
       </el-col>
 
@@ -17,7 +17,7 @@
         <el-button type="info" icon="el-icon-search" plain></el-button>
       </el-col>
 
-      <el-col :span="10">
+      <el-col :span="9">
         <el-button-group>
           <el-button type="info" icon="el-icon-edit" plain></el-button>
           <el-button type="info" icon="el-icon-share" plain></el-button>
