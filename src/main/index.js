@@ -13,10 +13,10 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import fs from 'fs'
 
-const dirTree = require('directory-tree');
-
-// importing pics app modules
-//import { importPics } from './filesystem/importation'
+// library to fetch a directory tree in a JSON
+const dirTree = require('directory-tree')
+// library to read the exif metadatas
+import metaDatas from './picsProcessing/metaDatas'
 
 // iporting the configuration
 import picsConfig from './appConfig/baseAppConfig'
@@ -41,6 +41,7 @@ if (process.env.NODE_ENV !== 'development') {
 if (fs.existsSync(userPicsConfigPath) === false) {
 
   // if not exist, create a new config file with the base template file
+  fs.mkdirSync(app.getPath('userData'))
   fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig), 'utf8' )
 
   // sets the user config var in the app
@@ -115,7 +116,7 @@ function createWindow () {
 // call the create Window when the main proscess is ready
 app.on('ready', createWindow)
 
-// quit the app if all the window are closed (on darwin platforms)
+// quit the app if all the window are closed (unless darwin platforms)
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
@@ -138,6 +139,8 @@ app.on('activate', () => {
 // All the ipc interactions
 //
 
+
+
 // this channel listen to open a dialog
 ipcMain.on('openFolderDialog', (event, arg) => {
 
@@ -147,46 +150,39 @@ ipcMain.on('openFolderDialog', (event, arg) => {
     // send response with the path of the selected folder
     event.sender.send('dialogFilePath', path)
 
-    // sets the new path to the user config file and save it
-    userPicsConfig.picsConfig.picsLibraryPath = path[0]
-    userPicsConfig.picsConfig.picsMetadatasPath = path[0] + '/metadatas.json'
-
-    // save the config
-    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
+    if (path) {
+      // sets the new path to the user config file and save it
+      userPicsConfig.picsConfig.picsLibraryPath = path[0]
+      userPicsConfig.picsConfig.picsMetadatasPath = path[0] + '/metadatas.json'
+  
+      // save the config
+      fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
+    }
 
   })
 })
 
 
+
+
 // launching the importation of photos
 ipcMain.on('startImportingPhotos', (event, args) => {
 
-  // recuperer le doosier contenant les photos
-  // recuperer le tree complet (sans les fichier .DS_store ou autres desktop.ini)
-  // créer les enregistrements neeDB en fonction du tree juste avec les données voulues
-  // sauvegarder l'état de needb
-  // créer les version compressées des images (fichiers cachés sur tous les OS ?)
-  // renvoyer l'état de l'importation
+  // we rename all the pictures in the folder with the metadatas extension
+  metaDatas.renamePics(userPicsConfig.picsConfig.picsLibraryPath, (success) => {
 
-  console.log('Starting importation')
+    // We get the actual state of the pics library directory tree
+    let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
 
-  // get the complete directory tree of the specified folder
-  let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath)
+    // We write a json file with the library tree
+    fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath, JSON.stringify(libraryTree), 'utf8' , (err) => {
 
-  console.log(libraryTree)
-  let libraryTreeJson = JSON.stringify(libraryTree)
-  //console.log(libraryTreeJson)
+      if (err) console.error('Error')
 
-  //console.log(libraryMetadatasPath)
-  //fs.writeFileSync(libraryMetadatasPath, libraryTreeJson)
-  fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath, libraryTreeJson, 'utf8' , (err) => {
-    if (err) throw err;
-    console.log('The json tree file as benn saved');
-  });
-
-
-  event.sender.send('inportingPhotosFinish', "importation OK")
-  console.log('importation ok !')
+      // send an event to the renderer
+      event.sender.send('inportingPhotosFinish', "importation OK")
+    })
+  })
 
 })
 

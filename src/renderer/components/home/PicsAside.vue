@@ -4,37 +4,51 @@
 <template>
   <div id="pics-aside">
     <h2>Locations</h2>
-    <el-tree :data="events" :props="TreeProps"></el-tree>
+    <el-tree :data="events" :props="TreeProps" @node-click="handleNodeClick"></el-tree>
   </div>
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 
 export default {
   name: "PicsAside",
   data() {
     return {
-      events: [{
-        label: 'Toutes',
-        children: [{
-          label: '2017.08.10'
-        }]
-      }, {
-        label: 'Rome'
-      }, {
-        label: 'Dublin'
-      }, {
-        label: 'Paris'
-      }, {
-        label: 'Céüse'
-      }, {
-        label: 'St-gall'
-      }],
+      events: [],
       TreeProps: {
         children: 'children',
-        label: 'label'
+        label: 'name'
       }
-    };
+    }
+  },
+  mounted: function () {
+
+    this.getLibraryTree()
+
+  },
+  methods: {
+
+    // get the complete tree of the library
+    getLibraryTree () {
+
+      ipcRenderer.send('getLibraryTree')
+
+      // when the main respnds
+      ipcRenderer.on('libraryTree', (event, data) => {
+
+        this.events = data.children
+        
+      })
+
+    },
+
+    handleNodeClick(data) {
+      console.log(data)
+      let el = document.getElementById(data.name)
+      el.scrollIntoView()
+    }
+
   }
 }
 
