@@ -17,6 +17,8 @@ import fs from 'fs'
 const dirTree = require('directory-tree')
 // library to read the exif metadatas
 import metaDatas from './picsProcessing/metaDatas'
+// library to work with the database
+import database from './database/nedb'
 
 // iporting the configuration
 import picsConfig from './appConfig/baseAppConfig'
@@ -174,14 +176,27 @@ ipcMain.on('startImportingPhotos', (event, args) => {
     // We get the actual state of the pics library directory tree
     let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
 
-    // We write a json file with the library tree
-    fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath, JSON.stringify(libraryTree), 'utf8' , (err) => {
 
-      if (err) console.error('Error')
+
+    database.storeLibrary(userPicsConfig.picsConfig.picsMetadatasPath, libraryTree, (success) => {
+      console.info('Datas correctly saved by nedb')
+    })
+
+
+
+    // We write a json file with the library tree
+    //fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath+'tutu', JSON.stringify(libraryTree), 'utf8' , (err) => {
+
+      //if (err) console.error('Error')
+
+      userPicsConfig.picsConfig.firstStart = true
+      
+      // save the config
+      fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
 
       // send an event to the renderer
       event.sender.send('inportingPhotosFinish', "importation OK")
-    })
+    //})
   })
 
 })
