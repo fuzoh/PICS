@@ -37,7 +37,7 @@ export default {
       // when the main respnds
       ipcRenderer.on('libraryTree', (event, data) => {
 
-        this.events = data.children
+        this.events = data
         
       })
 

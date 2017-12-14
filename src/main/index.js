@@ -1,13 +1,14 @@
-// *****************************************
-// PICS
-// entry point of the main proscess
-//
-// Bastien Nicoud
-//
+/*
+| PICS
+|
+| Entry point of the main process
+*/
 
-// *****************************************
-// Imports
-//
+
+
+/* *****************************************
+| IMPORTS
+*/
 
 // import modules
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
@@ -23,8 +24,6 @@ import database from './database/nedb'
 // iporting the configuration
 import picsConfig from './appConfig/baseAppConfig'
 
-
-
 // get the current user data path (depends from the OS) (ex Appdata on windows or home directory on linux)
 let userPicsConfigPath = app.getPath('userData') + '/pics.json'
 
@@ -35,9 +34,9 @@ if (process.env.NODE_ENV !== 'development') {
 
 
 
-// *****************************************
-// First Start
-//
+/* *****************************************
+| First start of the app
+*/
 
 // check if a config file exists (use at the first start of the app)
 if (fs.existsSync(userPicsConfigPath) === false) {
@@ -59,10 +58,9 @@ if (fs.existsSync(userPicsConfigPath) === false) {
 
 
 
-// *****************************************
-// Loadign datas of the app
-//
-
+/* *****************************************
+| Loading app windows
+*/
 
 // mainWindow -> represents the new window
 let mainWindow
@@ -85,7 +83,6 @@ if (userPicsConfig.picsConfig.firstStart) {
   : `file://${__dirname}/index.html`
 
 }
-
 
 // Initializing the new window
 function createWindow () {
@@ -111,9 +108,9 @@ function createWindow () {
 
 
 
-// *****************************************
-// app life events
-//
+/* *****************************************
+| App life events
+*/
 
 // call the create Window when the main proscess is ready
 app.on('ready', createWindow)
@@ -137,13 +134,15 @@ app.on('activate', () => {
 
 
 
-// *****************************************
-// All the ipc interactions events
-//
+/* *****************************************
+| All the ipc interactions events
+*/
 
-
-
-// this channel listen to open a dialog
+/*
+| @event openFolderDialog
+|
+| Open a native dialog to select a folder
+*/
 ipcMain.on('openFolderDialog', (event, arg) => {
 
   // open a file dialog to select a folder
@@ -167,27 +166,21 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 
 
 
-// launching the importation of photos
+/*
+| @event startImportingPhotos
+|
+| Starts the importation of the pictures in the user library folder.
+*/
 ipcMain.on('startImportingPhotos', (event, args) => {
 
   // we rename all the pictures in the folder with the metadatas extension
-  metaDatas.renamePics(userPicsConfig.picsConfig.picsLibraryPath, (success) => {
+  metaDatas.renamePics(userPicsConfig.picsConfig.picsMetadatasPath, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
 
     // We get the actual state of the pics library directory tree
     let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
 
-
-
-    database.storeLibrary(userPicsConfig.picsConfig.picsMetadatasPath, libraryTree, (success) => {
-      console.info('Datas correctly saved by nedb')
-    })
-
-
-
-    // We write a json file with the library tree
-    //fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath+'tutu', JSON.stringify(libraryTree), 'utf8' , (err) => {
-
-      //if (err) console.error('Error')
+    //database.storeLibrary(userPicsConfig.picsConfig.picsMetadatasPath, libraryTree, () => {
+      //console.info('Datas correctly saved by nedb')
 
       userPicsConfig.picsConfig.firstStart = true
       
@@ -196,16 +189,39 @@ ipcMain.on('startImportingPhotos', (event, args) => {
 
       // send an event to the renderer
       event.sender.send('inportingPhotosFinish', "importation OK")
+
+
+    // }, (error) => {
+    //   console.error(error)
+    // })
+
+
+
+    // We write a json file with the library tree
+    //fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath+'tutu', JSON.stringify(libraryTree), 'utf8' , (err) => {
+
+      //if (err) console.error('Error')
+
+
     //})
+  }, (error) => {
+    console.error('Erreur')
   })
 
 })
 
 
-// this channel listen to open a dialog
-ipcMain.on('getLibraryTree', (event, arg) => {
 
-  let libraryTree = JSON.parse(fs.readFileSync(userPicsConfig.picsConfig.picsMetadatasPath), 'utf8' )
-  // send response with the path of the selected folder
-  event.sender.send('libraryTree', libraryTree)
+
+/*
+| @event getLibraryTree
+|
+| Return a tree with all the pics in the user library
+*/
+ipcMain.on('getLibraryTree', (event, arg) => {
+  // call the database
+  database.getAllPics(userPicsConfig.picsConfig.picsMetadatasPath ,(data) => {
+    // send response with the path of the selected folder
+    event.sender.send('libraryTree', data)
+  })
 })

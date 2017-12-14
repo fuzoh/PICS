@@ -5,7 +5,7 @@
   <div id="pics-main">
 
     <!-- Display a separator for every locations -->
-    <div v-for="place in myPhotos.children" :key="place.id">
+    <div v-for="place in myPhotos" :key="place.id">
       <el-row>
         <el-col :span="24">
           <photo-event :title="place.name"></photo-event>
