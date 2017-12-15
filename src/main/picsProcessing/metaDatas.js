@@ -9,11 +9,12 @@ export default {
   | renamePics
   |
   | Gets the date of all the pics and rename it
+  | @param picsModel database an instance of pics model
   | @param object path
   | @param function success callback
   | @param function error callback
   */
-  renamePics (database, libraryStorePath, path, success, error) {
+  renamePics (database, path, success, error) {
 
     // intialize a var tou count the files with no dates
     var noDateIndex = 0
@@ -52,10 +53,11 @@ export default {
         name: eventName,
         date: formatDate,
         places: eventName,
+        description: '',
         width: metas.ExifImageWidth,
         height: metas.ExifImageHeight,
         panoramic: false,
-        stars: 0,
+        starred: 0,
         tags: [],
         parent: eventName,
         type: 'pics'

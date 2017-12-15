@@ -5,56 +5,76 @@
 */
 
 
-// IMPORTS
+/* *****************************************
+| Library imports
+*/
 import fs from 'fs'
 import path from 'path'
-//let neDB = require('nedb')
 
 
-// EXPORT
+/* *****************************************
+| Export the database object
+*/
 export default {
+  /*
+  | db
+  |
+  | We save all the datas infos in this key
+  */
   db: {
     storePath: '',
     loaded: false,
     datas: []
   },
+
+
+
   /*
   | getStore
   |
   | Load the neDB store
   | @param string path to the store
-  | @return neDbStore
   */
   createStore (storePath) {
-    //console.error(this.db)
+    // create a new store file on the spécified paths
     fs.writeFileSync(storePath, JSON.stringify(this.db.datas), 'utf8' )
   },
+
+
+
   /*
   | getStore
   |
   | Load the neDB store
   | @param string path to the store
-  | @return neDbStore
   */
   getStore (storePath) {
-    //console.error(this.db)
+    // chek if the store is actually loaded in the memory
     if (!this.db.loaded) {
+      // if not
+      // sets the store path
       this.db.storePath = storePath
+      // load the store from persistent support
       this.db.datas = JSON.parse(fs.readFileSync(storePath, 'utf8'))
+      // sets the current loaded status of the db
       this.db.loaded = true
-      //console.log(this.db)
     }
   },
+
+
+
   /*
   | saveStore
   |
-  | Load the neDB store
-  | @param string path to the store
-  | @return neDbStore
+  | Save the store
   */
   saveStore () {
+    // write the store in the specified store path
     fs.writeFileSync(this.db.storePath, JSON.stringify(this.db.datas), 'utf8')
   },
+
+
+
   /*
   | unloadStore
   |
@@ -63,13 +83,18 @@ export default {
   | @return neDbStore
   */
   unloadStore () {
+    // persists the store
     this.saveStore()
+    // reset the db
     this.db = {
       storePath: '',
       loaded: false,
       datas: []
     }
   },
+
+
+
   /*
   | newFolder
   |
@@ -80,17 +105,21 @@ export default {
   */
   findFolder (folderName) {
 
+    // iterates on all the elements in the store
     for (let el of this.db.datas) {
 
+      // check matches
       if (el.title == folderName) {
         return true
       }
-
     }
-
+    // no match
     return false
 
   },
+
+
+
   /*
   | newFolder
   |
@@ -101,9 +130,13 @@ export default {
   */
   insertFolder (folderDatas) {
 
+    // push in the store the new folder element
     this.db.datas.push(folderDatas)
 
   },
+
+
+
   /*
   | newFolder
   |
@@ -114,33 +147,32 @@ export default {
   */
   updateFolder (folderDatas) {
 
+    // if the folder dont exists -> insert the folder in the database
     if (!this.findFolder(folderDatas.title)) {
       this.insertFolder(folderDatas)
     }
 
   },
+
+
+
   /*
   | storeNewPics
   |
   | Save in the database a new pics
   | @param object newPicsDatas new pics informations
-  | @param function success callback
-  | @param function error callback
   */
   storeNewPics (newPicsDatas) {
 
-    console.warn(this.db.datas)
-
-    // get the index of the right element in the existing folders
+    // get the index of the right parent (matching the name)
     let index = this.db.datas.findIndex(x => x.title==newPicsDatas.title)
-    //for (let [key, value] of this.db.datas) {
+    // puts the new pics in the right parent
     this.db.datas[index].children.push(newPicsDatas)
-      //console.warn(value)
-      //if (el.title == value.title) {}
-    console.log(this.db.datas)
-    
 
   },
+
+
+
   /*
   | getAllPics
   |
@@ -150,6 +182,71 @@ export default {
   getAllPics () {
     return this.db.datas
   },
+
+
+
+  /*
+  | searchPics
+  |
+  | Search the nnedle in all the pics Store, we can pass modifiers to restrict the search query
+  | @return array all the datas in the store
+  */
+  searchPics (needle, modifier, complete) {
+    
+    // To store all the results of the search query
+    let queryResults = []
+
+    //console.warn(this.db.datas)
+
+    // loop in all the pics folders
+    for (let event of this.db.datas) {
+
+      // loop all the pics
+      for (let pics of event.children) {
+
+        let match = 0
+
+        //console.log(pics)
+
+        // if we have no modifiers
+        if (modifier == '') {
+          console.warn('No modifier')
+
+          if (pics.name.search(needle) != -1) {
+            match++
+          }
+          if (pics.places.search(needle) != -1) {
+            match++
+          }
+          if (pics.description.search(needle) != -1) {
+            match++
+          }
+          if (pics.tags.length > 0) {
+            for (let tag of pics.tag) {
+              if (tag.search(needle) != -1) {
+                match++
+              }
+            }
+          }
+        }
+
+        if (match >= 1) {
+          queryResults.push(pics)
+        }
+      }
+    }
+
+    let template = [{
+      title: 'Résultats de la recherche',
+      children: queryResults
+    }]
+
+
+    complete(template)
+  },
+
+
+
   /*
   | storeLibrary
   |
@@ -159,28 +256,6 @@ export default {
   | @param function success callback
   */
   editField () {
-
-  },
-  /*
-  | storeLibrary
-  |
-  | Save in the database all the pics datas
-  | @param string libraryStorePath path to the store
-  | @param object filesTree the directory tree of the pics library
-  | @param function success callback
-  */
-  searchAll (needle, haystack) {
-
-  },
-  /*
-  | storeLibrary
-  |
-  | Save in the database all the pics datas
-  | @param string libraryStorePath path to the store
-  | @param object filesTree the directory tree of the pics library
-  | @param function success callback
-  */
-  searchFilter (needle, haystack, filter) {
 
   }
 }

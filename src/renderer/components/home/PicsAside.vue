@@ -45,7 +45,7 @@ export default {
 
     handleNodeClick(data) {
       console.log(data)
-      let el = document.getElementById(data.name)
+      let el = document.getElementById(data.title)
       el.scrollIntoView()
     }
 

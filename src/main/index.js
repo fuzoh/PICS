@@ -23,6 +23,7 @@ import database from './database/picsModel'
 
 // iporting the configuration
 import picsConfig from './appConfig/baseAppConfig'
+import { arch } from 'os';
 
 // get the current user data path (depends from the OS) (ex Appdata on windows or home directory on linux)
 let userPicsConfigPath = app.getPath('userData') + '/pics.json'
@@ -183,36 +184,20 @@ ipcMain.on('startImportingPhotos', (event, args) => {
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
   // we rename all the pictures in the folder with the metadatas extension
-  metaDatas.renamePics(database, userPicsConfig.picsConfig.picsMetadatasPath, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
+  metaDatas.renamePics(database, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
 
     // We get the actual state of the pics library directory tree
     let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
 
-    //database.storeLibrary(userPicsConfig.picsConfig.picsMetadatasPath, libraryTree, () => {
-      //console.info('Datas correctly saved by nedb')
-
-      userPicsConfig.picsConfig.firstStart = true
+    // set the first start at false
+    userPicsConfig.picsConfig.firstStart = false
       
-      // save the config
-      fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
+    // save the config
+    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
 
-      // send an event to the renderer
-      event.sender.send('inportingPhotosFinish', "importation OK")
+    // send an event to the renderer
+    event.sender.send('inportingPhotosFinish', "importation OK")
 
-
-    // }, (error) => {
-    //   console.error(error)
-    // })
-
-
-
-    // We write a json file with the library tree
-    //fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath+'tutu', JSON.stringify(libraryTree), 'utf8' , (err) => {
-
-      //if (err) console.error('Error')
-
-
-    //})
   }, (error) => {
     console.error('Erreur')
   })
@@ -233,5 +218,27 @@ ipcMain.on('getLibraryTree', (event, arg) => {
   let datas = database.getAllPics()
   // send response with the path of the selected folder
   event.sender.send('libraryTree', datas)
+  console.log('getLibraryTree')
 
+})
+
+
+
+/*
+| @event searchPics
+|
+| Search a needle in the picsModel and return the result in json to the view
+*/
+ipcMain.on('searchPics', (event, arg) => {
+  console.log('Event: searchPics')
+
+  let needle = arg
+  let modifier = ''
+
+  database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
+
+  database.searchPics(needle, modifier, (searchResult) => {
+    event.sender.send('libraryTree', searchResult)
+  })
+  
 })

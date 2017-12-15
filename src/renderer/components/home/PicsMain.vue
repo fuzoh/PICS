@@ -50,14 +50,20 @@ export default {
       ipcRenderer.send('getLibraryTree')
 
       // when the main respnds
-      ipcRenderer.on('libraryTree', (event, data) => {
-        // store the selected path
-        console.log(data)
-        this.myPhotos = data
-      })
+      // ipcRenderer.on('libraryTree', (event, data) => {
+      //   // store the selected path
+      //   console.log(data)
+      //   this.myPhotos = data
+      // })
 
     }
 
+  },
+  mounted () {
+    this.$electron.ipcRenderer.on('libraryTree', (event, data) => {
+      this.myPhotos = data
+      console.warn(data)
+    })
   }
 }
 
@@ -69,6 +75,7 @@ export default {
   height: 100%;
   background-color: $cloud;
   overflow: scroll;
+  background-color: $lighter;
 }
 
 .photos {
