@@ -1,0 +1,17 @@
+{
+  "title": "PICS documentation",
+  "root": "./docs",
+  "gitbook": "3.1.1",
+  "plugins": ["-fontsettings", "github"],
+  "pluginsConfig": {
+    "github": {
+      "url": "https://github.com/bastiennicoud/PICS"
+    }
+  },
+  "links": {
+    "sharing": {
+      "facebook": false,
+      "twitter": false
+    }
+  }
+}
