@@ -8,36 +8,36 @@
 </div>
 
 
-# PICS APP *v1.0.0*
+# PICS APP *v0.3.1*
 An elegant and simple application to manage photos. Built with web technologies and vue.js.
 
 ## Actual version
-- **stable** v1.0.0 *Warning not all features are implemented*
-- **last version** v1.0.0 *Unstable*
+- **stable** v0.2.2 *Warning not all features are implemented*
+- **last version** v0.3.1 *Unstable*
 > Use the tags in the history to find the corresponding commit.
 
 ## Documentation
 You can find the documentation on this [GitBook](https://bastiennicoud.gitbooks.io/pics).
 
-## Setting up development
-### Environnment / dependencies
-The app is developp with [electron](https://electronjs.org/). A few requirments are necesary to start development.
+## Setting up
+### Environment / dependencies
+The app has been programmed with [electron](https://electronjs.org/). A few requirements are necessary to start.
 
 - node.js ^8.9.1
 - npm ^5.5.1
 
-We use some librarys, documentation links :
+We has used some libraries, documentation links below:
 - [elctron](https://electronjs.org/docs) *Build desktop apps with web technologies*
 - [electron-vue](https://github.com/SimulatedGREG/electron-vue) *A starter boilerplate to use electron with vue.js*
 - [vue.js](https://vuejs.org/) *A progressive front end javascript framework*
 
-See the [package.json](package.json) file to see all the project dependecies.  
-**Note :** The [7zip-bin](https://www.npmjs.com/package/7zip-bin) dependencie varies depending your os. Node.js may attempt to install a version not supported by your os, and thus display some warning messages. No problem, the right version is correctly installed.  
-If youre on windows or linux, node try to install [fsevents](https://www.npmjs.com/package/fsevents) and display a warning message, this library is optionnal (supported only by Mac OS).
+See the [package.json](package.json) file to see all the project dependencies.  
+**Note :** The [7zip-bin](https://www.npmjs.com/package/7zip-bin) dependency varies depending on your operating system. Node.js can attempt to install a version which is not supported by your os. Thus. It will displays warning messages. Nevermind the right version is correctly installed.  
+If you're on Windows or linux, node will try to install [fsevents](https://www.npmjs.com/package/fsevents) and displays a warning message, which is an optional library (only supported Mac OS).
 
 
-### Get the sources, and start developping
-To start the development, it's really simple. See the [documentation](https://bastiennicoud.gitbooks.io/pics) to get more infos of the project structure.
+### Get the sources, and start programming
+To start programming, it's simple. See the [documentation](https://bastiennicoud.gitbooks.io/pics) to get more infos about the project's structure.
 ```bash
 # clone the repo
 git clone https://github.com/bastiennicoud/PICS.git
