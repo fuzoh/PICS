@@ -42,7 +42,7 @@ export default {
       this.db.storePath = storePath
       this.db.datas = JSON.parse(fs.readFileSync(storePath, 'utf8'))
       this.db.loaded = true
-      console.log(this.db)
+      //console.log(this.db)
     }
   },
   /*
@@ -129,30 +129,26 @@ export default {
   */
   storeNewPics (newPicsDatas) {
 
-    //this.db.datas.
+    console.warn(this.db.datas)
 
-  },
-  /*
-  | storeLibrary
-  |
-  | Save in the database all the pics datas
-  | @param string libraryStorePath path to the store
-  | @param object filesTree the directory tree of the pics library
-  | @param function success callback
-  */
-  updateLibrary () {
+    // get the index of the right element in the existing folders
+    let index = this.db.datas.findIndex(x => x.title==newPicsDatas.title)
+    //for (let [key, value] of this.db.datas) {
+    this.db.datas[index].children.push(newPicsDatas)
+      //console.warn(value)
+      //if (el.title == value.title) {}
+    console.log(this.db.datas)
+    
 
   },
   /*
   | getAllPics
   |
   | Return all the tree of the pics library
-  | @param function success callback
+  | @return array all the datas in the store
   */
-  getAllPics (success) {
-    this.db.find({}, (err, data) => {
-      success(jsonDatas)
-    })
+  getAllPics () {
+    return this.db.datas
   },
   /*
   | storeLibrary

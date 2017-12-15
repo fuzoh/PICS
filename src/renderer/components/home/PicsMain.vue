@@ -8,7 +8,7 @@
     <div v-for="place in myPhotos" :key="place.id">
       <el-row>
         <el-col :span="24">
-          <photo-event :title="place.name"></photo-event>
+          <photo-event :title="place.title"></photo-event>
         </el-col>
       </el-row>
 
@@ -52,6 +52,7 @@ export default {
       // when the main respnds
       ipcRenderer.on('libraryTree', (event, data) => {
         // store the selected path
+        console.log(data)
         this.myPhotos = data
       })
 

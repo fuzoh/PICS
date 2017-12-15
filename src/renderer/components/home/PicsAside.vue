@@ -17,8 +17,8 @@ export default {
     return {
       events: [],
       TreeProps: {
-        //children: 'children',
-        label: 'name'
+        children: 'children',
+        label: 'title'
       }
     }
   },

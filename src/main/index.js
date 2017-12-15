@@ -230,8 +230,8 @@ ipcMain.on('startImportingPhotos', (event, args) => {
 ipcMain.on('getLibraryTree', (event, arg) => {
   // call the database
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
-  database.getAllPics((data) => {
-    // send response with the path of the selected folder
-    event.sender.send('libraryTree', data)
-  })
+  let datas = database.getAllPics()
+  // send response with the path of the selected folder
+  event.sender.send('libraryTree', datas)
+
 })
