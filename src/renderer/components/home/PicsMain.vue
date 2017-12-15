@@ -5,10 +5,10 @@
   <div id="pics-main">
 
     <!-- Display a separator for every locations -->
-    <div v-for="place in myPhotos.children" :key="place.id">
+    <div v-for="place in myPhotos" :key="place.id">
       <el-row>
         <el-col :span="24">
-          <photo-event :title="place.name"></photo-event>
+          <photo-event :title="place.title"></photo-event>
         </el-col>
       </el-row>
 
@@ -50,14 +50,20 @@ export default {
       ipcRenderer.send('getLibraryTree')
 
       // when the main respnds
-      ipcRenderer.on('libraryTree', (event, data) => {
-        // store the selected path
-        console.log(data)
-        this.myPhotos = data
-      })
+      // ipcRenderer.on('libraryTree', (event, data) => {
+      //   // store the selected path
+      //   console.log(data)
+      //   this.myPhotos = data
+      // })
 
     }
 
+  },
+  mounted () {
+    this.$electron.ipcRenderer.on('libraryTree', (event, data) => {
+      this.myPhotos = data
+      console.warn(data)
+    })
   }
 }
 
@@ -69,6 +75,7 @@ export default {
   height: 100%;
   background-color: $cloud;
   overflow: scroll;
+  background-color: $lighter;
 }
 
 .photos {

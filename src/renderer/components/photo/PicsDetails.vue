@@ -7,7 +7,7 @@
       <el-header class="title">
         <el-row>
           <el-col :span="2">
-            <a href="javascript:history.go(-1)"><el-button type="info" icon="el-icon-arrow-left" plain style="margin-top: 10px;"></el-button></a>
+            <el-button type="info" icon="el-icon-arrow-left" plain style="margin-top: 10px;" @click="home"></el-button>
           </el-col>
           <el-col :span="20">
             <h1>pascal - Vacances en Israël 1896</h1>
@@ -19,7 +19,7 @@
       <el-container>
         <el-main class="center main">
             <div>
-                <img src="file:///Users/jyle/Pictures/MyPhotos/Arolla/IMG_2056.jpg" class="picture" alt="">
+                <img :src="url" class="picture">
             </div>
         </el-main>
         <el-aside class="bg">
@@ -36,10 +36,17 @@ import PicsMetas from './PicsMetas.vue'
 export default {
   name: "picsDetails",
   components: {PicsMetas},
+  data () {
+    return {
+      url: ''
+    }
+  },
+  created () {
+    this.url = $route.params.url
+  },
   methods: {
-    lightbox()
-    {
-
+    home () {
+      this.$router.push('/')
     }
   }
 }

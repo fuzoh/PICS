@@ -14,15 +14,15 @@
       </el-col>
 
       <el-col :span="2">
-        <el-button type="info" icon="el-icon-search" plain></el-button>
+        <el-button type="info" icon="el-icon-search" @click="search" plain></el-button>
       </el-col>
 
       <el-col :span="9">
         <el-button-group>
           <el-button type="info" icon="el-icon-edit" plain></el-button>
-          <el-button type="info" icon="el-icon-share" plain></el-button>
-          <el-button type="info" icon="el-icon-delete" plain></el-button>
-          <el-button type="info" icon="el-icon-date" plain></el-button>
+          <el-button type="info" icon="el-icon-tickets" plain></el-button>
+          <el-button type="info" icon="el-icon-star-on" plain></el-button>
+          <el-button type="info" icon="el-icon-location" plain></el-button>
         </el-button-group>
       </el-col>
 
@@ -31,14 +31,23 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 
 export default {
   name: "PicsNav",
   data() {
     return {
       searchField: ""
-    };
+    }
   },
+  methods: {
+    // send a search query to the main process
+    search () {
+
+      ipcRenderer.send('searchPics', this.searchField)
+
+    }
+  }
 }
 
 </script>

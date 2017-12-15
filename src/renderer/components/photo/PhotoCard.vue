@@ -85,7 +85,7 @@ export default {
 .text {
   white-space: nowrap;
   color: white;
-  font-size: 20px;
+  font-size: 12px;
   position: absolute;
   overflow: hidden;
   top: 50%;

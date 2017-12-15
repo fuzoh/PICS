@@ -18,7 +18,7 @@ export default {
       events: [],
       TreeProps: {
         children: 'children',
-        label: 'name'
+        label: 'title'
       }
     }
   },
@@ -37,7 +37,7 @@ export default {
       // when the main respnds
       ipcRenderer.on('libraryTree', (event, data) => {
 
-        this.events = data.children
+        this.events = data
         
       })
 
@@ -45,7 +45,7 @@ export default {
 
     handleNodeClick(data) {
       console.log(data)
-      let el = document.getElementById(data.name)
+      let el = document.getElementById(data.title)
       el.scrollIntoView()
     }
 
@@ -61,6 +61,7 @@ export default {
   height: 100%;
   padding: 20px;
   background-color: $light;
+  overflow: scroll;
 }
 
 .el-tree {

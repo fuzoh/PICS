@@ -4,7 +4,6 @@
 <template>
   <div id="photo-event">
     <h2 :id="title">{{ title }}</h2>
-    <p>Du 24.06.17 au 27.06.18</p>
   </div>
 </template>
 

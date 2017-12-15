@@ -1,13 +1,14 @@
-// *****************************************
-// PICS
-// entry point of the main proscess
-//
-// Bastien Nicoud
-//
+/*
+| PICS
+|
+| Entry point of the main process
+*/
 
-// *****************************************
-// Imports
-//
+
+
+/* *****************************************
+| IMPORTS
+*/
 
 // import modules
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
@@ -17,11 +18,12 @@ import fs from 'fs'
 const dirTree = require('directory-tree')
 // library to read the exif metadatas
 import metaDatas from './picsProcessing/metaDatas'
+// library to work with the database
+import database from './database/picsModel'
 
 // iporting the configuration
 import picsConfig from './appConfig/baseAppConfig'
-
-
+import { arch } from 'os';
 
 // get the current user data path (depends from the OS) (ex Appdata on windows or home directory on linux)
 let userPicsConfigPath = app.getPath('userData') + '/pics.json'
@@ -33,15 +35,17 @@ if (process.env.NODE_ENV !== 'development') {
 
 
 
-// *****************************************
-// First Start
-//
+/* *****************************************
+| First start of the app
+*/
 
 // check if a config file exists (use at the first start of the app)
 if (fs.existsSync(userPicsConfigPath) === false) {
 
   // if not exist, create a new config file with the base template file
-  fs.mkdirSync(app.getPath('userData'))
+  if(!fs.existsSync(app.getPath('userData'))) {
+    fs.mkdirSync(app.getPath('userData'))
+  }
   fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig), 'utf8' )
 
   // sets the user config var in the app
@@ -57,10 +61,9 @@ if (fs.existsSync(userPicsConfigPath) === false) {
 
 
 
-// *****************************************
-// Loadign datas of the app
-//
-
+/* *****************************************
+| Loading app windows
+*/
 
 // mainWindow -> represents the new window
 let mainWindow
@@ -83,7 +86,6 @@ if (userPicsConfig.picsConfig.firstStart) {
   : `file://${__dirname}/index.html`
 
 }
-
 
 // Initializing the new window
 function createWindow () {
@@ -109,9 +111,9 @@ function createWindow () {
 
 
 
-// *****************************************
-// app life events
-//
+/* *****************************************
+| App life events
+*/
 
 // call the create Window when the main proscess is ready
 app.on('ready', createWindow)
@@ -135,13 +137,15 @@ app.on('activate', () => {
 
 
 
-// *****************************************
-// All the ipc interactions
-//
+/* *****************************************
+| All the ipc interactions events
+*/
 
-
-
-// this channel listen to open a dialog
+/*
+| @event openFolderDialog
+|
+| Open a native dialog to select a folder
+*/
 ipcMain.on('openFolderDialog', (event, arg) => {
 
   // open a file dialog to select a folder
@@ -157,6 +161,11 @@ ipcMain.on('openFolderDialog', (event, arg) => {
   
       // save the config
       fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
+      // create an empty store
+      if (!fs.existsSync(userPicsConfig.picsConfig.picsMetadatasPath)) {
+        database.createStore(userPicsConfig.picsConfig.picsMetadatasPath)
+      }
+      
     }
 
   })
@@ -165,32 +174,71 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 
 
 
-// launching the importation of photos
+/*
+| @event startImportingPhotos
+|
+| Starts the importation of the pictures in the user library folder.
+*/
 ipcMain.on('startImportingPhotos', (event, args) => {
 
+  database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
+
   // we rename all the pictures in the folder with the metadatas extension
-  metaDatas.renamePics(userPicsConfig.picsConfig.picsLibraryPath, (success) => {
+  metaDatas.renamePics(database, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
 
     // We get the actual state of the pics library directory tree
     let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
 
-    // We write a json file with the library tree
-    fs.writeFile(userPicsConfig.picsConfig.picsMetadatasPath, JSON.stringify(libraryTree), 'utf8' , (err) => {
+    // set the first start at false
+    userPicsConfig.picsConfig.firstStart = false
+      
+    // save the config
+    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
 
-      if (err) console.error('Error')
+    // send an event to the renderer
+    event.sender.send('inportingPhotosFinish', "importation OK")
 
-      // send an event to the renderer
-      event.sender.send('inportingPhotosFinish', "importation OK")
-    })
+  }, (error) => {
+    console.error('Erreur')
   })
 
 })
 
 
-// this channel listen to open a dialog
-ipcMain.on('getLibraryTree', (event, arg) => {
 
-  let libraryTree = JSON.parse(fs.readFileSync(userPicsConfig.picsConfig.picsMetadatasPath), 'utf8' )
+
+/*
+| @event getLibraryTree
+|
+| Return a tree with all the pics in the user library
+*/
+ipcMain.on('getLibraryTree', (event, arg) => {
+  // call the database
+  database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
+  let datas = database.getAllPics()
   // send response with the path of the selected folder
-  event.sender.send('libraryTree', libraryTree)
+  event.sender.send('libraryTree', datas)
+  console.log('getLibraryTree')
+
+})
+
+
+
+/*
+| @event searchPics
+|
+| Search a needle in the picsModel and return the result in json to the view
+*/
+ipcMain.on('searchPics', (event, arg) => {
+  console.log('Event: searchPics')
+
+  let needle = arg
+  let modifier = ''
+
+  database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
+
+  database.searchPics(needle, modifier, (searchResult) => {
+    event.sender.send('libraryTree', searchResult)
+  })
+  
 })
