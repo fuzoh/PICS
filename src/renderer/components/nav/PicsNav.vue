@@ -10,7 +10,9 @@
       </el-col>
 
       <el-col :span="7">
-        <el-input placeholder="Search" v-model="searchField"></el-input>
+        <el-input placeholder="Search" v-model="searchField" clearable>
+          <i slot="prefix" class="el-input__icon el-icon-search"></i>
+        </el-input>
       </el-col>
 
       <el-col :span="2">
