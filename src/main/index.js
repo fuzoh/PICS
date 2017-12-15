@@ -19,7 +19,7 @@ const dirTree = require('directory-tree')
 // library to read the exif metadatas
 import metaDatas from './picsProcessing/metaDatas'
 // library to work with the database
-import database from './database/nedb'
+import database from './database/picsModel'
 
 // iporting the configuration
 import picsConfig from './appConfig/baseAppConfig'
@@ -160,6 +160,11 @@ ipcMain.on('openFolderDialog', (event, arg) => {
   
       // save the config
       fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
+      // create an empty store
+      if (!fs.existsSync(userPicsConfig.picsConfig.picsMetadatasPath)) {
+        database.createStore(userPicsConfig.picsConfig.picsMetadatasPath)
+      }
+      
     }
 
   })

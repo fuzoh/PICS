@@ -49,6 +49,7 @@ export default {
         filename: `${eventName}_${formatDate}`,
         extension: PATH.extname(item.path),
         title: eventName,
+        name: eventName,
         date: formatDate,
         places: eventName,
         width: metas.ExifImageWidth,
@@ -56,21 +57,26 @@ export default {
         panoramic: false,
         stars: 0,
         tags: [],
-        parent: eventName
+        parent: eventName,
+        type: 'pics'
       }
 
-      // Save the new pics in the database
-      //console.warn(database.db)
-      database.storeNewPics(newPicsMetas, (success) => {
-        console.info('storenewpics')
-        // rename the picture
-        fs.renameSync(item.path, newPicsName)
-      }, (error) => {
-        error(error)
-      })
+      // Datas for the current folder
+      let folderDatas = {
+        path: PATH.dirname(item.path),
+        title: eventName,
+        type: 'directory'
+      }
 
+      // Event datas (the folder)
+      database.updateFolder(folderDatas)
+
+      database.storeNewPics(newPicsMetas)
+
+      fs.renameSync(item.path, newPicsName)
 
     })
+    database.saveStore()
     success(tree)
   }
 }
