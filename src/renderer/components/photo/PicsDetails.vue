@@ -65,6 +65,7 @@ export default {
 .main
 {
   padding: 50px !important;
+  background-color: $lighter;
 }
 
 .title

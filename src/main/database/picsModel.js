@@ -255,7 +255,8 @@ export default {
   | @param object filesTree the directory tree of the pics library
   | @param function success callback
   */
-  editPicsDatas () {
-
+  editPicsDatas (success) {
+    console.info('editPicsDatas called !')
+    success('OK')
   }
 }

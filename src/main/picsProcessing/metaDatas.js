@@ -67,6 +67,7 @@ export default {
       let folderDatas = {
         path: PATH.dirname(item.path),
         title: eventName,
+        name: eventName,
         type: 'directory',
         children: []
       }

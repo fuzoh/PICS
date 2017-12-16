@@ -259,12 +259,13 @@ ipcMain.on('searchPics', (event, arg) => {
 | Edit the metadatas of the required pics
 */
 ipcMain.on('editPicsDatas', (event, arg) => {
-  console.log('Event: searchPics')
+  console.log('Event: edition de limage')
+  console.warn(arg)
 
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
-  database.searchPics(needle, modifier, (searchResult) => {
-    event.sender.send('libraryTree', searchResult)
+  database.editPicsDatas(arg, (success) => {
+    console.warn('Callback appelé' + success)
   })
   
 })
