@@ -92,9 +92,9 @@ function createWindow () {
 
   // set initials window options
   mainWindow = new BrowserWindow({
-    height: 600,
+    height: 700,
     useContentSize: true,
-    width: 1000,
+    width: 1140,
     webPreferences: {
       webSecurity: false
     }
@@ -206,7 +206,6 @@ ipcMain.on('startImportingPhotos', (event, args) => {
 
 
 
-
 /*
 | @event getLibraryTree
 |
@@ -232,13 +231,27 @@ ipcMain.on('getLibraryTree', (event, arg) => {
 ipcMain.on('searchPics', (event, arg) => {
   console.log('Event: searchPics')
 
-  let needle = arg
-  let modifier = ''
+  database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
+
+  database.searchPics(arg.needle, arg.filters, (searchResult) => {
+    event.sender.send('libraryTree', searchResult)
+  })
+  
+})
+
+
+
+/*
+| @event editPicsDatas
+|
+| Edit the metadatas of the required pics
+*/
+ipcMain.on('editPicsDatas', (event, newPicsDatas) => {
 
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
-  database.searchPics(needle, modifier, (searchResult) => {
-    event.sender.send('libraryTree', searchResult)
+  database.editPicsDatas(newPicsDatas, (success) => {
+    event.sender.send('picsDetailsUpdated', success)
   })
   
 })

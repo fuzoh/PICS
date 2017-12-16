@@ -10,21 +10,26 @@
       </el-col>
 
       <el-col :span="7">
-        <el-input placeholder="Search" v-model="searchField" clearable>
+        <el-input placeholder="Search" v-model="searchField" @keyup.enter.native="search" clearable>
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </el-col>
 
-      <el-col :span="2">
-        <el-button type="info" icon="el-icon-search" @click="search" plain></el-button>
+      <el-col :span="3">
+        <el-button-group>
+          <el-button type="info" icon="el-icon-search" @click="search" plain></el-button>
+          <el-button type="info" icon="el-icon-circle-close" @click="reset" plain></el-button>
+        </el-button-group>
       </el-col>
 
-      <el-col :span="9">
+      <el-col :span="8">
         <el-button-group>
-          <el-button type="info" icon="el-icon-edit" plain></el-button>
-          <el-button type="info" icon="el-icon-tickets" plain></el-button>
-          <el-button type="info" icon="el-icon-star-on" plain></el-button>
-          <el-button type="info" icon="el-icon-location" plain></el-button>
+          <el-button type="info" icon="el-icon-edit" @click="selectFilter('name')" :plain="!filters.name"></el-button>
+          <el-button type="info" icon="el-icon-location" @click="selectFilter('places')" :plain="!filters.places"></el-button>
+          <el-button type="info" icon="el-icon-tickets" @click="selectFilter('description')" :plain="!filters.description"></el-button>
+          <el-button type="info" icon="el-icon-star-on" @click="selectFilter('starred')" :plain="!filters.starred"></el-button>
+          <el-button type="info" icon="el-icon-view" @click="selectFilter('peoples')" :plain="!filters.peoples"></el-button>
+          <el-button type="info" icon="el-icon-share" @click="selectFilter('tags')" :plain="!filters.tags"></el-button>
         </el-button-group>
       </el-col>
 
@@ -33,20 +38,43 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
 
 export default {
   name: "PicsNav",
   data() {
     return {
-      searchField: ""
+      searchField: "",
+      filters: {
+        name: false,
+        places: false,
+        description: false,
+        starred: false,
+        peoples: false,
+        tags: false,
+      }
     }
   },
   methods: {
+
+    selectFilter (filter) {
+      if (this.filters[filter] == true) {
+        this.filters[filter] = false
+      } else {
+        this.filters[filter] = true
+      }
+    },
+
     // send a search query to the main process
     search () {
 
-      ipcRenderer.send('searchPics', this.searchField)
+      this.$electron.ipcRenderer.send('searchPics', {needle: this.searchField, filters: this.filters})
+
+    },
+
+    // get all the pics if we reset the search
+    reset () {
+
+      this.$electron.ipcRenderer.send('getLibraryTree')
 
     }
   }

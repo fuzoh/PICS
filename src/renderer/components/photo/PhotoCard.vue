@@ -4,9 +4,9 @@
 <template>
   <div id="photo-card">
     <div class="photo-box">
-      <img :src="url">
+      <img :src="'file://' + pics.path">
       <div class="overlay" @click="displayDetails">
-          <div class="text">{{name}}</div>
+          <div class="text">{{ pics.name }}</div>
       </div>
     </div>
   </div>
@@ -17,11 +17,11 @@
 export default {
   name: "PhotoCard",
   props: {
-    url: "",
-    name: ""
+    pics: {}
   },
   methods: {
     displayDetails () {
+      this.$store.commit('PICS_SET_EDITED', this.pics)
       this.$router.push('/picsDetails')
     }
   }

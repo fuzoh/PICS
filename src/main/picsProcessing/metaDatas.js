@@ -59,6 +59,7 @@ export default {
         panoramic: false,
         starred: 0,
         tags: [],
+        peoples: [],
         parent: eventName,
         type: 'pics'
       }
@@ -67,6 +68,7 @@ export default {
       let folderDatas = {
         path: PATH.dirname(item.path),
         title: eventName,
+        name: eventName,
         type: 'directory',
         children: []
       }

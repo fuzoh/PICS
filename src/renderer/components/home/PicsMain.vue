@@ -15,7 +15,7 @@
       <!-- Display the photos of the event -->
       <el-row class="photos">
         <el-col v-for="photo in place.children" :key="photo.id" :xs="12" :sm="8" :md="6" :lg="4" :xl="4">
-          <photo-card :url="'file://' + photo.path" :name="photo.name"></photo-card>
+          <photo-card :pics="photo"></photo-card>
         </el-col>
       </el-row>
     </div>
@@ -37,10 +37,10 @@ export default {
       myPhotos: {}
     }
   },
-  mounted: function () {
-
+  beforeRouteUpdate (to, from, next) {
+    // just use `this`
     this.getLibraryTree()
-
+    next()
   },
   methods: {
 
@@ -48,13 +48,6 @@ export default {
     getLibraryTree () {
 
       ipcRenderer.send('getLibraryTree')
-
-      // when the main respnds
-      // ipcRenderer.on('libraryTree', (event, data) => {
-      //   // store the selected path
-      //   console.log(data)
-      //   this.myPhotos = data
-      // })
 
     }
 
