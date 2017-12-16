@@ -194,27 +194,31 @@ export default {
     // To store all the results of the search query
     let queryResults = []
 
-    console.warn('searchPics called')
-    console.log('Needle' + needle)
-    console.warn(filters)
-
     // loop in all the pics folders
     for (let event of this.db.datas) {
 
       // loop all the pics
       for (let pics of event.children) {
 
+        // to store if the pics have matches
         let match = 0
+        // to store if filters is used
         let usedFilters = 0
+        // to store if the panoramic filter is used
+        let panoramicFilterUsed = 0
+
+
 
         // If the starred filter is activated
         if (filters.starred === true) {
-          console.log('Filtre les images avec star')
+          
+          // add 1 used filter on the counter
           usedFilters++
 
           // if the picture is starred
           if (pics.starred === 1 ) {
             
+            // to store if filters with the panoramic filter is used
             let starredFilter = 0
 
             // If the name filter is activated
@@ -268,13 +272,93 @@ export default {
               }
             }
 
+            // if the panoramic filter is activated
+            if (filters.panoramic === true) {
+              starredFilter++
+              panoramicFilterUsed++
+              if (pics.panoramic === true) {
+                match++
+              }
+            }
+
             // if we have use no filter
+            // (match aull the pics have a star)
             if (starredFilter < 1) {
               match++
             }
 
           }
-        
+
+        // if the panoramic filter is activated
+        } else if ((filters.panoramic === true) && (panoramicFilterUsed < 1)) {
+
+          // to store how filters are used with the panoramic
+          usedFilters++
+
+          // test if the pics is panoramic
+          if (pics.panoramic === true) {
+
+            console.log('Limage est panoramique')
+
+            let panoramicFilters = 0
+
+            // If the name filter is activated
+            if (filters.name === true) {
+              panoramicFilters++
+              console.log('Filtre par noms')
+              if (pics.name.search(needle) != -1) {
+                match++
+              }
+            }
+
+            // If the places filter is activated
+            if (filters.places === true) {
+              panoramicFilters++
+              console.log('Filtre par places')
+              if (pics.places.search(needle) != -1) {
+                match++
+              }
+            }
+
+            // If the description filter is activated
+            if (filters.description === true) {
+              panoramicFilters++
+              console.log('Filtre par description')
+              if (pics.description.search(needle) != -1) {
+                match++
+              }
+            }
+
+            // If the tags filter is activated
+            if (filters.tags === true) {
+              panoramicFilters++
+              if (pics.tags.length > 0) {
+                for (let tag of pics.tags) {
+                  if (tag.search(needle) != -1) {
+                    match++
+                  }
+                }
+              }
+            }
+
+            // If the people filter is activated
+            if (filters.peoples === true) {
+              panoramicFilters++
+              if (pics.peoples.length > 0) {
+                for (let people of pics.peoples) {
+                  if (people.search(needle) != -1) {
+                    match++
+                  }
+                }
+              }
+            }
+
+            // if we have use no filter
+            if (panoramicFilters < 1) {
+              match++
+            }
+          }
+
         } else {
 
           // If the name filter is activated
@@ -360,19 +444,24 @@ export default {
           }
         }
 
+        // If the the search query have a match with this pics
         if (match >= 1) {
+          // Add it to the array of results
           queryResults.push(pics)
         }
+
+
       }
     }
 
+    // create a template with the results of the search
     let template = [{
       title: 'Résultats de la recherche',
       name: 'Résultats de la recherche',
       children: queryResults
     }]
 
-
+    // call the complete callback, with the result of the search
     complete(template)
   },
 
