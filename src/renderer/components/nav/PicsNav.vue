@@ -15,16 +15,21 @@
         </el-input>
       </el-col>
 
-      <el-col :span="2">
-        <el-button type="info" icon="el-icon-search" @click="search" plain></el-button>
+      <el-col :span="3">
+        <el-button-group>
+          <el-button type="info" icon="el-icon-search" @click="search" plain></el-button>
+          <el-button type="info" icon="el-icon-circle-close" @click="reset" plain></el-button>
+        </el-button-group>
       </el-col>
 
-      <el-col :span="9">
+      <el-col :span="8">
         <el-button-group>
-          <el-button type="info" icon="el-icon-edit" plain></el-button>
-          <el-button type="info" icon="el-icon-tickets" plain></el-button>
-          <el-button type="info" icon="el-icon-star-on" plain></el-button>
-          <el-button type="info" icon="el-icon-location" plain></el-button>
+          <el-button type="info" icon="el-icon-edit" :plain="!filters.name"></el-button>
+          <el-button type="info" icon="el-icon-location" :plain="!filters.places"></el-button>
+          <el-button type="info" icon="el-icon-tickets" :plain="!filters.description"></el-button>
+          <el-button type="info" icon="el-icon-star-on" :plain="!filters.starred"></el-button>
+          <el-button type="info" icon="el-icon-view" :plain="!filters.peoples"></el-button>
+          <el-button type="info" icon="el-icon-share" :plain="!filters.tags"></el-button>
         </el-button-group>
       </el-col>
 
@@ -33,20 +38,39 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
 
 export default {
   name: "PicsNav",
   data() {
     return {
-      searchField: ""
+      searchField: "",
+      filters: {
+        name: false,
+        places: false,
+        description: false,
+        starred: false,
+        peoples: false,
+        tags: false,
+      }
     }
   },
   methods: {
+
+    selectFilter () {
+
+    }
+
     // send a search query to the main process
     search () {
 
-      ipcRenderer.send('searchPics', this.searchField)
+      this.$electron.ipcRenderer.send('searchPics', {needle: this.searchField, modifiers: this.filters})
+
+    },
+
+    // get all the pics if we reset the search
+    reset () {
+
+      this.$electron.ipcRenderer.send('getLibraryTree')
 
     }
   }

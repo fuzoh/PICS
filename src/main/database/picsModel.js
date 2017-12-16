@@ -281,11 +281,38 @@ export default {
       }
     }
 
-    // update the datas of the pics
-    this.db.datas[folderIndex].children[picsIndex] = newPicsDatas
+    // if the date is not specified
+    if (newPicsDatas.date == null) {
+      // sed an error message to the renderer
+      success({message: "Aucunne date n'a été renseignée.", type: 'warning'})
+      
+    } else {
 
-    this.saveStore()
-
-    success('Les données ont bien étés enregistrées.')
+      // chek if the date has changes
+      if (this.db.datas[folderIndex].children[picsIndex].date != newPicsDatas.date) {
+        // if its not the same is nesesary to rename the file
+  
+        // create the new file name an the new path
+        let newFileName = `${newPicsDatas.title}_${newPicsDatas.date}`
+        let newFilePath = `${path.dirname(newPicsDatas.path)}/${newFileName + newPicsDatas.extension}`
+  
+        // save it to the pics datas
+        newPicsDatas.filename = newFileName
+        newPicsDatas.path = newFilePath
+  
+        // rename the pics
+        fs.renameSync(this.db.datas[folderIndex].children[picsIndex].path, newPicsDatas.path)
+      }
+  
+      // update the datas of the pics in the database store
+      this.db.datas[folderIndex].children[picsIndex] = newPicsDatas
+  
+      // persists the store on the json file
+      this.saveStore()
+  
+      // call the success callback with a success message
+      success({message: 'Les données ont bien étés enregistrées.', type: 'success'})
+      
+    }
   }
 }

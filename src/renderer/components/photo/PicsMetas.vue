@@ -7,8 +7,8 @@
     <el-input placeholder="Nom de la photo" v-model="pics.name" clearable>
     </el-input>
     <h4>Date :</h4>
-    <el-input placeholder="Date de prise de vue" v-model="pics.date" clearable>
-    </el-input>
+    <el-date-picker v-model="pics.date" type="datetime" placeholder="Date et heure" format="dd.MM.yyyy à HH:mm" value-format="yyyy-MM-dd_HH-mm-ss">
+    </el-date-picker>
     <h4>Lieux :</h4>
     <el-input placeholder="Lieux" v-model="pics.places" clearable>
     </el-input>
@@ -20,15 +20,15 @@
       <h4>Personnes :</h4>
       <el-tag :key="people" v-for="people in pics.peoples" closable :disable-transitions="false" @close="handleClosePeople(people)">{{people}}</el-tag>
       <el-input class="input-new-tag" v-if="inputPeopleVisible" v-model="inputPeopleValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleInputConfirmPeople" @blur="handleInputConfirmPeople"></el-input>
-      <el-button v-else class="button-new-tag" size="small" @click="showInputPeople">+ New Tag</el-button>
+      <el-button v-else class="button-new-tag" size="small" @click="showInputPeople">+ Ajouter une personne</el-button>
     </div>
     <div class="tagsZone">
       <h4>Tags :</h4>
       <el-tag :key="tag" v-for="tag in pics.tags" closable :disable-transitions="false" @close="handleCloseTag(tag)">{{tag}}</el-tag>
       <el-input class="input-new-tag" v-if="inputTagVisible" v-model="inputTagValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleInputConfirmTag" @blur="handleInputConfirmTag"></el-input>
-      <el-button v-else class="button-new-tag" size="small" @click="showInputTag">+ New Tag</el-button>
+      <el-button v-else class="button-new-tag" size="small" @click="showInputTag">+ Nouveau Tag</el-button>
     </div>
-    <el-button type="warning" @click="savePics()">Enregistrer les informations</el-button>
+    <el-button type="primary" @click="savePics()">Enregistrer les informations</el-button>
   </div>
 </template>Tag
 
@@ -36,13 +36,13 @@
 <script>
 export default {
   name: "picsMetas",
-  data (){
-    return{
+  data () {
+    return {
       inputTagVisible: false,
       inputTagValue:'',
       inputPeopleVisible: false,
       inputPeopleValue:''
-    };
+    }
   },
   props: {
     pics: {}
@@ -125,10 +125,7 @@ export default {
 
     // toggle a success notification message
     successMessage(msg) {
-      this.$message({
-        message: msg,
-        type: 'success'
-      });
+      this.$message(msg);
     }
   },
   mounted () {
