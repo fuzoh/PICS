@@ -1,9 +1,20 @@
+/*
+| metaDatas
+|
+| Provides functions to quickly interact with the pics metas
+*/
+
+/*
+| Library imports
+*/
 import fs from 'fs'
 import path from 'path'
-
 const dirTree = require('directory-tree')
 const parser = require('exif-parser')
 
+/*
+| Export the metaDatas object
+*/
 export default {
   /*
   | renamePics
@@ -12,9 +23,8 @@ export default {
   | @param picsModel database an instance of pics model
   | @param object path
   | @param function success callback
-  | @param function error callback
   */
-  renamePics (database, path, success, error) {
+  renamePics (database, path, success) {
 
     // intialize a var tou count the files with no dates
     var noDateIndex = 0
@@ -23,17 +33,23 @@ export default {
     let tree = dirTree(path, {exclude:/\.DS_Store|metadatas\.json/, extensions:/\.jpg$|\.JPG$|\.jpeg$|\.JPEG$/}, (item, PATH) => {
       
       // call this block for all jpeg files
+      // other types of files are not suported by the application
 
       // read the file
       let buffer = fs.readFileSync(item.path)
+
       // gets his metas
       let metas = parser.create(buffer).parse().tags
+
       // pars the original pics date (from the metas)
       let date = new Date(metas.DateTimeOriginal * 1000)
+
       // get the dirname
       let eventName = PATH.dirname(item.path).split(PATH.sep).pop()
+
       // get the date
       if (date.getDate()) {
+        // if the date is valid
         var formatDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()+1}-${date.getSeconds()}`
       } else {
         // if the date is invalid
@@ -76,15 +92,21 @@ export default {
         children: []
       }
 
-      // Event datas (the folder)
+      // Check if the folder for this already exists
       database.updateFolder(folderDatas)
 
+      // store the new pics in the store
       database.storeNewPics(newPicsMetas)
 
+      // rename the pics
       fs.renameSync(item.path, newPicsName)
 
     })
+
+    // save the store in persistent memory
     database.saveStore()
+
+    // call success with the generated directory tree
     success(tree)
   }
 }

@@ -1,4 +1,4 @@
-/*
+/* *****************************************
 | PICS
 |
 | Entry point of the main process
@@ -10,20 +10,29 @@
 | IMPORTS
 */
 
-// import modules
+// electron modules
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
+// node fs module
 import fs from 'fs'
 
 // library to fetch a directory tree in a JSON
 const dirTree = require('directory-tree')
+
 // library to read the exif metadatas
 import metaDatas from './picsProcessing/metaDatas'
-// library to work with the database
+
+
+// imort the model to interact with persitent pics store
 import database from './database/picsModel'
 
-// iporting the configuration
+// iporting the base app configuration
 import picsConfig from './appConfig/baseAppConfig'
-import { arch } from 'os';
+
+
+
+/* *****************************************
+| Sets global values and check the environment
+*/
 
 // get the current user data path (depends from the OS) (ex Appdata on windows or home directory on linux)
 let userPicsConfigPath = app.getPath('userData') + '/pics.json'
@@ -43,9 +52,13 @@ if (process.env.NODE_ENV !== 'development') {
 if (fs.existsSync(userPicsConfigPath) === false) {
 
   // if not exist, create a new config file with the base template file
+
+  // check if the userdata folder exists
   if(!fs.existsSync(app.getPath('userData'))) {
     fs.mkdirSync(app.getPath('userData'))
   }
+
+  // write the fresh config file
   fs.writeFileSync(userPicsConfigPath, JSON.stringify(picsConfig), 'utf8' )
 
   // sets the user config var in the app
@@ -53,8 +66,7 @@ if (fs.existsSync(userPicsConfigPath) === false) {
 
 } else {
 
-  // if the config exists -> load the file in the app
-  // load the config file of the user
+  // if the config exists -> load the config file of the user
   var userPicsConfig = JSON.parse(fs.readFileSync(userPicsConfigPath), 'utf8' )
 
 }
@@ -62,7 +74,7 @@ if (fs.existsSync(userPicsConfigPath) === false) {
 
 
 /* *****************************************
-| Loading app windows
+| Loading app window
 */
 
 // mainWindow -> represents the new window
@@ -139,6 +151,8 @@ app.on('activate', () => {
 
 /* *****************************************
 | All the ipc interactions events
+|
+| Used when the user call an action who require "low level" actions on the system (writing files, natives functions)
 */
 
 /*
@@ -181,9 +195,10 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 */
 ipcMain.on('startImportingPhotos', (event, args) => {
 
+  // load the store from the persistent storage
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
-  // we rename all the pictures in the folder with the metadatas extension
+  // rename all the pictures and store metadatas on the database
   metaDatas.renamePics(database, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
 
     // We get the actual state of the pics library directory tree
@@ -195,11 +210,9 @@ ipcMain.on('startImportingPhotos', (event, args) => {
     // save the config
     fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
 
-    // send an event to the renderer
+    // Send a notification to the user to stop the loader in the wiew
     event.sender.send('inportingPhotosFinish', "importation OK")
 
-  }, (error) => {
-    console.error('Erreur')
   })
 
 })
@@ -212,12 +225,15 @@ ipcMain.on('startImportingPhotos', (event, args) => {
 | Return a tree with all the pics in the user library
 */
 ipcMain.on('getLibraryTree', (event, arg) => {
-  // call the database
+
+  // load the store if not loaded
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
+
+  // gets all the pcs
   let datas = database.getAllPics()
+
   // send response with the path of the selected folder
   event.sender.send('libraryTree', datas)
-  console.log('getLibraryTree')
 
 })
 
@@ -229,12 +245,16 @@ ipcMain.on('getLibraryTree', (event, arg) => {
 | Search a needle in the picsModel and return the result in json to the view
 */
 ipcMain.on('searchPics', (event, arg) => {
-  console.log('Event: searchPics')
 
+  // load the store if not loaded
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
+  // launch the search in all the pics with user needle and filters
   database.searchPics(arg.needle, arg.filters, (searchResult) => {
+
+    // when the search finishes sent to renderer the response
     event.sender.send('libraryTree', searchResult)
+
   })
   
 })
@@ -248,10 +268,14 @@ ipcMain.on('searchPics', (event, arg) => {
 */
 ipcMain.on('editPicsDatas', (event, newPicsDatas) => {
 
+  // load the store if not loaded
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
+  // persits in the store the new pics datas specified by the user
   database.editPicsDatas(newPicsDatas, (success) => {
+
     event.sender.send('picsDetailsUpdated', success)
+    
   })
   
 })
