@@ -59,6 +59,7 @@ export default {
         panoramic: false,
         starred: 0,
         tags: [],
+        peoples: [],
         parent: eventName,
         type: 'pics'
       }

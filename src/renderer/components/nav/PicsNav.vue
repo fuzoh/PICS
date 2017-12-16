@@ -10,7 +10,7 @@
       </el-col>
 
       <el-col :span="7">
-        <el-input placeholder="Search" v-model="searchField" clearable>
+        <el-input placeholder="Search" v-model="searchField" @keyup.enter.native="search" clearable>
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </el-col>

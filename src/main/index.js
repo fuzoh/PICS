@@ -265,7 +265,7 @@ ipcMain.on('editPicsDatas', (event, arg) => {
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
   database.editPicsDatas(arg, (success) => {
-    console.warn('Callback appelé' + success)
+    event.sender.send('picsDetailsUpdated', success)
   })
   
 })

@@ -96,14 +96,12 @@ export default {
 
 
   /*
-  | newFolder
+  | folderExists
   |
-  | Save in the database a new pics
-  | @param object folderDatas new pics informations
-  | @param function success callback
-  | @param function error callback
+  | Return true if the folder exists
+  | @param string folderName
   */
-  findFolder (folderName) {
+  folderExists (folderName) {
 
     // iterates on all the elements in the store
     for (let el of this.db.datas) {
@@ -148,7 +146,7 @@ export default {
   updateFolder (folderDatas) {
 
     // if the folder dont exists -> insert the folder in the database
-    if (!this.findFolder(folderDatas.title)) {
+    if (!this.folderExists(folderDatas.title)) {
       this.insertFolder(folderDatas)
     }
 
@@ -222,8 +220,15 @@ export default {
             match++
           }
           if (pics.tags.length > 0) {
-            for (let tag of pics.tag) {
+            for (let tag of pics.tags) {
               if (tag.search(needle) != -1) {
+                match++
+              }
+            }
+          }
+          if (pics.peoples.length > 0) {
+            for (let people of pics.peoples) {
+              if (people.search(needle) != -1) {
                 match++
               }
             }
@@ -238,6 +243,7 @@ export default {
 
     let template = [{
       title: 'Résultats de la recherche',
+      name: 'Résultats de la recherche',
       children: queryResults
     }]
 
@@ -255,8 +261,31 @@ export default {
   | @param object filesTree the directory tree of the pics library
   | @param function success callback
   */
-  editPicsDatas (success) {
+  editPicsDatas (newPicsDatas, success) {
     console.info('editPicsDatas called !')
-    success('OK')
+
+    let folderIndex = 0
+    let picsIndex = 0
+
+    // iterates all the folders in the database, an get the right
+    for (let i = 0; this.db.datas.length > i; i++) {
+      if (this.db.datas[i].title === newPicsDatas.title) {
+        folderIndex = i
+      }
+    }
+
+    // iterates all the pics on the folder and get the right
+    for (let i =0; this.db.datas[folderIndex].children.length > i; i++) {
+      if (this.db.datas[folderIndex].children[i].filename === newPicsDatas.filename) {
+        picsIndex = i
+      }
+    }
+
+    // update the datas of the pics
+    this.db.datas[folderIndex].children[picsIndex] = newPicsDatas
+
+    this.saveStore()
+
+    success('Les données ont bien étés enregistrées.')
   }
 }
