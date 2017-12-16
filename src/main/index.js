@@ -242,3 +242,29 @@ ipcMain.on('searchPics', (event, arg) => {
   })
   
 })
+
+
+
+/*
+| @event getPicsDetails
+|
+| Get all the details of the required
+*/
+
+
+
+/*
+| @event editPicsDatas
+|
+| Edit the metadatas of the required pics
+*/
+ipcMain.on('editPicsDatas', (event, arg) => {
+  console.log('Event: searchPics')
+
+  database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
+
+  database.searchPics(needle, modifier, (searchResult) => {
+    event.sender.send('libraryTree', searchResult)
+  })
+  
+})

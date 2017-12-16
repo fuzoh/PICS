@@ -3,38 +3,55 @@
 
 <template>
   <div id="picsMetas">
-    <h4>Nom :</h4><label>Vacances_Israel</label>
-    <h4>Date :</h4><label>32 Jancembre 1896</label>
+    <h4>Nom :</h4>
+    <el-input
+      placeholder="Nom de la photo"
+      v-model="pics.name"
+      clearable>
+    </el-input>
+    <h4>Date :</h4>
+    <el-input
+      placeholder="Date de prise de vue"
+      v-model="pics.date"
+      clearable>
+    </el-input>
     <h4>Description :</h4>
-    <el-input type="textarea" :rows="2" placeholder="Description" v-model="textarea"></el-input>
-    <h4>Evaluation :</h4>
-    <el-rate
-        v-model="value3"
-        :texts="['Oups', 'Déçu', 'Ok', 'Bon', 'Préféré']"
-        show-text>
-    </el-rate>
+    <el-input type="textarea" :rows="2" placeholder="Description" v-model="pics.description"></el-input>
     <h4>Favoris :</h4>
-    <el-button type="info" icon="el-icon-star-on" plain style="margin-top: 10px;"></el-button>
+    <el-button type="info" :icon="starIcon" plain style="margin-top: 10px;"></el-button>
     <div id="tags">
       <h4>Tags :</h4>
       <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false" @close="handleClose(tag)">{{tag}}</el-tag>
       <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm"></el-input>
       <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
     </div>
+    <el-button type="warning">Enregistrer les informations</el-button>
   </div>
 </template>
+
 <script>
 export default {
   name: "picsMetas",
-
   data (){
     return{
+      starIcon: '',
       textarea: '',
       value3:null,
       dynamicTags:['Tag 1', 'Tag 2', 'Tag 3'],
       inputVisible:false,
       inputValue:''
     };
+  },
+  props: {
+    pics: {}
+  },
+  mounted () {
+    if (this.pics.starred == 0) {
+      console.log('icon star off')
+      this.starIcon = 'el-icon-star-off'
+    } else {
+      this.starIcon = 'el-icon-star-on'
+    }
   },
   methods: {
     handleClose(tag) {
@@ -61,6 +78,7 @@ export default {
 
 </script>
 
+
 <style lang="scss" scoped>
 
 #picsMetas {
@@ -68,6 +86,11 @@ export default {
   height: 500px;
   padding: 20px;
   background-color: $light;
+}
+
+h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .el-tag{
@@ -90,6 +113,7 @@ export default {
 {
   margin-top: 25px;
   margin-left: 0;
+  margin-bottom: 25px;
 }
 
 </style>

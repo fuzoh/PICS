@@ -43,8 +43,8 @@ export default {
 
     },
 
+    // go to the element when we click on the tree view
     handleNodeClick(data) {
-      console.log(data)
       let el = document.getElementById(data.title)
       el.scrollIntoView()
     }

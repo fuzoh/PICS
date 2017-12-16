@@ -248,14 +248,14 @@ export default {
 
 
   /*
-  | storeLibrary
+  | editPicsDatas
   |
-  | Save in the database all the pics datas
+  | Store in the database the new pics datas
   | @param string libraryStorePath path to the store
   | @param object filesTree the directory tree of the pics library
   | @param function success callback
   */
-  editField () {
+  editPicsDatas () {
 
   }
 }
