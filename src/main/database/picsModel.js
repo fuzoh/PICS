@@ -186,15 +186,17 @@ export default {
   /*
   | searchPics
   |
-  | Search the nnedle in all the pics Store, we can pass modifiers to restrict the search query
+  | Search the nnedle in all the pics Store, we can pass filters to restrict the search query
   | @return array all the datas in the store
   */
-  searchPics (needle, modifier, complete) {
+  searchPics (needle, filters, complete) {
     
     // To store all the results of the search query
     let queryResults = []
 
-    //console.warn(this.db.datas)
+    console.warn('searchPics called')
+    console.log('Needle' + needle)
+    console.warn(filters)
 
     // loop in all the pics folders
     for (let event of this.db.datas) {
@@ -203,12 +205,135 @@ export default {
       for (let pics of event.children) {
 
         let match = 0
+        let usedFilters = 0
 
-        //console.log(pics)
+        // If the starred filter is activated
+        if (filters.starred === true) {
+          console.log('Filtre les images avec star')
+          usedFilters++
 
-        // if we have no modifiers
-        if (modifier == '') {
-          console.warn('No modifier')
+          // if the picture is starred
+          if (pics.starred === 1 ) {
+            
+            let starredFilter = 0
+
+            // If the name filter is activated
+            if (filters.name === true) {
+              starredFilter++
+              console.log('Filtre par noms')
+              if (pics.name.search(needle) != -1) {
+                match++
+              }
+            }
+
+            // If the places filter is activated
+            if (filters.places === true) {
+              starredFilter++
+              console.log('Filtre par places')
+              if (pics.places.search(needle) != -1) {
+                match++
+              }
+            }
+
+            // If the description filter is activated
+            if (filters.description === true) {
+              starredFilter++
+              console.log('Filtre par description')
+              if (pics.description.search(needle) != -1) {
+                match++
+              }
+            }
+
+            // If the tags filter is activated
+            if (filters.tags === true) {
+              starredFilter++
+              if (pics.tags.length > 0) {
+                for (let tag of pics.tags) {
+                  if (tag.search(needle) != -1) {
+                    match++
+                  }
+                }
+              }
+            }
+
+            // If the people filter is activated
+            if (filters.peoples === true) {
+              starredFilter++
+              if (pics.peoples.length > 0) {
+                for (let people of pics.peoples) {
+                  if (people.search(needle) != -1) {
+                    match++
+                  }
+                }
+              }
+            }
+
+            // if we have use no filter
+            if (starredFilter < 1) {
+              match++
+            }
+
+          }
+        
+        } else {
+
+          // If the name filter is activated
+          if (filters.name === true) {
+            usedFilters++
+            console.log('Filtre par noms')
+            if (pics.name.search(needle) != -1) {
+              match++
+            }
+          }
+
+          // If the places filter is activated
+          if (filters.places === true) {
+            usedFilters++
+            console.log('Filtre par places')
+            if (pics.places.search(needle) != -1) {
+              match++
+            }
+          }
+
+          // If the description filter is activated
+          if (filters.description === true) {
+            usedFilters++
+            console.log('Filtre par description')
+            if (pics.description.search(needle) != -1) {
+              match++
+            }
+          }
+
+          // If the people filter is activated
+          if (filters.peoples === true) {
+            usedFilters++
+            if (pics.peoples.length > 0) {
+              for (let people of pics.peoples) {
+                if (people.search(needle) != -1) {
+                  match++
+                }
+              }
+            }
+          }
+
+          // If the tags filter is activated
+          if (filters.tags === true) {
+            usedFilters++
+            if (pics.tags.length > 0) {
+              for (let tag of pics.tags) {
+                if (tag.search(needle) != -1) {
+                  match++
+                }
+              }
+            }
+          }
+
+        }
+
+
+        // if we dont have use filters
+        if (usedFilters < 1) {
+          console.warn('No filters')
 
           if (pics.name.search(needle) != -1) {
             match++

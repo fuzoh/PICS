@@ -24,12 +24,12 @@
 
       <el-col :span="8">
         <el-button-group>
-          <el-button type="info" icon="el-icon-edit" :plain="!filters.name"></el-button>
-          <el-button type="info" icon="el-icon-location" :plain="!filters.places"></el-button>
-          <el-button type="info" icon="el-icon-tickets" :plain="!filters.description"></el-button>
-          <el-button type="info" icon="el-icon-star-on" :plain="!filters.starred"></el-button>
-          <el-button type="info" icon="el-icon-view" :plain="!filters.peoples"></el-button>
-          <el-button type="info" icon="el-icon-share" :plain="!filters.tags"></el-button>
+          <el-button type="info" icon="el-icon-edit" @click="selectFilter('name')" :plain="!filters.name"></el-button>
+          <el-button type="info" icon="el-icon-location" @click="selectFilter('places')" :plain="!filters.places"></el-button>
+          <el-button type="info" icon="el-icon-tickets" @click="selectFilter('description')" :plain="!filters.description"></el-button>
+          <el-button type="info" icon="el-icon-star-on" @click="selectFilter('starred')" :plain="!filters.starred"></el-button>
+          <el-button type="info" icon="el-icon-view" @click="selectFilter('peoples')" :plain="!filters.peoples"></el-button>
+          <el-button type="info" icon="el-icon-share" @click="selectFilter('tags')" :plain="!filters.tags"></el-button>
         </el-button-group>
       </el-col>
 
@@ -56,14 +56,18 @@ export default {
   },
   methods: {
 
-    selectFilter () {
-
-    }
+    selectFilter (filter) {
+      if (this.filters[filter] == true) {
+        this.filters[filter] = false
+      } else {
+        this.filters[filter] = true
+      }
+    },
 
     // send a search query to the main process
     search () {
 
-      this.$electron.ipcRenderer.send('searchPics', {needle: this.searchField, modifiers: this.filters})
+      this.$electron.ipcRenderer.send('searchPics', {needle: this.searchField, filters: this.filters})
 
     },
 

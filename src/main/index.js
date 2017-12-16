@@ -233,7 +233,7 @@ ipcMain.on('searchPics', (event, arg) => {
 
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
-  database.searchPics(arg.needle, arg.modifiers, (searchResult) => {
+  database.searchPics(arg.needle, arg.filters, (searchResult) => {
     event.sender.send('libraryTree', searchResult)
   })
   
@@ -242,25 +242,15 @@ ipcMain.on('searchPics', (event, arg) => {
 
 
 /*
-| @event getPicsDetails
-|
-| Get all the details of the required
-*/
-
-
-
-/*
 | @event editPicsDatas
 |
 | Edit the metadatas of the required pics
 */
-ipcMain.on('editPicsDatas', (event, arg) => {
-  console.log('Event: edition de limage')
-  console.warn(arg)
+ipcMain.on('editPicsDatas', (event, newPicsDatas) => {
 
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
-  database.editPicsDatas(arg, (success) => {
+  database.editPicsDatas(newPicsDatas, (success) => {
     event.sender.send('picsDetailsUpdated', success)
   })
   
