@@ -92,7 +92,7 @@ export default {
         children: []
       }
 
-      // Check if the folder for this already exists
+      // Check if the folder for this already exists and update it if not
       database.updateFolder(folderDatas)
 
       // store the new pics in the store
@@ -124,16 +124,120 @@ export default {
 
       // We enter in this callback for all .jpeg files detected
 
-      // check if the file already exists in the database.
 
-      // get the parent directory of the current pics
+      // ********************
+      // Firs we create the folder if not exists
+
+      // get the path of parent directory of the current pics
       let eventPath = PATH.dirname(item.path)
 
-      // check if this event exists in the db store
-      let index = database.db.datas.findIndex(x => x.path==eventPath)
-      console.log(index)
+      // get the dirname of the parent directory
+      let eventName = PATH.dirname(item.path).split(PATH.sep).pop()
+
+      // create a new folder with this template
+      let folderDatas = {
+        path: eventPath,
+        title: eventName,
+        name: eventName,
+        type: 'directory',
+        children: []
+      }
+
+      // check if the folder with this template exists and add it if not
+      database.updateFolder(folderDatas)
+
+
+      // ****************
+      // get the index in the store of the current pics folder
+
+      // find the index of the corresponding folder
+      let folderIndex = database.db.datas.findIndex(x => x.title==eventName)
+
+
+      // *****************
+      // check if this pics already exists in the db
+      let picsIndex = database.db.datas[folderIndex].children.findIndex(x => x.path==item.path)
+
+      // if this pics not exists in the store
+      if (picsIndex == -1) {
+
+        console.log('Limage nexiste pas')
+
+        // *******************
+        // gets the datas from the pics and creating the record in the store
+
+        // we get all the meta-datas from the pics
+        // read the file
+        let buffer = fs.readFileSync(item.path)
+  
+        // gets his metas
+        let metas = parser.create(buffer).parse().tags
+  
+        // pars the original pics date (from the metas)
+        let date = new Date(metas.DateTimeOriginal * 1000)
+  
+        // get the date fot the new file name
+        if (date.getDate()) {
+          // if the date is valid
+          var formatDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()+1}-${date.getSeconds()}`
+        } else {
+  
+          console.error('la date nest pas valide')
+          let i = 1
+          console.error(`${eventPath}/${eventName}_nodate_${i + PATH.extname(item.path)}`)
+          // if the date is invalid
+          // check if a file with nodate exists
+          for (; fs.existsSync(`${eventPath}/${eventName}_nodate_${i + PATH.extname(item.path)}`) == true; i++) {
+            console.log('Index date utilisé = ' + i)
+            console.log(`${eventPath}/${eventName}_nodate_${i + PATH.extname(item.path)}`)
+            // create a file name with the next index available in this folder
+            var formatDate = `nodate_${i+1}`
+          }
+        }
+
+        // Create the new file name
+        let newPicsName = `${PATH.dirname(item.path)}/${eventName}_${formatDate}${PATH.extname(item.path)}`
+
+        // Check if the pics is a panorama
+        let panorama = metas.ExifImageWidth > 2.5*metas.ExifImageHeight ? true : false
+
+        // Create the new pics metasdatas to save in the database
+        let newPicsMetas = {
+          path: newPicsName,
+          filename: `${eventName}_${formatDate}`,
+          extension: PATH.extname(item.path),
+          title: eventName,
+          name: eventName,
+          date: formatDate,
+          places: eventName,
+          description: '',
+          width: metas.ExifImageWidth,
+          height: metas.ExifImageHeight,
+          panoramic: panorama,
+          starred: 0,
+          tags: [],
+          peoples: [],
+          parent: eventName,
+          type: 'pics'
+        }
+
+        // store the new pics in the store
+        database.storeNewPics(newPicsMetas)
+
+        // rename the pics
+        fs.renameSync(item.path, newPicsName)
+
+      } else {
+        console.log('limage existe déja')
+      }
 
     })
+
+    // save the store in persistent memory
+    database.saveStore()
+
+    // call success with the generated directory tree
+    success(tree)
 
   }
 }

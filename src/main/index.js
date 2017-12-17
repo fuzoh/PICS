@@ -230,8 +230,11 @@ ipcMain.on('updatePicsLibrary', (event, args) => {
   // rename all the pictures and store metadatas on the database
   metaDatas.updatePicsLibrary(database, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
       
+    console.warn('Update de la librairie terminé')
+
+    let datas = database.getAllPics()
     // Send a notification to the user to stop the loader in the wiew
-    event.sender.send('updatingPicsFinish', "importation OK")
+    event.sender.send('libraryTree', datas)
 
   })
 
