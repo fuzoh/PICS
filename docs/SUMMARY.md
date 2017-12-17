@@ -2,8 +2,8 @@
 
 * [Introduction](README.md)
 * [User documenttation](userdoc/userdoc.md)
+  * [Requirements](userdoc/requirments.md)
   * [Download and install](userdoc/installation.md)
-  * [Use PICS](userdoc/useit.md)
   * [Features](userdoc/features.md)
 * [Technical documentation](techdoc/techdoc.md)
   * [Technologies](techdoc/technologies.md)

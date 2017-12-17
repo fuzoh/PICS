@@ -2,17 +2,26 @@
 <!-- Displays the aside on the home wiew (contains the three wiewß) -->
 
 <template>
+
   <div id="pics-aside">
+
     <h2>Locations</h2>
-    <el-tree :data="events" :props="TreeProps" @node-click="handleNodeClick"></el-tree>
+    <el-tree
+      :data="events"
+      :props="TreeProps"
+      @node-click="handleNodeClick"/>
+
   </div>
+
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
 
 export default {
+  // component name
   name: "PicsAside",
+
+  // component datas used by the element ui tree view
   data() {
     return {
       events: [],
@@ -22,20 +31,24 @@ export default {
       }
     }
   },
+
+  // executed when the component is mounted
   mounted: function () {
 
     this.getLibraryTree()
 
   },
+
+  // methods for the component
   methods: {
 
-    // get the complete tree of the library
+    // get the complete tree of the library from the main process
     getLibraryTree () {
 
-      ipcRenderer.send('getLibraryTree')
+      this.$electron.ipcRenderer.send('getLibraryTree')
 
-      // when the main respnds
-      ipcRenderer.on('libraryTree', (event, data) => {
+      // when the main responds
+      this.$electron.ipcRenderer.on('libraryTree', (event, data) => {
 
         this.events = data
         
@@ -43,16 +56,32 @@ export default {
 
     },
 
-    // go to the element when we click on the tree view
+    // when we click on an element in the tree view
     handleNodeClick(data) {
-      let el = document.getElementById(data.title)
-      el.scrollIntoView()
-    }
 
+      // if its a pics
+      if (data.type == 'pics') {
+
+        // store the pics in the actual edited pics
+        this.$store.commit('PICS_SET_EDITED', data)
+        // and open the editing page
+        this.$router.push('/picsDetails')
+      
+      } else {
+
+        // if its not a pics, scroll to the event tag
+        let el = document.getElementById(data.title)
+        el.scrollIntoView()
+
+      }
+
+    }
   }
 }
 
 </script>
+
+
 
 <style lang="scss" scoped>
 

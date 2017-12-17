@@ -9,8 +9,8 @@ An elegant and simple application to manage photos. Built with web technologies 
 ## Table of contents
 
 - [User documentation](userdoc/userdoc.html)
+    - [Requirements](userdoc/requirements.html)
     - [Download and install](userdoc/installation.html)
-    - [Requirments](userdoc/useit.html)
     - [Functionalities](userdoc/features.html)
 - [Technical documentation](techdoc/techdoc.html)
     - [Technologies](techdoc/technologies.html)
