@@ -221,6 +221,13 @@ ipcMain.on('startImportingPhotos', (event, args) => {
   } else {
 
     // if a store already exists (imported config)
+
+    // set the first start at false
+    userPicsConfig.picsConfig.firstStart = false
+
+    // save the config
+    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
+    
     // not necesary to import the pics
     event.sender.send('inportingPhotosFinish', "importation OK")
 

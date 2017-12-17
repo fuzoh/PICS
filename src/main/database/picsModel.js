@@ -280,10 +280,46 @@ export default {
               }
             }
 
-            // if we have use no filter
-            // (match aull the pics have a star)
-            if (starredFilter < 1) {
+            // if we have no use filters and no needle, we search in all propertys
+            if (starredFilter < 1 && needle == '') {
+              
+              // we match all the starred pics
               match++
+
+            } else if (starredFilter < 1) {
+
+              // if we have use no filter
+              // but we have a needle -> search in all the propertys
+
+              // search in the name
+              if (pics.name.search(needle) != -1) {
+                match++
+              }
+              // search in the places
+              if (pics.places.search(needle) != -1) {
+                match++
+              }
+              // search in the description
+              if (pics.description.search(needle) != -1) {
+                match++
+              }
+              // search in the tags
+              if (pics.tags.length > 0) {
+                for (let tag of pics.tags) {
+                  if (tag.search(needle) != -1) {
+                    match++
+                  }
+                }
+              }
+              // search in peoples
+              if (pics.peoples.length > 0) {
+                for (let people of pics.peoples) {
+                  if (people.search(needle) != -1) {
+                    match++
+                  }
+                }
+              }
+
             }
 
           }
@@ -348,10 +384,48 @@ export default {
               }
             }
 
-            // if we have use no filter
-            if (panoramicFilters < 1) {
+            // if we have no use filters and no needle, we search in all propertys
+            if (panoramicFilters < 1 && needle == '') {
+              
+              // we match all the starred pics
               match++
+
+            } else if (panoramicFilters < 1) {
+
+              // if we have use no filter
+              // but we have a needle -> search in all the propertys
+
+              // search in the name
+              if (pics.name.search(needle) != -1) {
+                match++
+              }
+              // search in the places
+              if (pics.places.search(needle) != -1) {
+                match++
+              }
+              // search in the description
+              if (pics.description.search(needle) != -1) {
+                match++
+              }
+              // search in the tags
+              if (pics.tags.length > 0) {
+                for (let tag of pics.tags) {
+                  if (tag.search(needle) != -1) {
+                    match++
+                  }
+                }
+              }
+              // search in peoples
+              if (pics.peoples.length > 0) {
+                for (let people of pics.peoples) {
+                  if (people.search(needle) != -1) {
+                    match++
+                  }
+                }
+              }
+
             }
+
           }
 
         // if we dont use the star or the panoramic filter
