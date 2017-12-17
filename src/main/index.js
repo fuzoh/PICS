@@ -174,7 +174,7 @@ ipcMain.on('openFolderDialog', (event, arg) => {
   
       // save the config
       fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
-      // create an empty store
+      // create an empty store if not exist
       if (!fs.existsSync(userPicsConfig.picsConfig.picsMetadatasPath)) {
         database.createStore(userPicsConfig.picsConfig.picsMetadatasPath)
       }
@@ -194,22 +194,39 @@ ipcMain.on('openFolderDialog', (event, arg) => {
 */
 ipcMain.on('startImportingPhotos', (event, args) => {
 
+  
   // load the store from the persistent storage
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
-  // rename all the pictures and store metadatas on the database
-  metaDatas.renamePics(database, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
+  // check if a store already exists in the library (imported configuration)
+  if (database.db.datas.length < 1) {
 
-    // set the first start at false
-    userPicsConfig.picsConfig.firstStart = false
-      
-    // save the config
-    fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
+    // if we have no elements in the store
 
-    // Send a notification to the user to stop the loader in the wiew
+    // start importing all the pictures in the folder
+    // rename all the pictures and store metadatas on the database
+    metaDatas.renamePics(database, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
+
+        // set the first start at false
+      userPicsConfig.picsConfig.firstStart = false
+          
+      // save the config
+      fs.writeFileSync(userPicsConfigPath, JSON.stringify(userPicsConfig), 'utf8' )
+
+      // Send a notification to the user to stop the loader in the wiew
+      event.sender.send('inportingPhotosFinish', "importation OK")
+
+    })
+
+  } else {
+
+    // if a store already exists (imported config)
+    // not necesary to import the pics
     event.sender.send('inportingPhotosFinish', "importation OK")
 
-  })
+  }
+
+
 
 })
 
@@ -222,19 +239,18 @@ ipcMain.on('startImportingPhotos', (event, args) => {
 */
 ipcMain.on('updatePicsLibrary', (event, args) => {
 
-  console.log('UPDATE LIBRARY CALLED')
-
   // load the store from the persistent storage
   database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
 
   // rename all the pictures and store metadatas on the database
-  metaDatas.updatePicsLibrary(database, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
-      
-    console.warn('Update de la librairie terminé')
+  metaDatas.updatePicsLibrary(database, userPicsConfig.picsConfig.picsLibraryPath, (msg) => {
 
+    // get the new state of the pics store
     let datas = database.getAllPics()
-    // Send a notification to the user to stop the loader in the wiew
+    // send the new tree to the renderer
     event.sender.send('libraryTree', datas)
+    // Send a success notification to the user
+    event.sender.send('picsLibraryUpdated', msg)
 
   })
 

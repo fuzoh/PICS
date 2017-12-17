@@ -109,6 +109,9 @@ export default {
     // call success with the generated directory tree
     success(tree)
   },
+
+
+
   /*
   | updatePicsLibrary
   |
@@ -147,6 +150,7 @@ export default {
       database.updateFolder(folderDatas)
 
 
+
       // ****************
       // get the index in the store of the current pics folder
 
@@ -160,8 +164,6 @@ export default {
 
       // if this pics not exists in the store
       if (picsIndex == -1) {
-
-        console.log('Limage nexiste pas')
 
         // *******************
         // gets the datas from the pics and creating the record in the store
@@ -178,20 +180,22 @@ export default {
   
         // get the date fot the new file name
         if (date.getDate()) {
+
           // if the date is valid
           var formatDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()+1}-${date.getSeconds()}`
+
         } else {
-  
-          console.error('la date nest pas valide')
-          let i = 1
-          console.error(`${eventPath}/${eventName}_nodate_${i + PATH.extname(item.path)}`)
+
           // if the date is invalid
+          // base no date name
+          var formatDate = `nodate_1`
+
           // check if a file with nodate exists
-          for (; fs.existsSync(`${eventPath}/${eventName}_nodate_${i + PATH.extname(item.path)}`) == true; i++) {
-            console.log('Index date utilisé = ' + i)
-            console.log(`${eventPath}/${eventName}_nodate_${i + PATH.extname(item.path)}`)
+          for (let i = 1; fs.existsSync(`${eventPath}/${eventName}_nodate_${i + PATH.extname(item.path)}`) == true; i++) {
+
             // create a file name with the next index available in this folder
-            var formatDate = `nodate_${i+1}`
+            formatDate = `nodate_${i+1}`
+
           }
         }
 
@@ -227,8 +231,6 @@ export default {
         // rename the pics
         fs.renameSync(item.path, newPicsName)
 
-      } else {
-        console.log('limage existe déja')
       }
 
     })
@@ -237,7 +239,7 @@ export default {
     database.saveStore()
 
     // call success with the generated directory tree
-    success(tree)
+    success({message: 'La librairie a bien été mise a jour.', type: 'success'})
 
   }
 }

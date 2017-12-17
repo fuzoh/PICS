@@ -90,8 +90,19 @@ export default {
     // send a request to the main process to update the library
     updateLibrary () {
 
+      // sent request to the main
       this.$electron.ipcRenderer.send('updatePicsLibrary')
+
+      // display a succes message when the main respond
+      this.$electron.ipcRenderer.on('picsLibraryUpdated', (event, data) => {
+        this.successMessage(data)
+      })
       
+    },
+
+    // toggle a success notification message
+    successMessage(msg) {
+      this.$message(msg);
     }
 
   }
