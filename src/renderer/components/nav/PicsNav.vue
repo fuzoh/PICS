@@ -5,7 +5,7 @@
   <div id="pics-nav">
     <el-row>
     
-      <el-col :span="6">
+      <el-col :span="5">
         <img class="app-logo" src="../../assets/img/logo.svg">
       </el-col>
 
@@ -22,12 +22,13 @@
         </el-button-group>
       </el-col>
 
-      <el-col :span="8">
+      <el-col :span="9">
         <el-button-group>
           <el-button type="info" icon="el-icon-edit" @click="selectFilter('name')" :plain="!filters.name"></el-button>
           <el-button type="info" icon="el-icon-location" @click="selectFilter('places')" :plain="!filters.places"></el-button>
           <el-button type="info" icon="el-icon-tickets" @click="selectFilter('description')" :plain="!filters.description"></el-button>
           <el-button type="info" icon="el-icon-star-on" @click="selectFilter('starred')" :plain="!filters.starred"></el-button>
+          <el-button type="info" icon="el-icon-picture" @click="selectFilter('panoramic')" :plain="!filters.panoramic"></el-button>
           <el-button type="info" icon="el-icon-view" @click="selectFilter('peoples')" :plain="!filters.peoples"></el-button>
           <el-button type="info" icon="el-icon-share" @click="selectFilter('tags')" :plain="!filters.tags"></el-button>
         </el-button-group>
@@ -51,6 +52,7 @@ export default {
         starred: false,
         peoples: false,
         tags: false,
+        panoramic: false
       }
     }
   },

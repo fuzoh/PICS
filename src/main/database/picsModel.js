@@ -1,18 +1,18 @@
 /*
-| nedb
+| picsModel
 |
-| Provides helpers to quickly interact with the database store.
+| Provides functions to quickly interact with the datas store
 */
 
 
-/* *****************************************
+/*
 | Library imports
 */
 import fs from 'fs'
 import path from 'path'
 
 
-/* *****************************************
+/*
 | Export the database object
 */
 export default {
@@ -30,10 +30,11 @@ export default {
 
 
   /*
-  | getStore
+  | createStore
   |
-  | Load the neDB store
-  | @param string path to the store
+  | Create a new json file in the specified directory
+  |
+  | @param string storePath path to the store
   */
   createStore (storePath) {
     // create a new store file on the spécified paths
@@ -45,8 +46,9 @@ export default {
   /*
   | getStore
   |
-  | Load the neDB store
-  | @param string path to the store
+  | Load the datas from the persistent json store
+  |
+  | @param string storePath path to the store
   */
   getStore (storePath) {
     // chek if the store is actually loaded in the memory
@@ -66,7 +68,7 @@ export default {
   /*
   | saveStore
   |
-  | Save the store
+  | Save the actual state of the in memory store to the persistent json store
   */
   saveStore () {
     // write the store in the specified store path
@@ -78,14 +80,12 @@ export default {
   /*
   | unloadStore
   |
-  | Load the neDB store
-  | @param string path to the store
-  | @return neDbStore
+  | Unload the in memory store
   */
   unloadStore () {
     // persists the store
     this.saveStore()
-    // reset the db
+    // reset the db object
     this.db = {
       storePath: '',
       loaded: false,
@@ -119,12 +119,10 @@ export default {
 
 
   /*
-  | newFolder
+  | insertFolder
   |
-  | Save in the database a new pics
-  | @param object folderDatas new pics informations
-  | @param function success callback
-  | @param function error callback
+  | Save a new folder in the store
+  | @param object folderDatas new folder informations
   */
   insertFolder (folderDatas) {
 
@@ -136,12 +134,10 @@ export default {
 
 
   /*
-  | newFolder
+  | updateFolder
   |
-  | Save in the database a new pics
-  | @param object folderDatas new pics informations
-  | @param function success callback
-  | @param function error callback
+  | Call the insert method if the specified folder dont exists in the store
+  | @param object folderDatas new folder informations
   */
   updateFolder (folderDatas) {
 
@@ -194,33 +190,42 @@ export default {
     // To store all the results of the search query
     let queryResults = []
 
-    console.warn('searchPics called')
-    console.log('Needle' + needle)
-    console.warn(filters)
-
     // loop in all the pics folders
     for (let event of this.db.datas) {
 
       // loop all the pics
       for (let pics of event.children) {
 
+        // to store if the pics have matches
         let match = 0
+        // to store if filters is used
         let usedFilters = 0
+        // to store if the panoramic filter is used
+        let panoramicFilterUsed = 0
+
+
+
+        /*
+        | The search conditions
+        |
+        | In the following conditions, we test all the possibilities of filtering, and the possible match with the query
+        */
 
         // If the starred filter is activated
         if (filters.starred === true) {
-          console.log('Filtre les images avec star')
+          
+          // add 1 used filter on the counter
           usedFilters++
 
           // if the picture is starred
           if (pics.starred === 1 ) {
             
+            // to store if filters with the panoramic filter is used
             let starredFilter = 0
 
             // If the name filter is activated
             if (filters.name === true) {
               starredFilter++
-              console.log('Filtre par noms')
               if (pics.name.search(needle) != -1) {
                 match++
               }
@@ -229,7 +234,6 @@ export default {
             // If the places filter is activated
             if (filters.places === true) {
               starredFilter++
-              console.log('Filtre par places')
               if (pics.places.search(needle) != -1) {
                 match++
               }
@@ -238,7 +242,6 @@ export default {
             // If the description filter is activated
             if (filters.description === true) {
               starredFilter++
-              console.log('Filtre par description')
               if (pics.description.search(needle) != -1) {
                 match++
               }
@@ -268,19 +271,95 @@ export default {
               }
             }
 
+            // if the panoramic filter is activated
+            if (filters.panoramic === true) {
+              starredFilter++
+              panoramicFilterUsed++
+              if (pics.panoramic === true) {
+                match++
+              }
+            }
+
             // if we have use no filter
+            // (match aull the pics have a star)
             if (starredFilter < 1) {
               match++
             }
 
           }
-        
+
+        // if the panoramic filter is activated
+        } else if ((filters.panoramic === true) && (panoramicFilterUsed < 1)) {
+
+          // one more filter is used
+          usedFilters++
+
+          // test if the pics is panoramic
+          if (pics.panoramic === true) {
+
+            // to store how filters is used with the panoramic filter
+            let panoramicFilters = 0
+
+            // If the name filter is activated
+            if (filters.name === true) {
+              panoramicFilters++
+              if (pics.name.search(needle) != -1) {
+                match++
+              }
+            }
+
+            // If the places filter is activated
+            if (filters.places === true) {
+              panoramicFilters++
+              if (pics.places.search(needle) != -1) {
+                match++
+              }
+            }
+
+            // If the description filter is activated
+            if (filters.description === true) {
+              panoramicFilters++
+              if (pics.description.search(needle) != -1) {
+                match++
+              }
+            }
+
+            // If the tags filter is activated
+            if (filters.tags === true) {
+              panoramicFilters++
+              if (pics.tags.length > 0) {
+                for (let tag of pics.tags) {
+                  if (tag.search(needle) != -1) {
+                    match++
+                  }
+                }
+              }
+            }
+
+            // If the people filter is activated
+            if (filters.peoples === true) {
+              panoramicFilters++
+              if (pics.peoples.length > 0) {
+                for (let people of pics.peoples) {
+                  if (people.search(needle) != -1) {
+                    match++
+                  }
+                }
+              }
+            }
+
+            // if we have use no filter
+            if (panoramicFilters < 1) {
+              match++
+            }
+          }
+
+        // if we dont use the star or the panoramic filter
         } else {
 
           // If the name filter is activated
           if (filters.name === true) {
             usedFilters++
-            console.log('Filtre par noms')
             if (pics.name.search(needle) != -1) {
               match++
             }
@@ -289,7 +368,6 @@ export default {
           // If the places filter is activated
           if (filters.places === true) {
             usedFilters++
-            console.log('Filtre par places')
             if (pics.places.search(needle) != -1) {
               match++
             }
@@ -298,7 +376,6 @@ export default {
           // If the description filter is activated
           if (filters.description === true) {
             usedFilters++
-            console.log('Filtre par description')
             if (pics.description.search(needle) != -1) {
               match++
             }
@@ -331,19 +408,22 @@ export default {
         }
 
 
-        // if we dont have use filters
+        // if no filter is used
         if (usedFilters < 1) {
-          console.warn('No filters')
 
+          // search in the name
           if (pics.name.search(needle) != -1) {
             match++
           }
+          // search in the places
           if (pics.places.search(needle) != -1) {
             match++
           }
+          // search in the description
           if (pics.description.search(needle) != -1) {
             match++
           }
+          // search in the tags
           if (pics.tags.length > 0) {
             for (let tag of pics.tags) {
               if (tag.search(needle) != -1) {
@@ -351,6 +431,7 @@ export default {
               }
             }
           }
+          // search in peoples
           if (pics.peoples.length > 0) {
             for (let people of pics.peoples) {
               if (people.search(needle) != -1) {
@@ -360,19 +441,24 @@ export default {
           }
         }
 
+        // If the the search query have a match with this pics
         if (match >= 1) {
+          // Add it to the array of results
           queryResults.push(pics)
         }
+
+
       }
     }
 
+    // create a template with the results of the search
     let template = [{
       title: 'Résultats de la recherche',
       name: 'Résultats de la recherche',
       children: queryResults
     }]
 
-
+    // call the complete callback, with the result of the search
     complete(template)
   },
 
@@ -382,13 +468,12 @@ export default {
   | editPicsDatas
   |
   | Store in the database the new pics datas
-  | @param string libraryStorePath path to the store
-  | @param object filesTree the directory tree of the pics library
+  | @param object newPicsDatas the new pics datas
   | @param function success callback
   */
   editPicsDatas (newPicsDatas, success) {
-    console.info('editPicsDatas called !')
-
+    
+    // to store the index of the desired pics
     let folderIndex = 0
     let picsIndex = 0
 
@@ -408,6 +493,7 @@ export default {
 
     // if the date is not specified
     if (newPicsDatas.date == null) {
+
       // sed an error message to the renderer
       success({message: "Aucunne date n'a été renseignée.", type: 'warning'})
       
