@@ -61,7 +61,7 @@ export default {
       let newPicsName = `${PATH.dirname(item.path)}/${eventName}_${formatDate}${PATH.extname(item.path)}`
 
       // Check if the pics is a panorama
-      let panorama = metas.ExifImageWidth > 2.5*metas.ExifImageHeight ? true : false
+      let panorama = metas.ExifImageWidth > 2.3*metas.ExifImageHeight ? true : false
 
       // Create the new pics metasdatas to save in the database
       let newPicsMetas = {
@@ -203,7 +203,7 @@ export default {
         let newPicsName = `${PATH.dirname(item.path)}/${eventName}_${formatDate}${PATH.extname(item.path)}`
 
         // Check if the pics is a panorama
-        let panorama = metas.ExifImageWidth > 2.5*metas.ExifImageHeight ? true : false
+        let panorama = metas.ExifImageWidth > 2.3*metas.ExifImageHeight ? true : false
 
         // Create the new pics metasdatas to save in the database
         let newPicsMetas = {

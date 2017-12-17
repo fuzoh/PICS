@@ -15,4 +15,29 @@ When the import is complete, you will be automatically redirected to the main pa
   <img src="mainpage.jpg" width="80%"/>
 </div>
 
-When we open the app, you will see the main page, 
+When we open the app, you will see the main page :
+
+The main page displays all the pics and a tree wiew of your events. In the navigation bar you see a search field and diffrends filters.
+
+### Research bar
+
+<div align="center">
+  <img src="nav.png"/>
+</div>
+
+* **research field** it allows you to search words in all the library. By default he search in all the propertys of a pics.
+
+* **search button** click to launch the research, you can also type enter key.
+* **cross button** redisplay the base view
+
+* **name filter** the search will be limited to pics names
+* **location filter** the search will be limited to location of the pics
+* **description filter** the search will be limited to description of the pics
+* **star filter** the search will be limited to the pics you starred
+* **panoramic filter** the search will be limited to the panoramic pics
+* **people filter** the search will be limited to the peoples asociated to a pics
+* **tag filter** the search will be limited to the tags asociated to a pics
+
+You can combine filters to refine your search results.
+
+Example : If you type "Marc" with the star filter. Marc will be searched only in starred pictures.

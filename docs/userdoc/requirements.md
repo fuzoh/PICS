@@ -12,6 +12,10 @@ To work properly with pics you need a few requirements.
   * min **windows 7**
   * 64 bit only
 
+* Min Screen size
+  * L 1440 px
+  * H 560 px
+
 ## Pictures requirements
 
 PICS actually suports only importing `.jpg` pictures format. If you have `.png` photos or other formats, it will be ignored by the application.
