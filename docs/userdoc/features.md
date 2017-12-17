@@ -12,5 +12,7 @@ When the import is complete, you will be automatically redirected to the main pa
 ## The main page
 
 <div align="center">
-  <img src="mainpage.jpg"/>
+  <img src="mainpage.jpg" width="80%"/>
 </div>
+
+When we open the app, you will see the main page, 

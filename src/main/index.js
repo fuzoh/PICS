@@ -21,7 +21,6 @@ const dirTree = require('directory-tree')
 // library to read the exif metadatas
 import metaDatas from './picsProcessing/metaDatas'
 
-
 // imort the model to interact with persitent pics store
 import database from './database/picsModel'
 
@@ -201,9 +200,6 @@ ipcMain.on('startImportingPhotos', (event, args) => {
   // rename all the pictures and store metadatas on the database
   metaDatas.renamePics(database, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
 
-    // We get the actual state of the pics library directory tree
-    let libraryTree = dirTree(userPicsConfig.picsConfig.picsLibraryPath, {exclude:/\.DS_Store|metadatas\.json/})
-
     // set the first start at false
     userPicsConfig.picsConfig.firstStart = false
       
@@ -212,6 +208,30 @@ ipcMain.on('startImportingPhotos', (event, args) => {
 
     // Send a notification to the user to stop the loader in the wiew
     event.sender.send('inportingPhotosFinish', "importation OK")
+
+  })
+
+})
+
+
+
+/*
+| @event updatePicsLibrary
+|
+| Starts the importation of the pictures in the user library folder.
+*/
+ipcMain.on('updatePicsLibrary', (event, args) => {
+
+  console.log('UPDATE LIBRARY CALLED')
+
+  // load the store from the persistent storage
+  database.getStore(userPicsConfig.picsConfig.picsMetadatasPath)
+
+  // rename all the pictures and store metadatas on the database
+  metaDatas.updatePicsLibrary(database, userPicsConfig.picsConfig.picsLibraryPath, (success) => {
+      
+    // Send a notification to the user to stop the loader in the wiew
+    event.sender.send('updatingPicsFinish', "importation OK")
 
   })
 

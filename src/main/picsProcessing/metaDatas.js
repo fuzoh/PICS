@@ -108,5 +108,32 @@ export default {
 
     // call success with the generated directory tree
     success(tree)
+  },
+  /*
+  | updatePicsLibrary
+  |
+  | Check if the store is up to date with the library folder structure
+  | @param picsModel database an instance of pics model
+  | @param object path the path to the pics library
+  | @param function success callback
+  */
+  updatePicsLibrary (database, path, success) {
+
+    // use the directory tree library to iterates all the folders and all the pics
+    let tree = dirTree(path, {exclude:/\.DS_Store|metadatas\.json/, extensions:/\.jpg$|\.JPG$|\.jpeg$|\.JPEG$/}, (item, PATH) => {
+
+      // We enter in this callback for all .jpeg files detected
+
+      // check if the file already exists in the database.
+
+      // get the parent directory of the current pics
+      let eventPath = PATH.dirname(item.path)
+
+      // check if this event exists in the db store
+      let index = database.db.datas.findIndex(x => x.path==eventPath)
+      console.log(index)
+
+    })
+
   }
 }

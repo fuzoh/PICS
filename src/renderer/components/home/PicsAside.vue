@@ -5,11 +5,21 @@
 
   <div id="pics-aside">
 
-    <h2>Locations</h2>
-    <el-tree
-      :data="events"
-      :props="TreeProps"
-      @node-click="handleNodeClick"/>
+    <div class="tree">
+      <h2>Locations</h2>
+      <el-tree
+        :data="events"
+        :props="TreeProps"
+        @node-click="handleNodeClick"/>
+    </div>
+
+    <div class="button">
+      <el-button
+        size="mini"
+        @click="updateLibrary()">
+        <i class="el-icon-upload"/> Mettre a jour la librairie
+      </el-button>
+    </div>
 
   </div>
 
@@ -75,7 +85,15 @@ export default {
 
       }
 
+    },
+
+    // send a request to the main process to update the library
+    updateLibrary () {
+
+      this.$electron.ipcRenderer.send('updatePicsLibrary')
+      
     }
+
   }
 }
 
@@ -90,7 +108,20 @@ export default {
   height: 100%;
   padding: 20px;
   background-color: $light;
+}
+
+.tree {
+  height: 93%;
   overflow: scroll;
+}
+
+.button {
+  height: 7%;
+}
+
+.el-button {
+  position: fixed;
+  bottom: 20px;
 }
 
 .el-tree {
