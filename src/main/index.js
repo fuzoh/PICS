@@ -15,9 +15,6 @@ import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 // node fs module
 import fs from 'fs'
 
-// library to fetch a directory tree in a JSON
-const dirTree = require('directory-tree')
-
 // library to read the exif metadatas
 import metaDatas from './picsProcessing/metaDatas'
 
