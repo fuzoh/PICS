@@ -46,6 +46,12 @@ Example :
 
 ### The tree view
 
+<div align="right">
+  <img src="treeview.png" width="150px"/>
+</div>
+
+The tree view provided a simple way to view all events as a list.
+
 ### The main view
 
 ## Details view
