@@ -42,7 +42,7 @@ Example :
 * If you type "Marc" with the star filter. "Marc" will be searched only in starred pictures.
 * If you type "Marc" with the star and the people filters. "Marc" will be searched only in the person attribute of the starred pictures.
 
-If the search query returns **no results** the mai view will be empty.
+If the search query returns **no results** the main view will be empty.
 
 ### The tree view
 
@@ -56,11 +56,25 @@ The tree view provided a simple way to view all events as a list.
 
 ### The main view
 
-<img src="mainview.jpg" width="40%" style="float: right; margin-left: 20px;"/>
+<img src="mainview.jpg" width="250px" style="float: right; margin-left: 20px;"/>
 
-The main view display all the pictures, separate by the event title. You can click on pictures to display the details view.
+The main view display all the pictures, separate by the event title.
+
+When you hover the picture, his name will be displayed. You can click on the pictures to display the details view.
 
 When you type a research, the results will be diplayed on this view.
 
-## Details view
+## Details page
 
+<img src="editview.jpg" width="250px" style="float: right; margin-left: 20px;"/>
+
+The details view provide a big preview of a picture and inputs to edit pictures datas.
+
+Edition function :
+* **Name** change the name of the picture.
+* **Date** Change the shoot date of the picture.
+* **Place** Change the place where thw picture have been taken.
+* **Description** A little description of your picture.
+* **Star button** Star and unstar a picture (favorites)
+* **Peoples** Add peoples present on the picture
+* **Tags** Add tags to our picture

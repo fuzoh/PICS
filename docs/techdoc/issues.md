@@ -14,3 +14,4 @@
 ## Features
 * If we delete an image in a folder, the store will not be updated. Add a feature to do this.
 * Export the metadatas in the files, actually the app store all the metadatas in the metadatas.json file. If you change the metas in the app, its not possible to recover this metas in the picture exif-metas. A new feature to export the json metas in the exif-mets of the pictures would be convenient.
+* Add inputs validation in the details view, to prevent the non valid datas. => max length of the name, max length of the description.
