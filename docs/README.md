@@ -16,6 +16,7 @@ An elegant and simple application to manage photos. Built with web technologies 
   * [Technologies](techdoc/technologies.html)
   * [Setting up development](techdoc/setting-up-development.html)
   * [Project structure](techdoc/project-stucture.html)
+  * [Webpack ?!](techdoc/webpack.html)
   * [Electron principles](techdoc/electron.html)
   * [Vue.js principles]()
   * [Application architecture]()

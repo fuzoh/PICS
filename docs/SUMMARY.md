@@ -9,6 +9,7 @@
   * [Technologies](techdoc/technologies.md)
   * [Setting up development](techdoc/setting-up-development.md)
   * [Project structure](techdoc/project-structure.md)
+  * [Webpack ?!](techdoc/webpack.md)
   * [Electron principles](techdoc/electron.md)
   * [Vue.js principles](techdoc/vuejs.md)
   * [Application architecture](techdoc/apparch.md)

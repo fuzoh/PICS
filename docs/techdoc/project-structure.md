@@ -1,55 +1,21 @@
 # Project structure
 
-- .electron-vue
-- build
-- src
-    - main
-    - renderer
-- static
-- .babelrc
-- .gitignore
-- .travis.yml
-- appveyor.yml
-- package.json
-- README.md
-
-## tutu
-
-- .electron-vue
-- build
-- src
-    - main
-    - renderer
-- static
-- .babelrc
-- .gitignore
-- .travis.yml
-- appveyor.yml
-- package.json
-- README.md
-
-## tata
-
-- .electron-vue
-- build
-- src
-    - main
-    - renderer
-- static
-- .babelrc
-- .gitignore
-- .travis.yml
-- appveyor.yml
-- package.json
-- README.md
-
-## toto
-
-- .electron-vue
-- build
-- src
-    - main
-    - renderer
+- **.electron-vue** Contains the webpack configuration
+- **build** Contains assets for the app-build (like app icons)
+- **dist** The output folder for your builds (when you run `npm un build`)
+- **docs** App documentation
+- **nodes_modules** Where npm store all the required modules
+- **src** App sources
+  - **main** Main process sources
+    - **appConfig** Here we store a template for the config file of the app (specific for each installaion of PICS)
+    - **database** Contains the model to interact with the .json where we save the pics datas.
+    - **picsProcessing** Here we found methods to interact with the exif metadatas of the pictures.
+    - ***index.dev.js*** Just used in development -> inject the devtools and debug tools in the app
+    - ***index.js*** The entry point of the app (main process)
+  - **renderer** Renderer process sources (Vue.js part of the app)
+    - **assets** Contains assets used in the wiew, like icons (this assets are processed by webpack)
+    - **components** Here we found all the vue.js components
+    - **router** Here we found the description of all the routes of the app
 - static
 - .babelrc
 - .gitignore

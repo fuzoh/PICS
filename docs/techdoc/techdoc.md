@@ -1,12 +1,13 @@
 # Technical documentation
 
-We found here the technical documentation of the app :
+We found here the technical documentation of the app, this part is for developers who whant to understant the fundations of the app, and how the componenets interacts.
 
 ## Summary
 
 * [Technologies](techdoc/technologies.html)
 * [Setting up development](techdoc/setting-up-development.html)
 * [Project structure](techdoc/project-stucture.html)
+* [Webpack ?!](techdoc/webpack.html)
 * [Electron principles](techdoc/electron.html)
 * [Vue.js principles](vuejs.html)
 * [Application architecture](architecture.html)

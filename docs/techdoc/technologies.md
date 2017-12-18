@@ -27,3 +27,18 @@ Advantages :
 * Lighter and more performant than React or Angular
 Disadvantages :
 * Provides just the "engine" to interact with the DOM and watch events, instead of bigger frameworks like React who provides forms validation and othe features.
+
+## Why we choose this tools
+
+* Electron :
+  * Multi-platform
+  * Bic comunity
+
+* Vue.js
+  * Split the app in components
+  * Simplicity
+  * Less than 30kb
+  * electron-vue : a boilerplade to quick start a project vith electron, vue.js and webpack to compile assets.
+
+* Element-ui
+  * Components compatible with the desktop "design rules"
