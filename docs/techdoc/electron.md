@@ -15,7 +15,7 @@ It is possible to do a "dangerous" parallel the web world : Your main process is
 When we launch your app, a mail process will spawn : Basically the main process is a node.js tread. In this process you will make all the "low-level" operation with the host machine, ex : writing files, acces to native system APIs.
 
 This node.js proccess give you access to :
-* all the native node.js modules (like fs or path)
+* all the native node.js modules (like 'fs' or 'path')
 * electron modules (ex : notification, to interact with native OS notification system)
 * Other imported modules
 
@@ -48,3 +48,9 @@ An example of interaction between main and renderer process :
 To interact between main and renderer process, electron provides a cutom protocol : ipc.
 
 Ipc provides a simple way to send events with datas between main and renderer.
+
+## Electron ressources
+
+* [electron doc](https://electronjs.org/docs)
+* [electron ipc](https://electronjs.org/docs/api/ipc-main)
+* [node.js doc](https://nodejs.org/dist/latest-v8.x/docs/api/)

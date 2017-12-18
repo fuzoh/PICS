@@ -4,10 +4,27 @@ PICS app includes serveal features such as resarch and editing pics datas.
 
 ## Importing pictures
 
-At the first start of the app you will requested to select a folder source. This folder will contains all your pictures, respecting the structure explain in the [requirements](requirements.html) page of this quide.
+At the first start of the app you will requested to select a folder source. This folder will contains all your pictures, respecting the structure explain in the [requirements](requirements.html) page of this guide.
 
-When you start the importation of the folder, PICS will start the importation of our folder.
+When you start the importation of the folder, PICS will process all your pictures.
 When the import is complete, you will be automatically redirected to the main page of the application.
+
+### Pictures renaming
+
+When PICS import our pictures, the pictures will be renamed with a basic shema :
+
+Event_yyyy-MM-dd_HH-mm-ss.jpg
+
+* **Event** => The name of the picture event (parent folder)
+* **_yyyy-MM-dd_** => The shot date of the picture (retrieved in metadatas)
+* **HH-mm-ss** => The shot hour with seconds of the picture (retrieved in metadatas)
+* **.jpg** => The extension
+
+Note : the pictures with no valid date found in the metadatas will be renamed to :
+
+* Event_nodate1.jpg
+* Event_nodate2.jpg
+* ...
 
 ## The main page
 

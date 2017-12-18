@@ -74,24 +74,41 @@ export default {
     // called to run the app configuration
     configure () {
 
-      // display loader during the prosessing
-      this.loading = true
+      // check the specified path
+      if (this.path == 'aucun' || this.path == 'non spécifié') {
 
-      // send a message ton main -> to start the importation process
-      this.$electron.ipcRenderer.send('startImportingPhotos')
+        // if the path is not spécified, show a warning message
+        this.message({
+          message: 'Chemin spécifié non valide.',
+          type: 'warning'
+        })
 
-      // wait a response from the main when the importation proscess is finish
-      this.$electron.ipcRenderer.on('inportingPhotosFinish', (event, data) => {
+      } else {
 
-        // Close the loading layer
-        this.loading = false
-        console.log(data)
+        // display loader during the prosessing
+        this.loading = true
+  
+        // send a message ton main -> to start the importation process
+        this.$electron.ipcRenderer.send('startImportingPhotos')
+  
+        // wait a response from the main when the importation proscess is finish
+        this.$electron.ipcRenderer.on('inportingPhotosFinish', (event, data) => {
+  
+          // Close the loading layer
+          this.loading = false
+          console.log(data)
+  
+          // redirect to the main page of pics app
+          this.$router.push('/')
 
-        // redirect to the main page of pics app
-        this.$router.push('/')
+        })
 
-      })
+      }
+    },
 
+        // toggle a success notification message
+    message(msg) {
+      this.$message(msg);
     }
   }
 }

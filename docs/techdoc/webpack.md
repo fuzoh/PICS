@@ -24,3 +24,11 @@ The build and de commands are provided by webpack :
 * Download the electron binary
 * Build the electron app
 * Build archive with installer (.dmg on macOS, .exe on Windows)
+
+## Webpack ressources
+
+* [webpack doc](https://webpack.js.org/concepts/)
+* [webpack loaders](https://webpack.js.org/loaders/)
+* [webpack plugins](https://webpack.js.org/plugins/)
+
+* [electron-vue doc](https://simulatedgreg.gitbooks.io/electron-vue/content/en/) a starter template to use electron with vue.js
