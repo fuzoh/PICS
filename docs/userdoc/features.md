@@ -40,4 +40,12 @@ The main page displays all the pics and a tree wiew of your events. In the navig
 
 You can combine filters to refine your search results.
 
-Example : If you type "Marc" with the star filter. "Marc" will be searched only in starred pictures.
+Example :
+* If you type "Marc" with the star filter. "Marc" will be searched only in starred pictures.
+* If you type "Marc" with the star and the people filters. "Marc" will be searched only in the person attribute of the starred pictures.
+
+### The tree view
+
+### The main view
+
+## Details view
