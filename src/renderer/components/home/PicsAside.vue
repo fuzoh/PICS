@@ -6,7 +6,7 @@
   <div id="pics-aside">
 
     <div class="tree">
-      <h2>Locations</h2>
+      <h2>Evenements</h2>
       <el-tree
         :data="events"
         :props="TreeProps"

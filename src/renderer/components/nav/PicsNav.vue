@@ -2,46 +2,97 @@
 <!-- Displays the home page of the app -->
 
 <template>
+
   <div id="pics-nav">
     <el-row>
     
       <el-col :span="5">
-        <img class="app-logo" src="../../assets/img/logo.svg">
+        <img
+          class="app-logo"
+          src="../../assets/img/logo.svg">
       </el-col>
 
       <el-col :span="7">
-        <el-input placeholder="Search" v-model="searchField" @keyup.enter.native="search" clearable>
-          <i slot="prefix" class="el-input__icon el-icon-search"></i>
+        <el-input
+          placeholder="Search"
+          v-model="searchField"
+          @keyup.enter.native="search"
+          clearable>
+          <i
+            slot="prefix"
+            class="el-input__icon el-icon-search"/>
         </el-input>
       </el-col>
 
       <el-col :span="3">
         <el-button-group>
-          <el-button type="info" icon="el-icon-search" @click="search" plain></el-button>
-          <el-button type="info" icon="el-icon-circle-close" @click="reset" plain></el-button>
+          <el-button
+            type="info"
+            icon="el-icon-search"
+            @click="search"
+            plain/>
+          <el-button
+            type="info"
+            icon="el-icon-circle-close"
+            @click="reset"
+            plain/>
         </el-button-group>
       </el-col>
 
       <el-col :span="9">
         <el-button-group>
-          <el-button type="info" icon="el-icon-edit" @click="selectFilter('name')" :plain="!filters.name"></el-button>
-          <el-button type="info" icon="el-icon-location" @click="selectFilter('places')" :plain="!filters.places"></el-button>
-          <el-button type="info" icon="el-icon-tickets" @click="selectFilter('description')" :plain="!filters.description"></el-button>
-          <el-button type="info" icon="el-icon-star-on" @click="selectFilter('starred')" :plain="!filters.starred"></el-button>
-          <el-button type="info" icon="el-icon-picture" @click="selectFilter('panoramic')" :plain="!filters.panoramic"></el-button>
-          <el-button type="info" icon="el-icon-view" @click="selectFilter('peoples')" :plain="!filters.peoples"></el-button>
-          <el-button type="info" icon="el-icon-share" @click="selectFilter('tags')" :plain="!filters.tags"></el-button>
+
+          <el-button
+            type="info"
+            icon="el-icon-edit"
+            @click="selectFilter('name')"
+            :plain="!filters.name"/>
+          <el-button
+            type="info"
+            icon="el-icon-location"
+            @click="selectFilter('places')"
+            :plain="!filters.places"/>
+          <el-button
+            type="info"
+            icon="el-icon-tickets"
+            @click="selectFilter('description')"
+            :plain="!filters.description"/>
+          <el-button
+            type="info"
+            icon="el-icon-star-on"
+            @click="selectFilter('starred')"
+            :plain="!filters.starred"/>
+          <el-button
+            type="info"
+            icon="el-icon-picture"
+            @click="selectFilter('panoramic')"
+            :plain="!filters.panoramic"/>
+          <el-button
+            type="info"
+            icon="el-icon-view"
+            @click="selectFilter('peoples')"
+            :plain="!filters.peoples"/>
+          <el-button
+            type="info"
+            icon="el-icon-share"
+            @click="selectFilter('tags')"
+            :plain="!filters.tags"/>
+
         </el-button-group>
       </el-col>
 
     </el-row>
   </div>
+
 </template>
 
-<script>
 
+
+<script>
 export default {
+  // component name
   name: "PicsNav",
+  // component datas
   data() {
     return {
       searchField: "",
@@ -56,8 +107,10 @@ export default {
       }
     }
   },
+  // component methods
   methods: {
 
+    // change the value of the filter data when you click on a filter
     selectFilter (filter) {
       if (this.filters[filter] == true) {
         this.filters[filter] = false
@@ -83,6 +136,8 @@ export default {
 }
 
 </script>
+
+
 
 <style lang="scss" scoped>
 

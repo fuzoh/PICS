@@ -4,25 +4,49 @@
 <!-- - - - - - - - - - - - - - - - - - - - -->
 
 <template>
-  <div id="configureApp" v-loading="loading">
+  <div
+    id="configureApp"
+    v-loading="loading">
+
     <div class="text">
+
       <h1>Configuration de PICS</h1>
-      <p>Pour utiliser PICS, il vous faut configurer le dossier dans lequel votre bibliothèque est sauvegardée.</p>
-      <el-button @click="openDialog()" type="primary" round>Selectionner un doosier</el-button>
+      <p>
+        Pour utiliser PICS, il vous faut configurer le dossier dans lequel votre bibliothèque est sauvegardée.
+      </p>
+
+      <el-button
+        @click="openDialog()"
+        type="primary"
+        round>
+        Selectionner un doosier
+      </el-button>
+
       <p>Dossier choisi : {{ path }}</p>
       <p><strong>Informations :</strong></p>
+
       <p>PICS sauvegarderas toutes les métadonnées des photos dans votre bibliothèque, il est donc<br>
-      si vous copiez le doosier contanant votre bibiothèque sur une autre machine, il sera possible<br>
-      de récuperer toutes les infos en configurant PICS dans le bon doosier.</p>
-      <el-button @click="configure()" type="primary" round>Valider mon choix</el-button>
+        si vous copiez le doosier contanant votre bibiothèque sur une autre machine, il sera possible<br>
+        de récuperer toutes les infos en configurant PICS dans le bon doosier.
+      </p>
+
+      <el-button
+        @click="configure()"
+        type="primary"
+        round>
+        Valider mon choix
+      </el-button>
+
       <p>Cette opération peut durer plusieurs minutes.</p>
+
     </div>
   </div>
+
 </template>
 
 
+
 <script>
-import { ipcRenderer } from 'electron'
 
 export default {
   name: "ConfigureApp",
@@ -37,10 +61,10 @@ export default {
     // called to select a folder for the PICS library
     openDialog () {
       // send to main a message to open dialog
-      ipcRenderer.send('openFolderDialog')
+      this.$electron.ipcRenderer.send('openFolderDialog')
 
       // when the main respnds
-      ipcRenderer.on('dialogFilePath', (event, data) => {
+      this.$electron.ipcRenderer.on('dialogFilePath', (event, data) => {
         // store the selected path
         data ? this.path = data[0] : this.path = 'non spécifié'
       })
@@ -54,10 +78,10 @@ export default {
       this.loading = true
 
       // send a message ton main -> to start the importation process
-      ipcRenderer.send('startImportingPhotos')
+      this.$electron.ipcRenderer.send('startImportingPhotos')
 
       // wait a response from the main when the importation proscess is finish
-      ipcRenderer.on('inportingPhotosFinish', (event, data) => {
+      this.$electron.ipcRenderer.on('inportingPhotosFinish', (event, data) => {
 
         // Close the loading layer
         this.loading = false

@@ -46,11 +46,13 @@ Example :
 
 ### The tree view
 
-<div align="right">
-  <img src="treeview.png" width="150px"/>
-</div>
+<img src="treeview.png" width="120px" style="float: right; margin-left: 20px;"/>
 
 The tree view provided a simple way to view all events as a list.
+* You can click on a parent (represent an event), and the man view will scroll to this event.
+* You can click on a children (represent a picture), end the details view of this picture will be open.
+* At the bottom of this section you can find an update button, this buttons trigger an update of the library (Pics will watch all the new pictures in the library folder, and add it in the app).
+
 
 ### The main view
 

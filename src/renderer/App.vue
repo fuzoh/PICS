@@ -4,7 +4,7 @@
 <template>
   <div id="app">
     <!-- Inject the correspondig wiew -->
-    <router-view></router-view>
+    <router-view/>
   </div>
 </template>
 
