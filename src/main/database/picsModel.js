@@ -525,12 +525,27 @@ export default {
       }
     }
 
-    // create a template with the results of the search
-    let template = [{
-      title: 'Résultats de la recherche',
-      name: 'Résultats de la recherche',
-      children: queryResults
-    }]
+    // store the results
+    let template = []
+
+    // if the search have results
+    if (queryResults.length > 0) {
+      // create a template with the results of the search
+      template.push({
+        title: 'Résultats de la recherche',
+        name: 'Résultats de la recherche',
+        children: queryResults
+      })
+
+    // if the research return no results
+    } else {
+      template.push({
+        title: 'Aucun résultats',
+        name: 'Aucun résultats',
+        children: queryResults
+      })
+    }
+
 
     // call the complete callback, with the result of the search
     complete(template)

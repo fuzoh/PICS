@@ -26,10 +26,8 @@ The main page displays all the pics and a tree wiew of your events. In the navig
 </div>
 
 * **research field** it allows you to search words in all the library. By default he search in all the propertys of a pics.
-
 * **search button** click to launch the research, you can also type enter key.
 * **cross button** redisplay the base view
-
 * **name filter** the search will be limited to pics names
 * **location filter** the search will be limited to location of the pics
 * **description filter** the search will be limited to description of the pics
@@ -44,6 +42,8 @@ Example :
 * If you type "Marc" with the star filter. "Marc" will be searched only in starred pictures.
 * If you type "Marc" with the star and the people filters. "Marc" will be searched only in the person attribute of the starred pictures.
 
+If the search query returns **no results** the mai view will be empty.
+
 ### The tree view
 
 <img src="treeview.png" width="120px" style="float: right; margin-left: 20px;"/>
@@ -56,4 +56,11 @@ The tree view provided a simple way to view all events as a list.
 
 ### The main view
 
+<img src="mainview.jpg" width="40%" style="float: right; margin-left: 20px;"/>
+
+The main view display all the pictures, separate by the event title. You can click on pictures to display the details view.
+
+When you type a research, the results will be diplayed on this view.
+
 ## Details view
+
