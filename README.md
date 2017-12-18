@@ -17,9 +17,9 @@ An elegant and simple application to manage photos. Built with web technologies 
 > Use the tags in the history to find the corresponding commit.
 
 ## Documentation
-You can find the documentation on this [GitBook](https://bastiennicoud.gitbooks.io/pics).
+You can find the documentation in the `/docs` folder or on this [GitBook](https://bastiennicoud.gitbooks.io/pics) with a better layout.
 
-## Setting up
+## Setting up development
 ### Environment / dependencies
 The app has been programmed with [electron](https://electronjs.org/). A few requirements are necessary to start.
 

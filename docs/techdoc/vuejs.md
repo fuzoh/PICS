@@ -95,7 +95,7 @@ With client-side routing, the routing will be done by javascript on the client m
 
 ## Vue X
 
-<img src="vuex.png" width="300px" style="float: right; margin-left: 20px;"/>
+<img src="vuex.png" width="360px" style="float: right; margin-left: 20px;"/>
 
 The problem when ve use many components is the state managment. The best example is facebook.
 

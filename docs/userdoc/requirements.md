@@ -34,7 +34,7 @@ PICS uses a predefined folder structure. For photos to be properly imported, you
     * ...
   * ...
 
-Here an example of Pics library
+Here an example of Pics library :
 
 * MyPictures
   * Italy
