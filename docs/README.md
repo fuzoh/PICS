@@ -27,9 +27,7 @@ An elegant and simple application to manage photos. Built with web technologies 
     * [Detected bugs](techdoc/issues.html#Bugs)
     * [Performance improvments](techdoc/issues.html#Performances)
     * [New features](techdoc/issues.html#Features)
-*  [Project management]()
-  * [Plan]()
-  * [log book]()
+*  [Project management](projectmanagment/comments.html)
 
 ## Ressources
 

@@ -6,6 +6,7 @@
 * When we open invalid jpeg sequence images, the app trow a javascript popup with the error.
 * When we have other files in our pictures library folder, the application will consider these files as folders (and display it at event sections in the app).
 * On windows, when we import the folder in pics via the open folder dialog, if we select a windows library, the app wil dispaly an error, its only possible to select a folder.
+* When we open the date-piecker (in the details view), the date-piecker will overflow on the right of the window.
 
 ## Performances
 * The app load in one time all the pictures in the view. If we have lots of image its cause frezze in the app or memory overload. => Implement a lazy loading system will resolve this.
