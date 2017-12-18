@@ -2,29 +2,49 @@
 <!-- Displays the aside on the home wiew (contains the three wiewß) -->
 
 <template>
+
   <div id="picsDetails">
     <el-container class="full">
+
       <el-header class="title">
         <el-row>
+
           <el-col :span="2">
-            <el-button type="info" icon="el-icon-arrow-left" plain style="margin-top: 10px;" @click="home"></el-button>
+            <el-button
+              type="info"
+              icon="el-icon-arrow-left"
+              style="margin-top: 10px;"
+              plain
+              @click="home"/>
           </el-col>
+
           <el-col :span="22">
             <h1>{{ pics.name }}</h1>
           </el-col>
+
         </el-row>
       </el-header>
+
       <el-container>
+
         <el-main class="center main max-height">
-          <img :src="'file://' + pics.path" class="picture">
+          <img
+            :src="'file://' + pics.path"
+            class="picture">
         </el-main>
+
         <el-aside class="bg">
-          <pics-metas :pics="pics"></pics-metas>
+          <pics-metas :pics="pics"/>
         </el-aside>
+
       </el-container>
+
     </el-container>
   </div>
+
 </template>
+
+
 
 <script>
 import PicsMetas from './PicsMetas.vue'

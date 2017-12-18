@@ -40,4 +40,20 @@ The main page displays all the pics and a tree wiew of your events. In the navig
 
 You can combine filters to refine your search results.
 
-Example : If you type "Marc" with the star filter. Marc will be searched only in starred pictures.
+Example :
+* If you type "Marc" with the star filter. "Marc" will be searched only in starred pictures.
+* If you type "Marc" with the star and the people filters. "Marc" will be searched only in the person attribute of the starred pictures.
+
+### The tree view
+
+<img src="treeview.png" width="120px" style="float: right; margin-left: 20px;"/>
+
+The tree view provided a simple way to view all events as a list.
+* You can click on a parent (represent an event), and the man view will scroll to this event.
+* You can click on a children (represent a picture), end the details view of this picture will be open.
+* At the bottom of this section you can find an update button, this buttons trigger an update of the library (Pics will watch all the new pictures in the library folder, and add it in the app).
+
+
+### The main view
+
+## Details view

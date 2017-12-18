@@ -4,9 +4,15 @@
 <template>
   <div id="photo-card">
     <div class="photo-box">
+      
       <img :src="'file://' + pics.path">
-      <div class="overlay" @click="displayDetails">
-          <div class="text">{{ pics.name }}</div>
+
+      <div
+        class="overlay"
+        @click="displayDetails">
+
+        <div class="text">{{ pics.name }}</div>
+
       </div>
     </div>
   </div>
