@@ -4,7 +4,7 @@
 
 # PICS documentation
 
-An elegant and simple application to manage photos. Built with web technologies and vue.js.
+An elegant and simple application to manage photos. Built with web technologies and Vue.js.
 
 ## Table of contents
 
@@ -32,5 +32,5 @@ An elegant and simple application to manage photos. Built with web technologies 
 ## Ressources
 
 * [GitHub repo](https://github.com/bastiennicoud/PICS)
-* [Download mac OS app](#)
-* [Download windows app](#)
+* [Download mac OS app](https://github.com/bastiennicoud/PICS/releases/tag/v1.1.5)
+* [Download windows app](https://github.com/bastiennicoud/PICS/releases/tag/v1.1.5)
