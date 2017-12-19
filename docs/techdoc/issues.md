@@ -7,6 +7,7 @@
 * When we have other files in our pictures library folder, the application will consider these files as folders (and display it at event sections in the app).
 * On windows, when we import the folder in pics via the open folder dialog, if we select a windows library, the app wil dispaly an error, its only possible to select a folder.
 * When we open the date-piecker (in the details view), the date-piecker will overflow on the right of the window.
+* If we delete the folder containing the library, the applicattion will return an alert box, and start with an empty page. => Fix this by checking the database store existence.
 
 ## Performances
 * The app load in one time all the pictures in the view. If we have lots of image its cause frezze in the app or memory overload. => Implement a lazy loading system will resolve this.
