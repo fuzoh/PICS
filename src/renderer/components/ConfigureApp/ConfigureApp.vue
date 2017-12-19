@@ -23,10 +23,11 @@
       </el-button>
 
       <p>Dossier choisi : {{ path }}</p>
+
       <p><strong>Informations :</strong></p>
 
-      <p>PICS sauvegarderas toutes les métadonnées des photos dans votre bibliothèque, il est donc<br>
-        si vous copiez le doosier contanant votre bibiothèque sur une autre machine, il sera possible<br>
+      <p>PICS sauvegarderas toutes les métadonnées des photos dans votre bibliothèque,<br>
+        si vous copiez le doosier contanant votre bibiothèque sur une autre machine, il est possible<br>
         de récuperer toutes les infos en configurant PICS dans le bon doosier.
       </p>
 

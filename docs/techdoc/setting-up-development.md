@@ -31,8 +31,10 @@ git clone https://github.com/bastiennicoud/PICS.git
 cd PICS
 # install the dependencies packages
 npm install
+
 # run the app for development
 npm run dev
+
 # build the app for production (this will build a package for the os you are on)
 npm run build
 ```
