@@ -70,6 +70,8 @@ The tree view provided a simple way to view all events as a list.
 * You can click on a children (represent a picture), end the details view of this picture will be open.
 * At the bottom of this section you can find an update button, this buttons trigger an update of the library (Pics will watch all the new pictures in the library folder, and add it in the app).
 
+Note : The children display the name of the picture : by default the name is the same as the parent folder, but we can rename it in the details view.
+
 
 ### The main view
 
