@@ -15,7 +15,7 @@
 
 module.exports.picsConfig = {
   "appName": 'PICS',
-  "appVersion": '1.1.1',
+  "appVersion": '1.1.5',
   "firstStart": true,
   "picsLibraryPath" : "",
   "picsMetadatasPath" : "",
