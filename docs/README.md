@@ -4,7 +4,7 @@
 
 # PICS documentation
 
-An elegant and simple application to manage photos. Built with web technologies and vue.js.
+An elegant and simple application to manage photos. Built with web technologies and Vue.js.
 
 ## Table of contents
 

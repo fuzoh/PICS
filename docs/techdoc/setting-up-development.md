@@ -18,7 +18,7 @@ See the **package.json** file to see all the project dependencies.
 
 **Note :** The [7zip-bin](https://www.npmjs.com/package/7zip-bin) dependency varies depending on your operating system. Node.js can attempt to install a version which is not supported by your os. Thus. It will displays warning messages. Nevermind the right version is correctly installed.  
 
-If you're on Windows or linux, node will try to install [fsevents](https://www.npmjs.com/package/fsevents) and displays a warning message, which is an optional library (only supported Mac OS).
+If you're on Windows or Linux, Node.js will tries to install [fsevents](https://www.npmjs.com/package/fsevents) and displays a warning message, which is an optional library (only supported by Mac OS).
 
 
 ## Get the sources, and start programming
@@ -39,4 +39,4 @@ npm run dev
 npm run build
 ```
 
-Also, see the [app requirements](userdoc/requirements.md) to prepares pictures with the right structure to test the app.
+Also, see the [app requirements](userdoc/requirements.md) to prepare pictures with the right structure to test the app.

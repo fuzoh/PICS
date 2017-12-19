@@ -1,6 +1,6 @@
 # Technical documentation
 
-We found here the technical documentation of the app, this part is for developers who whant to understant the fundations of the app, and how the componenets interacts.
+We found here the technical documentation of the app, this part is for developers who whant to understand the fundations of the app, and how the componenets interacts.
 
 ## Summary
 

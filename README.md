@@ -50,3 +50,11 @@ npm run dev
 # build the app for production (this will build a package for the os you are on)
 npm run build
 ```
+## Links
+
+* [Lase realease with installers](https://github.com/bastiennicoud/PICS/releases)
+* [Documentation](https://bastiennicoud.gitbooks.io/pics/)
+* [Secification](https://github.com/bastiennicoud/PICS/tree/master/docs/goals)
+* [One pager](https://github.com/bastiennicoud/PICS/tree/master/docs/onepager)
+* [Log books](https://github.com/bastiennicoud/PICS/tree/master/docs/projectmanagment/logbooks)
+* [Project planning](https://github.com/bastiennicoud/PICS/tree/master/docs/projectmanagment)

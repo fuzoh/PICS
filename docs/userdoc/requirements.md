@@ -18,7 +18,7 @@ To work properly with pics you need a few requirements.
 
 ## Pictures requirements
 
-PICS actually suports only importing `.jpg` pictures format. If you have `.png` photos or other formats, it will be ignored by the application.
+PICS actually supports only importing `.jpg` pictures format. If you have `.png` photos or other formats, it will be ignored by the application.
 
 PICS uses a predefined folder structure. For photos to be properly imported, you need to respect the following folder structure :
 
@@ -26,7 +26,7 @@ PICS uses a predefined folder structure. For photos to be properly imported, you
   * Subfolder (this folder will contains the pictures for one event you makes pictures)
     * Picture 1
     * Picture 2
-    * Pucture 3
+    * Picture 3
     * ...
   * Subfolder (another event)
     * Picture 1

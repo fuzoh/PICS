@@ -8,13 +8,13 @@ Here we see all the main process modules :
 
 ## **Yellow :** *entry point*
 * **main** correspond to the `main/index.js` file. Is the entry point of the app :
-  * He initialize the app window and spawn the renderer process.
-  * He listen ipc Channels, and call the apropriates modules.
+  * It initializes the app window and spawn the renderer process.
+  * It listens ipc Channels, and call the appropriates modules.
 
 ## **Blue :** *electron modules*
 * **app** This modules represent the app, he provides methods to interact with app lifecycle events and others.
 * **browserWindow** Provides methods to create a new window with is renderer process.
-* **ipcMain** Provides event listener and sender to comunicate between renderer and main process.
+* **ipcMain** Provides event listener and sender to communicate between renderer and main process.
 * **dialog** Provides an api to interact with natives dialog box (import dialog or save dialog).
 
 ## **Grey :** *home made modules*

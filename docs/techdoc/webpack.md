@@ -1,6 +1,6 @@
 # Webpack
 
-Webpack is a module bundler for the web. He compile your source file into minified files, passing by loaders and plugunis.
+Webpack is a module bundler for the web. He compiles your source file into minified files, passing by loaders and plugins.
 
 Loaders and plugins can be used by webpack to transpile/compile your files. In this app we use :
 * **scss loader** Compile .scss in css files
@@ -9,7 +9,7 @@ Loaders and plugins can be used by webpack to transpile/compile your files. In t
 
 Webpack provides also a dev server to develop with hot reload of your source files.
 
-The build and de commands are provided by webpack :
+The `build` and `dev` commands are provided by webpack :
 
 ## `npm run dev` command
 
@@ -20,7 +20,7 @@ The build and de commands are provided by webpack :
 
 ## `npm run build` command
 
-* Compile all your sources
+* Compile all your sources and assets
 * Download the electron binary
 * Build the electron app
 * Build archive with installer (.dmg on macOS, .exe on Windows)
