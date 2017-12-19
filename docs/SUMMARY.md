@@ -17,7 +17,4 @@
   * [Renderer process](techdoc/renderer.md)
   * [ipc events](techdoc/ipcevents.md)
   * [Issues](techdoc/issues.md)
-    * [Detected bugs](techdoc/issues.md#Bugs)
-    * [Performance improvments](techdoc/issues.md#Performances)
-    * [New features](techdoc/issues.md#Features)
 *  [Project management](projectmanagment/comments.md)
