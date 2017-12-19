@@ -1,5 +1,7 @@
 # Issues
 
+Here we see a list of known issues, and possibilities to solve the problem. If you find new issues, you can open a issue in our [GitHub repo](https://github.com/bastiennicoud/PICS/issues).
+
 ## Bugs
 * If there are two images that have exactly the same date (within seconds) in the same folder, only one image is preserved. => The program delete the first by renaming the second with the same name.
 * In rare cases, the images are displayed upside down in the application. => the app does not take charge the orientation of the picture stored in the metadata.
