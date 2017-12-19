@@ -12,8 +12,8 @@
     </el-row>
     <div class="text">
       <h1>Bienvenue</h1>
-      <p>Simple et efficace, PICS est une application<br>
-      de gestion / tri de photos.</p>
+      <p>PICS est une application<br>
+      de gestion/tri de photos.</p>
       <el-button @click="configure()" type="primary" round>Configurer PICS</el-button>
     </div>
   </div>
