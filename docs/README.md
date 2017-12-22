@@ -25,6 +25,7 @@ An elegant and simple application to manage photos. Built with web technologies 
   * [ipc events](techdoc/ipcevents.html)
   * [Issues](techdoc/issues.html)
 *  [Project management](projectmanagment/comments.html)
+*  [Annex](annex.html)
 
 ## Ressources
 
