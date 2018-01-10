@@ -8,13 +8,13 @@
 </div>
 
 
-# PICS APP *v1.1.6*
+# PICS APP *v1.1.7*
 An elegant and simple application to manage photos. Built with web technologies and vue.js.
 
 ## Actual version
-- **stable** v1.1.5
-- **last version** v1.1.5
-The 1.1.6 version is just a documentation update.
+- **stable** v1.1.7
+- **last version** v1.1.7
+The 1.1.7 version is just a doc update (adding a reveal js presentation).
 > Use the tags in the history to find the corresponding commit.
 
 ## Documentation
